@@ -1,0 +1,263 @@
+-- create table audio
+-- (
+--     id             bigserial not null,
+--     br_audio_name  varchar(255),
+--     name           varchar(255),
+--     usa_audio_name varchar(255),
+--     primary key (id)
+-- );
+-- create table authorities
+-- (
+--     user_id   bigint not null,
+--     authority varchar(255) check (authority in ('ROLE_USER', 'ROLE_ADMIN', 'ROLE_DEMO'))
+-- );
+-- create table categories
+-- (
+--     main_category                                  boolean,
+--     view_subcategory_full_no_info_or_name_and_info boolean,
+--     id                                             bigserial not null,
+--     image_id                                       bigint unique,
+--     parent_category_id                             bigint,
+--     info                                           text,
+--     name                                           varchar(255),
+--     primary key (id)
+-- );
+-- create table category_page
+-- (
+--     category_id    bigint not null,
+--     category_pages varchar(255) check (category_pages in ('WORDS', 'TRANSLATION_PAIRS', 'LESSON_WORDS', 'NO_PAGE'))
+-- );
+-- create table gender
+-- (
+--     user_id bigint not null,
+--     gender  varchar(255) check (gender in ('MALE', 'FEMALE'))
+-- );
+-- create table images
+-- (
+--     web_image  boolean,
+--     id         bigserial not null,
+--     image_name varchar(1000),
+--     primary key (id)
+-- );
+-- create table phraseLesson
+-- (
+--     id          bigserial not null,
+--     lesson_info text,
+--     name        varchar(255),
+--     primary key (id)
+-- );
+-- create table pages_application
+-- (
+--     id        bigserial not null,
+--     address   varchar(255),
+--     name_page varchar(255),
+--     primary key (id)
+-- );
+-- create table payments_by_way_for_pay
+-- (
+--     amount              integer,
+--     id                  bigserial not null,
+--     auth_code           varchar(255),
+--     card_pan            varchar(255),
+--     card_type           varchar(255),
+--     created_date        varchar(255),
+--     email               varchar(255),
+--     issuer_bank_country varchar(255),
+--     issuer_bank_name    varchar(255),
+--     order_reference     varchar(255),
+--     payment_system      varchar(255),
+--     phone               varchar(255),
+--     product_name        varchar(255),
+--     reason              varchar(255),
+--     reason_code         varchar(255),
+--     transaction_status  varchar(255),
+--     primary key (id)
+-- );
+-- create table phrase_and_phrases_page
+-- (
+--     phrase_id       bigint not null,
+--     phrases_page_id bigint not null
+-- );
+-- create table phrase_and_word
+-- (
+--     phrase_id bigint not null,
+--     word_id   bigint not null
+-- );
+-- create table study_time_in_two_weeks
+-- (
+--     amount_of_time_per_day integer,
+--     user_statistics_id     bigint not null
+-- );
+-- create table texts_of_app_pages
+-- (
+--     id                  bigserial not null,
+--     page_application_id bigint unique,
+--     name                varchar(255),
+--     text                text,
+--     primary key (id)
+-- );
+-- create table training_days_mount
+-- (
+--     training_day       date,
+--     user_statistics_id bigint not null
+-- );
+-- create table translation_pair
+-- (
+--     user_translation_pair boolean,
+--     audio_id              bigint unique,
+--     id                    bigserial not null,
+--     lesson_counter        bigint,
+--     lesson_id             bigint,
+--     user_id               bigint,
+--     eng_text              varchar(500),
+--     ukr_text              varchar(500),
+--     ukr_text_female       varchar(500),
+--     primary key (id)
+-- );
+-- create table translation_pair_user
+-- (
+--     is_repetable        boolean,
+--     id                  bigserial not null,
+--     lesson_id           bigint,
+--     translation_pair_id bigint,
+--     user_id             bigint,
+--     primary key (id)
+-- );
+-- create table translation_pairs_pages
+-- (
+--     published   boolean,
+--     category_id bigint,
+--     id          bigserial not null,
+--     info        text,
+--     name        varchar(255),
+--     primary key (id)
+-- );
+-- create table user_statistics
+-- (
+--     days_count              integer,
+--     error_count             integer,
+--     repetitions_count       integer,
+--     repetitions_count_now   integer,
+--     repetitions_count_prev  integer,
+--     id                      bigserial not null,
+--     training_time_start_end timestamp(6),
+--     primary key (id)
+-- );
+-- create table user_word_lesson_progress
+-- (
+--     rating       integer,
+--     start_lesson boolean,
+--     id           bigserial not null,
+--     user_id      bigint,
+--     word_id      bigint unique,
+--     primary key (id)
+-- );
+-- create table user_word_lesson_statistics
+-- (
+--     answer_correct          boolean,
+--     id                      bigserial not null,
+--     user_id                 bigint,
+--     word_lesson_category_id bigint,
+--     word_lesson_id          bigint,
+--     user_answer             varchar(255),
+--     word                    varchar(255),
+--     word_info               varchar(255),
+--     primary key (id)
+-- );
+-- create table users
+-- (
+--     active                 boolean,
+--     user_phrases_in_lesson boolean,
+--     avatar_id              bigint unique,
+--     date_of_created        timestamp(6),
+--     id                     bigserial not null,
+--     statistics_id          bigint unique,
+--     activation_code        varchar(1000),
+--     password               varchar(1000),
+--     email                  varchar(255),
+--     first_name             varchar(255),
+--     last_name              varchar(255),
+--     user_ip                varchar(255),
+--     primary key (id)
+-- );
+-- create table way_for_pay_module
+-- (
+--     active              boolean,
+--     id                  bigserial not null,
+--     merchant_account    varchar(255),
+--     merchant_secret_key varchar(255),
+--     primary key (id)
+-- );
+-- create table word_lessons
+-- (
+--     serial_number integer,
+--     category_id   bigint,
+--     id            bigserial not null,
+--     description   varchar(255),
+--     name          varchar(255),
+--     primary key (id)
+-- );
+-- create table word_user
+-- (
+--     is_repetable boolean,
+--     id           bigserial not null,
+--     user_id      bigint,
+--     word_id      bigint,
+--     primary key (id)
+-- );
+-- create table words
+-- (
+--     published         boolean,
+--     category_id       bigint,
+--     id                bigserial not null,
+--     image_id          bigint unique,
+--     word_audio_id     bigint unique,
+--     word_lesson_id    bigint,
+--     br_transcription  varchar(255),
+--     description       varchar(255),
+--     info              text,
+--     irregular_verb_pp varchar(255),
+--     irregular_verb_pt varchar(255),
+--     name              varchar(255),
+--     translate         varchar(255),
+--     usa_transcription varchar(255),
+--     primary key (id)
+-- );
+-- alter table if exists authorities add constraint FKk91upmbueyim93v469wj7b2qh foreign key (user_id) references users;
+-- alter table if exists categories add constraint FKqhmw54g2p4xu0k71mblvlqfvi foreign key (image_id) references images;
+-- alter table if exists categories add constraint FK9il7y6fehxwunjeepq0n7g5rd foreign key (parent_category_id) references categories;
+-- alter table if exists category_page add constraint FKbg5vxyhxf1tmpcrfqfnlc3sq7 foreign key (category_id) references categories;
+-- alter table if exists gender add constraint FKg9pd16y4tq7ue65a76dx4uf4x foreign key (user_id) references users;
+-- alter table if exists phrase_and_phrases_page add constraint FK8vugt03gnejwm9l2u4r3p9psb foreign key (phrase_id) references translation_pair;
+-- alter table if exists phrase_and_phrases_page add constraint FK6tyayoipnr8mb0tiopxbirs2j foreign key (phrases_page_id) references translation_pairs_pages;
+-- alter table if exists phrase_and_word add constraint FKhdbgl5wi33eqvrugaeten9joe foreign key (phrase_id) references translation_pair;
+-- alter table if exists phrase_and_word add constraint FKeylnshb71t7wc0e6742lkg8po foreign key (word_id) references words;
+-- alter table if exists study_time_in_two_weeks add constraint FKtd2w58k6s68iuupdnixf0jdjk foreign key (user_statistics_id) references user_statistics;
+-- alter table if exists texts_of_app_pages add constraint FKod2xwjl10rqin8fa5rq9s254y foreign key (page_application_id) references pages_application;
+-- alter table if exists training_days_mount add constraint FKrb2ns69xfih4a1aageubn4np6 foreign key (user_statistics_id) references user_statistics;
+-- alter table if exists translation_pair add constraint FK795u856r2m8f7rwh7re3wwe0g foreign key (audio_id) references audio;
+-- alter table if exists translation_pair add constraint FKf7ryso3x0m2if9l98f0ee5fky foreign key (lesson_id) references phraseLesson;
+-- alter table if exists translation_pair add constraint FKn27m81xg5o8mkqma69sfvecgi foreign key (user_id) references users;
+-- alter table if exists translation_pair_user add constraint FKgxfpwmy0lgqi2c5g75b6rv173 foreign key (lesson_id) references phraseLesson;
+-- alter table if exists translation_pair_user add constraint FK21q66ogchjuegxb7vek8hot6b foreign key (translation_pair_id) references translation_pair;
+-- alter table if exists translation_pair_user add constraint FKrc3efqey265wkdk4596ghsmw6 foreign key (user_id) references users;
+-- alter table if exists translation_pairs_pages add constraint FK4rbda8upbwkd94bnlkb0etbyd foreign key (category_id) references categories;
+-- alter table if exists user_word_lesson_progress add constraint FKi2f7p126e7488o2g8bm1d56d3 foreign key (user_id) references users;
+-- alter table if exists user_word_lesson_progress add constraint FKfhhw2ke4leekk7x6xww36datc foreign key (word_id) references word_lessons;
+-- alter table if exists user_word_lesson_statistics add constraint FK55879m5qlrahkx8u414xd1xif foreign key (user_id) references users;
+-- alter table if exists user_word_lesson_statistics add constraint FKijq41oc2bn6uivh6rkyprwj2m foreign key (word_lesson_id) references word_lessons;
+-- alter table if exists users add constraint FKdslv36jv250mnwblsnp4880b6 foreign key (statistics_id) references user_statistics;
+-- alter table if exists users add constraint FK2lttmx8vn9eecykig5sch3v0h foreign key (avatar_id) references images;
+-- alter table if exists word_lessons add constraint FKs4lcjcfx0rhnky7fonh2a1t2t foreign key (category_id) references categories;
+-- alter table if exists word_user add constraint FK9xee3hjhat4jk0pn9ob8u0bvh foreign key (user_id) references users;
+-- alter table if exists word_user add constraint FKqrf3uf0ppto0uybixxl1ukwoa foreign key (word_id) references words;
+-- alter table if exists words add constraint FKjoa21o1k82gcs13d7fccnx5v5 foreign key (word_audio_id) references audio;
+-- alter table if exists words add constraint FK8dbemhksxgulqyiyyih4ddjfm foreign key (image_id) references images;
+-- alter table if exists words add constraint FKbh72c6e9lwn3j6mssgvsk405m foreign key (category_id) references categories;
+-- alter table if exists words add constraint FKh8n46y66p4uajvuw8debvllmq foreign key (word_lesson_id) references word_lessons;
+-- SET
+-- client_encoding = 'UTF8';
+-- insert into phraseLesson(id)
+-- values ('1');
+-- insert into phraseLesson(id)
+-- values ('2');
