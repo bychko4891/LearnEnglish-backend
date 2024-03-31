@@ -15,12 +15,12 @@
 //import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.RequestParam;
-//import top.e_learn.learnEnglish.model.Category;
+//import top.e_learn.learnEnglish.category.Category;
 //import top.e_learn.learnEnglish.model.CategoryPage;
 //import top.e_learn.learnEnglish.model.WordLesson;
-//import top.e_learn.learnEnglish.model.users.User;
-//import top.e_learn.learnEnglish.service.CategoryService;
-//import top.e_learn.learnEnglish.service.UserService;
+//import top.e_learn.learnEnglish.user.User;
+//import top.e_learn.learnEnglish.category.CategoryService;
+//import top.e_learn.learnEnglish.user.UserService;
 //import top.e_learn.learnEnglish.service.WordInWordLessonService;
 //import top.e_learn.learnEnglish.service.WordLessonService;
 //

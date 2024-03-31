@@ -2,7 +2,8 @@ package top.e_learn.learnEnglish.utils;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import top.e_learn.learnEnglish.repository.UserRepository;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
+import top.e_learn.learnEnglish.user.UserRepository;
 import top.e_learn.learnEnglish.utils.dto.PhraseUserDto;
 
 import java.util.regex.Pattern;
@@ -37,4 +38,5 @@ public class ValidateFields {
         }
         return false;
     }
+
 }

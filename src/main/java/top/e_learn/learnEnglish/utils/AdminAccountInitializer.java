@@ -7,15 +7,15 @@ package top.e_learn.learnEnglish.utils;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.ApplicationPage;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.model.WayForPayModule;
-import top.e_learn.learnEnglish.model.users.Role;
-import top.e_learn.learnEnglish.model.users.User;
-import top.e_learn.learnEnglish.model.users.UserGender;
-import top.e_learn.learnEnglish.model.users.UserStatistics;
-import top.e_learn.learnEnglish.repository.UserRepository;
-import top.e_learn.learnEnglish.service.PageApplicationService;
+import top.e_learn.learnEnglish.user.Role;
+import top.e_learn.learnEnglish.user.User;
+import top.e_learn.learnEnglish.user.UserGender;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
+import top.e_learn.learnEnglish.user.UserRepository;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
 import top.e_learn.learnEnglish.service.WayForPayModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +27,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class AdminAccountInitializer implements ApplicationRunner {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final PageApplicationService pageApplicationService;
+    private final ApplicationPageService applicationPageService;
 
     private final WayForPayModuleService wayForPayModuleService;
 
@@ -66,7 +67,7 @@ public class AdminAccountInitializer implements ApplicationRunner {
             admin.setUserAvatar(image);
             userRepository.save(admin);
             createUserDemo();
-            createPageApplication();
+            createApplicationPages();
             createWayForPayModule();
         }
     }
@@ -92,17 +93,17 @@ public class AdminAccountInitializer implements ApplicationRunner {
 
     }
 
-    private void createPageApplication() {
-        ApplicationPage applicationPageMainTop = new ApplicationPage(1L,"/");
-        pageApplicationService.savePageApplication(applicationPageMainTop);
-        ApplicationPage applicationPageAboutTheApp = new ApplicationPage(2L,"/about");
-        pageApplicationService.savePageApplication(applicationPageAboutTheApp);
-        ApplicationPage applicationPagePolicy = new ApplicationPage(3L,"Policy","/policy-condition");
-        pageApplicationService.savePageApplication(applicationPagePolicy);
-        ApplicationPage applicationPageCookie = new ApplicationPage(4L,"Cookie","/coolie");
-        pageApplicationService.savePageApplication(applicationPageCookie);
-        ApplicationPage applicationPageUploadUserText = new ApplicationPage(5L,"Mini description phrase lessons","#");
-        pageApplicationService.savePageApplication(applicationPageUploadUserText);
+    private void createApplicationPages() {
+        ApplicationPage applicationPageMainTop = new ApplicationPage(1L, UUID.randomUUID().toString(),"Main page","/");
+        applicationPageService.savePageApplication(applicationPageMainTop);
+        ApplicationPage applicationPageAboutTheApp = new ApplicationPage(2L, UUID.randomUUID().toString(), "About page","/about");
+        applicationPageService.savePageApplication(applicationPageAboutTheApp);
+        ApplicationPage applicationPagePolicy = new ApplicationPage(3L, UUID.randomUUID().toString(),"Policy","/policy-condition");
+        applicationPageService.savePageApplication(applicationPagePolicy);
+        ApplicationPage applicationPageCookie = new ApplicationPage(4L, UUID.randomUUID().toString(),"Cookie","/cookie");
+        applicationPageService.savePageApplication(applicationPageCookie);
+        ApplicationPage applicationPageUploadUserText = new ApplicationPage(5L, UUID.randomUUID().toString(),"Mini description phrase lessons","/phrase-lesson");
+        applicationPageService.savePageApplication(applicationPageUploadUserText);
     }
 
     private void createWayForPayModule() {

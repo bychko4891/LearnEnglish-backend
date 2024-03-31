@@ -3,9 +3,9 @@ package top.e_learn.learnEnglish.security;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import top.e_learn.learnEnglish.model.Image;
-import top.e_learn.learnEnglish.model.users.Role;
-import top.e_learn.learnEnglish.model.users.User;
-import top.e_learn.learnEnglish.model.users.UserGender;
+import top.e_learn.learnEnglish.user.Role;
+import top.e_learn.learnEnglish.user.User;
+import top.e_learn.learnEnglish.user.UserGender;
 
 import java.util.Collection;
 import java.util.Set;

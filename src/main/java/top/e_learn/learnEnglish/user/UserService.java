@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.user;
 
 /**
  * @author: Anatolii Bychko
@@ -12,14 +12,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.thymeleaf.context.Context;
 import top.e_learn.learnEnglish.model.Image;
-import top.e_learn.learnEnglish.model.users.Role;
-import top.e_learn.learnEnglish.model.users.User;
-import top.e_learn.learnEnglish.model.users.UserGender;
-import top.e_learn.learnEnglish.model.users.UserStatistics;
+import top.e_learn.learnEnglish.service.MailSenderService;
+import top.e_learn.learnEnglish.service.UserDetailsServiceImpl;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import top.e_learn.learnEnglish.payload.request.ForgotPasswordRequest;
 import top.e_learn.learnEnglish.payload.request.GoogleAuthRequest;
 import top.e_learn.learnEnglish.payload.request.SignupRequest;
-import top.e_learn.learnEnglish.repository.UserRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.security.UserDetailsImpl;

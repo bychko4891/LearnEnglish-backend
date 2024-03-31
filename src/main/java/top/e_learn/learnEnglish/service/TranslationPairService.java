@@ -9,7 +9,7 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairToUI;
 import top.e_learn.learnEnglish.model.users.PhraseUser;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.repository.PhraseUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

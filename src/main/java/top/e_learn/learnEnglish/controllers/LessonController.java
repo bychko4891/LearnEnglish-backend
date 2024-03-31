@@ -8,10 +8,10 @@
 // */
 //
 //import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairToUI;
-//import top.e_learn.learnEnglish.model.users.User;
+//import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.service.TranslationPairService;
 //import top.e_learn.learnEnglish.service.PhraseUserService;
-//import top.e_learn.learnEnglish.service.UserService;
+//import top.e_learn.learnEnglish.user.UserService;
 //import top.e_learn.learnEnglish.service.UserStatisticsService;
 //import jakarta.servlet.http.HttpSession;
 //import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.utils;
+package top.e_learn.learnEnglish.category;
 
 /**
  * @author: Anatolii Bychko
@@ -10,7 +10,7 @@ package top.e_learn.learnEnglish.utils;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import top.e_learn.learnEnglish.model.Category;
+import top.e_learn.learnEnglish.category.Category;
 
 import java.io.IOException;
 

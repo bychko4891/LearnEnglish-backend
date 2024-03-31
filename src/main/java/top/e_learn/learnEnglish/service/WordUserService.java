@@ -10,7 +10,7 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.model.Word;
 import top.e_learn.learnEnglish.model.WordUser;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.repository.WordUserRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;

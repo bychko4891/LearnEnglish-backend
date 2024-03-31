@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.repository;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.users.UserStatistics;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

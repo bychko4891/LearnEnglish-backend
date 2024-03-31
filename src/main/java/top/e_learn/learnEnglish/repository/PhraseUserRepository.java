@@ -8,7 +8,7 @@ package top.e_learn.learnEnglish.repository;
  */
 
 import top.e_learn.learnEnglish.model.users.PhraseUser;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

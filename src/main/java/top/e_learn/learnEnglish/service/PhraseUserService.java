@@ -7,11 +7,12 @@ package top.e_learn.learnEnglish.service;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPair;
 import top.e_learn.learnEnglish.utils.dto.PhraseUserDto;
 //import com.example.learnenglish.mapper.PhraseUserMapper;
 import top.e_learn.learnEnglish.model.users.PhraseUser;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.repository.PhraseUserRepository;
 import top.e_learn.learnEnglish.repository.PhrasesAndUserRepository;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;

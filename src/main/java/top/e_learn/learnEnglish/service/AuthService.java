@@ -2,15 +2,14 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.security.UserDetailsImpl;
 import top.e_learn.learnEnglish.security.jwt.JwtUtils;
-import top.e_learn.learnEnglish.model.users.User;
 import top.e_learn.learnEnglish.payload.response.JwtResponse;
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.exception.BadRefreshTokenException;
 import io.jsonwebtoken.Claims;
 import jakarta.security.auth.message.AuthException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

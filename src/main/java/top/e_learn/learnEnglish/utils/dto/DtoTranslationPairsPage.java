@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.utils.dto;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.Category;
+import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.model.MiniStory;
 import lombok.Getter;
 import lombok.Setter;

@@ -11,6 +11,7 @@ import top.e_learn.learnEnglish.model.PhraseAndUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import top.e_learn.learnEnglish.user.User;
 
 import java.io.Serializable;
 

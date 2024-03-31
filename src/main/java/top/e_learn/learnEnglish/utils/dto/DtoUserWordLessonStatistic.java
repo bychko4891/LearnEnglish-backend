@@ -1,6 +1,6 @@
 package top.e_learn.learnEnglish.utils.dto;
 
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.model.users.UserWordLessonStatistic;
 import lombok.Getter;
 import lombok.Setter;

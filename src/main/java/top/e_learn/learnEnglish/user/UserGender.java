@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model.users;
+package top.e_learn.learnEnglish.user;
 
 /**
  * @author: Anatolii Bychko

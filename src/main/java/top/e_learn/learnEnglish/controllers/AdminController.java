@@ -16,7 +16,7 @@
 //import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.RequestParam;
 //import top.e_learn.learnEnglish.model.*;
-//import top.e_learn.learnEnglish.model.users.User;
+//import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.service.*;
 //
 //import java.security.Principal;
@@ -48,60 +48,7 @@
 //        return "redirect:/login";
 //    }
 //
-//    @GetMapping("/texts-of-app-pages")
-//    public String getTextsOfAppPages(Model model, Principal principal) {
-//        if (principal != null) {
-//            List<ApplicationPageContent> applicationPageContentList = textOfAppPageService.getAppTextPageList();
-//            model.addAttribute("textOfAppPageList", applicationPageContentList);
-//            return "admin/adminTextsOfAppPages";
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/texts-of-app-pages/new-app-text-page")
-//    public String appInfoListAdminPage(Principal principal) {
-//        if (principal != null) {
-//            Long count = textOfAppPageService.countTextOfAppPage() + 1;
-//            return "redirect:/admin-page/text-of-app-page/" + count + "/new-text-of-app-page-in-editor";
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/text-of-app-page/{id}/new-text-of-app-page-in-editor")
-//    public String newTextOfAppPage(@PathVariable("id") Long id, Model model, Principal principal) {
-//        if (principal != null) {
-//            List<ApplicationPage> applicationPageList = pageApplicationService.pageApplicationList();
-////            lesson = lessonService.findById(id);
-//            ApplicationPageContent applicationPageContent = new ApplicationPageContent();
-//            applicationPageContent.setId(id);
-//            applicationPageContent.setH1("Enter name");
-//            applicationPageContent.setDescription("Enter text");
-//            applicationPageContent.setApplicationPage(new ApplicationPage(0l, "Сторінка відсутня"));
-//            model.addAttribute("textOfAppPage", applicationPageContent);
-//            model.addAttribute("pageList", applicationPageList);
-//            return "admin/adminTextOfAppPageInEditor";
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/text-of-app-page/{id}/text-of-app-page-in-editor")
-//    public String textOfAppPageEdit(@PathVariable("id") Long id,
-//                                    Model model,
-//                                    Principal principal) {
-//        if (principal != null) {
-//            ApplicationPageContent applicationPageContent = textOfAppPageService.findByIdTextOfAppPage(id);
-//            List<ApplicationPage> applicationPageList = pageApplicationService.pageApplicationList();
-//            if (applicationPageContent.getApplicationPage() != null) {
-//                model.addAttribute("pageName", applicationPageContent.getApplicationPage().getNamePage());
-//            } else {
-//                model.addAttribute("pageName", "Сторінка відсутня");
-//            }
-//            model.addAttribute("textOfAppPage", applicationPageContent);
-//            model.addAttribute("pageList", applicationPageList);
-//            return "admin/adminTextOfAppPageInEditor";
-//        }
-//        return "redirect:/login";
-//    }
+
 //
 //    @GetMapping("/users")
 //    public String usersListAdminPage(Model model,

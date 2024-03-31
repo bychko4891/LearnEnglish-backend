@@ -8,7 +8,7 @@ package top.e_learn.learnEnglish.controllers;
  */
 
 import top.e_learn.learnEnglish.utils.dto.DtoUserStatisticsToUi;
-import top.e_learn.learnEnglish.service.UserService;
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.service.UserStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

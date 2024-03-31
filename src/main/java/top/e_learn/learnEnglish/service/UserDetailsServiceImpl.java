@@ -9,8 +9,8 @@ package top.e_learn.learnEnglish.service;
 
 import org.springframework.security.authentication.BadCredentialsException;
 import top.e_learn.learnEnglish.model.UserContextHolder;
-import top.e_learn.learnEnglish.model.users.User;
-import top.e_learn.learnEnglish.repository.UserRepository;
+import top.e_learn.learnEnglish.user.User;
+import top.e_learn.learnEnglish.user.UserRepository;
 import top.e_learn.learnEnglish.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

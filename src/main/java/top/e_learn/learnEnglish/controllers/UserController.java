@@ -9,9 +9,9 @@
 //
 //import top.e_learn.learnEnglish.model.UserContextHolder;
 //import top.e_learn.learnEnglish.model.Word;
-//import top.e_learn.learnEnglish.model.users.User;
+//import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.service.PageApplicationService;
-//import top.e_learn.learnEnglish.service.UserService;
+//import top.e_learn.learnEnglish.user.UserService;
 //import top.e_learn.learnEnglish.service.WordService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.data.domain.Page;

@@ -9,7 +9,7 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairsPage;
 import top.e_learn.learnEnglish.model.MiniStory;
-import top.e_learn.learnEnglish.repository.CategoryRepository;
+import top.e_learn.learnEnglish.category.CategoryRepository;
 import top.e_learn.learnEnglish.repository.MiniStoryRepository;
 import top.e_learn.learnEnglish.repository.PhraseUserRepository;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;

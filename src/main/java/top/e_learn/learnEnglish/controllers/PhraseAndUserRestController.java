@@ -7,10 +7,10 @@
 // * GitHub source code: https://github.com/bychko4891/learnenglish
 // */
 //
-//import top.e_learn.learnEnglish.model.users.User;
+//import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 //import top.e_learn.learnEnglish.service.PhraseAndUserService;
-//import top.e_learn.learnEnglish.service.UserService;
+//import top.e_learn.learnEnglish.user.UserService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.http.ResponseEntity;
 //import org.springframework.web.bind.annotation.PostMapping;

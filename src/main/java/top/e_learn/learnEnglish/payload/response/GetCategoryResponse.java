@@ -9,7 +9,7 @@ package top.e_learn.learnEnglish.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.e_learn.learnEnglish.model.Category;
+import top.e_learn.learnEnglish.category.Category;
 
 import java.util.List;
 

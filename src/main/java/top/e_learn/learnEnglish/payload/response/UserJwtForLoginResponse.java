@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.security.UserDetailsImpl;
 import top.e_learn.learnEnglish.utils.JsonViews;
 

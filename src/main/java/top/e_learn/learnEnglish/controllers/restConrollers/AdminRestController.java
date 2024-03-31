@@ -11,11 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import top.e_learn.learnEnglish.applicationPage.applicationPageContent.ApplicationPageContentService;
 import top.e_learn.learnEnglish.model.WayForPayModule;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.service.*;
-import top.e_learn.learnEnglish.utils.dto.DtoTextOfAppPage;
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairToUI;
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairsPage;
 
@@ -28,22 +29,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminRestController {
     private final UserService userService;
-    private final TextOfAppPageService textOfAppPageService;
+    private final ApplicationPageContentService applicationPageContentService;
     private final TranslationPairService translationPairService;
     private final MiniStoryService miniStoryService;
     private final WordLessonService wordLessonService;
     private final WayForPayModuleService wayForPayModuleService;
 
 
-    @PostMapping("/text-of-app-page/{id}/edit")
-    public ResponseEntity<CustomResponseMessage> createAppTextPage(@RequestBody DtoTextOfAppPage dtoTextOfAppPage,
-                                                                   Principal principal) {
-        if (principal != null) {
-//            textOfAppPageService.textOfAppPageEdit(dtoTextOfAppPage);
-            return ResponseEntity.ok(textOfAppPageService.textOfAppPageEdit(dtoTextOfAppPage));
-        }
-        return ResponseEntity.notFound().build();
-    }
+
 
 
     @PostMapping("/users/user/user-active")

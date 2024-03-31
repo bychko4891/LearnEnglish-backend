@@ -7,10 +7,10 @@
 // * GitHub source code: https://github.com/bychko4891/learnenglish
 // */
 //
-//import top.e_learn.learnEnglish.model.Category;
+//import top.e_learn.learnEnglish.category.Category;
 //import top.e_learn.learnEnglish.model.CategoryPage;
 //import top.e_learn.learnEnglish.model.VocabularyPage;
-//import top.e_learn.learnEnglish.service.CategoryService;
+//import top.e_learn.learnEnglish.category.CategoryService;
 //import top.e_learn.learnEnglish.service.VocabularyPageService;
 //import lombok.Data;
 //import org.springframework.data.domain.Page;

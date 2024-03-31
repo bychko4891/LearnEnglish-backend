@@ -11,7 +11,7 @@ import top.e_learn.learnEnglish.security.jwt.JwtUtils;
 import top.e_learn.learnEnglish.payload.request.AuthRequest;
 import top.e_learn.learnEnglish.payload.response.JwtResponse;
 import top.e_learn.learnEnglish.service.AuthService;
-import top.e_learn.learnEnglish.service.UserService;
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.CustomFieldError;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;

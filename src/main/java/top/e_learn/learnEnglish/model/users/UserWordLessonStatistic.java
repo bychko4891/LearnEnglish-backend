@@ -11,6 +11,7 @@ import top.e_learn.learnEnglish.model.WordLesson;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import top.e_learn.learnEnglish.user.User;
 
 @Entity
 @Getter

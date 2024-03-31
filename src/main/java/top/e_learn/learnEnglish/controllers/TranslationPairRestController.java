@@ -13,7 +13,7 @@ import top.e_learn.learnEnglish.utils.dto.FieldErrorDTO;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.service.TranslationPairService;
 import top.e_learn.learnEnglish.service.PhraseUserService;
-import top.e_learn.learnEnglish.service.UserService;
+import top.e_learn.learnEnglish.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.controllers;
+package top.e_learn.learnEnglish.category;
 
 /**
  * @author: Anatolii Bychko
@@ -9,11 +9,9 @@ package top.e_learn.learnEnglish.controllers;
 
 import top.e_learn.learnEnglish.payload.response.GetCategoryResponse;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
-import top.e_learn.learnEnglish.model.Category;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
-import top.e_learn.learnEnglish.service.CategoryService;
 import top.e_learn.learnEnglish.service.FileStorageService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -58,7 +56,7 @@ public class CategoryController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getCategory(@PathVariable("uuid") String uuid, Principal principal) {
         if (principal != null) {
-            List<Category> mainCategories = categoryService.mainCategoryList(true);
+            List<Category> mainCategories = categoryService.getMainCategories(true);
             try {
                 Category category = categoryService.getCategoryByUuid(uuid);
                 if (category.isMainCategory()) {

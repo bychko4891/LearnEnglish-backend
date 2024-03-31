@@ -5,9 +5,11 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import top.e_learn.learnEnglish.model.ApplicationPage;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.service.*;
+import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatistic;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatisticToUi;
@@ -29,13 +31,13 @@ public class LearnEnglishRestController {
 
     private final PaymentWayForPayService paymentWayForPayService;
 
-    private final PageApplicationService pageApplicationService;
+    private final ApplicationPageService applicationPageService;
 
 
     @GetMapping("/api/about")
     @JsonView(JsonViews.ViewFieldOther.class)
     public ResponseEntity<?> aboutApp() {
-        ApplicationPage page = pageApplicationService.getPageApplication(2L);
+        ApplicationPage page = applicationPageService.getAppPageById(2L);
 //        if(page == null) page = new TextOfAppPage();
         return ResponseEntity.ok(page);
     }

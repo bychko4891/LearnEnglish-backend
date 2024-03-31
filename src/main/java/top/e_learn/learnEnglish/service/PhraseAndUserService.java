@@ -9,10 +9,10 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.model.users.PhraseUser;
 import top.e_learn.learnEnglish.model.PhraseAndUser;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.repository.PhraseUserRepository;
 import top.e_learn.learnEnglish.repository.PhrasesAndUserRepository;
-import top.e_learn.learnEnglish.repository.UserRepository;
+import top.e_learn.learnEnglish.user.UserRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import lombok.AllArgsConstructor;

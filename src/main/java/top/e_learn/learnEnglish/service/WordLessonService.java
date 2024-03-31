@@ -1,10 +1,10 @@
 package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.model.WordInWordLesson;
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.model.WordLesson;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
-import top.e_learn.learnEnglish.repository.CategoryRepository;
+import top.e_learn.learnEnglish.category.CategoryRepository;
 import top.e_learn.learnEnglish.repository.WordLessonRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;

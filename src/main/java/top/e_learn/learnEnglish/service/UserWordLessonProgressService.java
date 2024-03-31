@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.service;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.users.User;
+import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.repository.UserWordLessonProgressRepository;
 import lombok.RequiredArgsConstructor;

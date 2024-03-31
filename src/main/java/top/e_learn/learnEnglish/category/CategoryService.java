@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.category;
 
 /**
  * @author: Anatolii Bychko
@@ -8,10 +8,9 @@ package top.e_learn.learnEnglish.service;
  */
 
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
-import top.e_learn.learnEnglish.model.Category;
 import top.e_learn.learnEnglish.model.CategoryPage;
-import top.e_learn.learnEnglish.repository.CategoryRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import org.springframework.stereotype.Service;
@@ -19,27 +18,21 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
+@AllArgsConstructor
 public class CategoryService {
+
     private final CategoryRepository categoryRepository;
 
-    public CategoryService(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-    }
 
     public Category getCategoryById(long id) {
-        Optional<Category> categoryOptional = categoryRepository.findById(id);
-        if (categoryOptional.isPresent()) {
-            return categoryOptional.get();
-
-        } else throw new ObjectNotFoundException("Category with id: " + id + "not found");
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new ObjectNotFoundException("Category with id: " + id + "not found"));
     }
 
     public Category getCategoryByUuid(String uuid) {
-        Optional<Category> categoryOptional = categoryRepository.findCategoriesByUuid(uuid);
-        if (categoryOptional.isPresent()) {
-            return categoryOptional.get();
+        return categoryRepository.findCategoriesByUuid(uuid)
+                .orElseThrow(() -> new ObjectNotFoundException("Category with id: " + uuid + "not found"));
 
-        } else throw new ObjectNotFoundException("Category with id: " + uuid + "not found");
     }
 
     public Category getNewCategory(String uuid) {
@@ -56,7 +49,7 @@ public class CategoryService {
     }
 
 
-    public List<Category> mainCategoryList(boolean mainCategory) {
+    public List<Category> getMainCategories(boolean mainCategory) {
         return categoryRepository.findCategoriesByMainCategoryOrderByNameAsc(mainCategory);
     }
 
@@ -72,14 +65,6 @@ public class CategoryService {
         return categoryRepository.findCategoriesByParentCategory_UuidOrderByNameAsc(uuid);
     }
 
-    public List<Category> getSubcategoriesPhraseLesson() {
-        List<Category> phraseLessonMainCategories = getMainCategoryListByCategoryPage(true, CategoryPage.LESSON_PHRASES);
-        List<Category> subcategories = new ArrayList<>();
-        for (Category arr: phraseLessonMainCategories) {
-            subcategories.addAll(arr.getSubcategories());
-        }
-        return subcategories;
-    }
 
     public CustomResponseMessage saveMainCategory(Category category, Category categoryDb) {
         categoryDb.setName(category.getName());

@@ -8,7 +8,7 @@ package top.e_learn.learnEnglish.service;
  */
 
 import top.e_learn.learnEnglish.utils.dto.DtoUserStatisticsToUi;
-import top.e_learn.learnEnglish.model.users.UserStatistics;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import top.e_learn.learnEnglish.repository.UserStatisticsRepository;
 import jakarta.persistence.NoResultException;
 import jakarta.servlet.http.HttpSession;

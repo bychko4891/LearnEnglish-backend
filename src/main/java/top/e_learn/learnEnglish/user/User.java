@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model.users;
+package top.e_learn.learnEnglish.user;
 
 /**
  * @author: Anatolii Bychko
@@ -13,6 +13,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import top.e_learn.learnEnglish.model.users.*;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import top.e_learn.learnEnglish.utils.JsonViews;
 
 import java.io.Serializable;
@@ -99,6 +101,7 @@ public class User implements Serializable {
     @Column(name = "last_visit")
     @JsonView(JsonViews.ViewFieldLastVisit.class)
     private LocalDateTime lastVisit;
+
     @PrePersist
     private void init(){
         this.dateOfCreated = LocalDateTime.now();

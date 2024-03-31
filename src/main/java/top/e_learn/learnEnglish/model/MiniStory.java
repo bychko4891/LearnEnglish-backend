@@ -9,6 +9,7 @@ package top.e_learn.learnEnglish.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import top.e_learn.learnEnglish.category.Category;
 
 import java.io.Serializable;
 import java.util.UUID;

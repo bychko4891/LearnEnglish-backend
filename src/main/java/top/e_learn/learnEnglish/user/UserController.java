@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.controllers.restConrollers;
+package top.e_learn.learnEnglish.user;
 
 /**
  * @author: Anatolii Bychko
@@ -22,7 +22,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import top.e_learn.learnEnglish.model.users.User;
 import top.e_learn.learnEnglish.payload.request.ForgotPasswordRequest;
 import top.e_learn.learnEnglish.payload.request.SignupRequest;
 import top.e_learn.learnEnglish.payload.response.UserJwtForLoginResponse;
@@ -40,7 +39,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class UserRestController {
+public class UserController {
 
     @Value("${file.upload-user-avatar}")
     private String userAvatarStorePath;

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.repository;
+package top.e_learn.learnEnglish.user;
 
 /**
  * @author: Anatolii Bychko
@@ -8,11 +8,8 @@ package top.e_learn.learnEnglish.repository;
  */
 
 import org.springframework.stereotype.Repository;
-import top.e_learn.learnEnglish.model.users.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import top.e_learn.learnEnglish.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 @Repository
