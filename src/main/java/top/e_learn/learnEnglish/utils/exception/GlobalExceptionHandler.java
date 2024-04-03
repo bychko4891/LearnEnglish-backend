@@ -37,7 +37,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         Locale currentLocale = LocaleContextHolder.getLocale();
         CustomFieldError customFieldError = new CustomFieldError("general", messageSource.getMessage("user.bad.authorisation", null, currentLocale));
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ParserToResponseFromCustomFieldError.parseCustomFieldError(customFieldError));
-
     }
 
     @ExceptionHandler(BadRefreshTokenException.class)
@@ -60,6 +59,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<?> fileStorageException(FileStorageException e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ObjectNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ResponseEntity<?> notFound(ObjectNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
     }
 
 

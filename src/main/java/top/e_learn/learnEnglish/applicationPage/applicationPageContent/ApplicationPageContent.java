@@ -36,7 +36,10 @@ public class ApplicationPageContent implements Serializable {
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
-    @ManyToOne()
+    @Column
+    private int order;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "page_application_id")
     private ApplicationPage applicationPage;
 

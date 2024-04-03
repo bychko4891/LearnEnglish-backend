@@ -20,7 +20,7 @@ public class CustomAppPageSerializer extends JsonSerializer<ApplicationPage> {
     public void serialize(ApplicationPage value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
 
         gen.writeStartObject();
-        gen.writeNumberField("id", value.getId());
+        if(value.getId() != null) gen.writeNumberField("id", value.getId());
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("h1", value.getH1());
         gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
@@ -43,6 +43,7 @@ public class CustomAppPageSerializer extends JsonSerializer<ApplicationPage> {
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
+        gen.writeNumberField("order", value.getOrder());
         gen.writeObjectField("image", value.getImage());
         gen.writeObjectField("positionContent", value.getPositionContent());
         gen.writeEndObject();

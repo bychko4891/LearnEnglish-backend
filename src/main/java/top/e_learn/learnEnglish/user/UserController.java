@@ -153,20 +153,19 @@ public class UserController {
 
     @PutMapping("/api/user/edit")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
-    public ResponseEntity<String> setUserInfo(@PathVariable("userId") Long userId,
-                                              @RequestParam(value = "firstName", required = false) String firstName,
+    public ResponseEntity<String> setUserInfo(@RequestParam(value = "firstName", required = false) String firstName,
                                               @RequestParam(value = "lastName", required = false) String lastName,
                                               @RequestParam(value = "gender", required = false) String gender,
                                               Principal principal) {
-        if (principal != null) {
-            userId = userService.findByEmail(principal.getName()).getId();
-            User user = userService.findByEmail(principal.getName());
-            userService.updateUserInfo(userId, firstName, lastName, gender);
-            session.setAttribute("userLogin", firstName);
-            session.setAttribute("userName", lastName);
-            session.setAttribute("userGender", "[" + gender + "]");
-            return ResponseEntity.ok("Інформація успішно оновлена");
-        }
+//        if (principal != null) {
+//            userId = userService.findByEmail(principal.getName()).getId();
+//            User user = userService.findByEmail(principal.getName());
+//            userService.updateUserInfo(userId, firstName, lastName, gender);
+//            session.setAttribute("userLogin", firstName);
+//            session.setAttribute("userName", lastName);
+//            session.setAttribute("userGender", "[" + gender + "]");
+//            return ResponseEntity.ok("Інформація успішно оновлена");
+//        }
         return ResponseEntity.notFound().build();
     }
 

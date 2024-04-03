@@ -31,6 +31,7 @@ public class ApplicationPage implements Serializable {
     private String uuid;
 
     @Column
+    @Size(max = 360, message = "page.bad.size")
     private String h1;
 
 
@@ -45,25 +46,24 @@ public class ApplicationPage implements Serializable {
     @Column
     @NotNull(message = "page.bad.url.null")
     @Size(min=1, max = 200, message = "page.bad.url.size")
-    @Pattern(regexp = "^/[a-zA-Z1-9-]+((/{1}[a-zA-Z1-9-]+)?)+$|^/{1}$", message = "page.bad.url")
+    @Pattern(regexp = "^/?[a-zA-Z1-9-]+((/{1}[a-zA-Z1-9-]+)?)+/?$|^/{1}$", message = "page.bad.url")
     private String url;
 
-    @OneToMany(mappedBy = "applicationPage")
+    @OneToMany(mappedBy = "applicationPage", fetch = FetchType.EAGER)
     private List<ApplicationPageContent> appPageContents = new ArrayList<>();
 
     public ApplicationPage() {
     }
 
-    public ApplicationPage(Long id, String uuid, String h1, String url) {
-        this.id = id;
+    public ApplicationPage(String uuid, String h1, String url) {
         this.uuid = uuid;
         this.h1 = h1;
         this.url = url;
     }
 
-    @PrePersist
-    private void init(){
-        this.uuid = UUID.randomUUID().toString();
-    }
+//    @PrePersist
+//    private void init(){
+//        this.uuid = UUID.randomUUID().toString();
+//    }
 
 }

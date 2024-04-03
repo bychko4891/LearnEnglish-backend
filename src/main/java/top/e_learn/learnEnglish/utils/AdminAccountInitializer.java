@@ -94,16 +94,8 @@ public class AdminAccountInitializer implements ApplicationRunner {
     }
 
     private void createApplicationPages() {
-        ApplicationPage applicationPageMainTop = new ApplicationPage(1L, UUID.randomUUID().toString(),"Main page","/");
-        applicationPageService.savePageApplication(applicationPageMainTop);
-        ApplicationPage applicationPageAboutTheApp = new ApplicationPage(2L, UUID.randomUUID().toString(), "About page","/about");
-        applicationPageService.savePageApplication(applicationPageAboutTheApp);
-        ApplicationPage applicationPagePolicy = new ApplicationPage(3L, UUID.randomUUID().toString(),"Policy","/policy-condition");
-        applicationPageService.savePageApplication(applicationPagePolicy);
-        ApplicationPage applicationPageCookie = new ApplicationPage(4L, UUID.randomUUID().toString(),"Cookie","/cookie");
-        applicationPageService.savePageApplication(applicationPageCookie);
-        ApplicationPage applicationPageUploadUserText = new ApplicationPage(5L, UUID.randomUUID().toString(),"Mini description phrase lessons","/phrase-lesson");
-        applicationPageService.savePageApplication(applicationPageUploadUserText);
+        ApplicationPage applicationPageMainTop = new ApplicationPage(UUID.randomUUID().toString(),"Main page","main");
+        applicationPageService.saveNewAppPage(applicationPageMainTop);
     }
 
     private void createWayForPayModule() {

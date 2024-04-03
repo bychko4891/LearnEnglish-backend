@@ -102,7 +102,7 @@ public class FileStorageController {
     }
 
 
-    @GetMapping("/web-image/{imageFileName:.+}")
+    @GetMapping("/webimg/{imageFileName:.+}")
     public ResponseEntity<byte[]> webImage(@PathVariable String imageFileName) throws IOException {
         Resource resource = fileStorageService.loadFileAsResource(imageFileName, webImageStorePath);
         InputStream in = resource.getInputStream();

@@ -85,37 +85,26 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
 
-
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/login","/api/auth/google", "/api/auth/signup", "/api/about", "/api/validate-email/*", "/api/auth/refresh/access-token","/api/auth/refresh/refresh-token", "/api/forgot-password", "/api/forgot-password/*").permitAll()
-//                        .requestMatchers("/*","/js/*","/api/avatar/**").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-
-
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 HttpMethod.GET,
-                                "/api/user/profile",
-                                "/api/user/statistics",
-                                "/user/*"
+                                "/api/user/*",
+                                "/api/admin/**",
+                                "/api/avatar/*"
                         )
                         .authenticated()
-//                        .requestMatchers(
-//                                HttpMethod.POST,
-//                                "/advertisement",
-//                                "/image",
-//                                "advertisement/enable/{id}",
-//                                "/advertisement/disable/{id}"
-//                        )
-//                        .authenticated()
-//                        .requestMatchers(
-//                                HttpMethod.PUT,
-//                                "/advertisement/{id}",
-//                                "/user/me",
-//                                "/user/me/photo"
-//                        )
-//                        .authenticated()
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/user/**",
+                                "/api/admin/**"
+                        )
+                        .authenticated()
+                        .requestMatchers(
+                                HttpMethod.PUT,
+                                "/api/admin/**",
+                                "/api/user/**"
+                        )
+                        .authenticated()
 //                        .requestMatchers(
 //                                HttpMethod.DELETE,
 //                                "/advertisement/{id}",

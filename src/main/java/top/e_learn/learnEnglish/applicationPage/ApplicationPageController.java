@@ -24,6 +24,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -44,6 +45,16 @@ public class ApplicationPageController {
         }
         return ResponseEntity.badRequest().body("Access denied");
     }
+
+    @GetMapping("/admin/app-pages/new-page")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<String> newAppPage(Principal principal) {
+        if (principal != null) {
+            return ResponseEntity.ok(UUID.randomUUID().toString());
+        }
+        return ResponseEntity.badRequest().body("Access denied");
+    }
+
 
     @GetMapping("/admin/app-pages/page/{uuid}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -95,11 +106,9 @@ public class ApplicationPageController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("{url}")
-    public ResponseEntity<?> getAppPage(@PathVariable String url) {
-
-        return null;
+    @GetMapping("/page/{url}")
+    public ResponseEntity<?> getAppPage(@PathVariable  String url) {
+        return ResponseEntity.ok(applicationPageService.getApplicationPageByUrl(url));
     }
-
 
 }

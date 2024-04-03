@@ -9,7 +9,6 @@ package top.e_learn.learnEnglish.applicationPage;
 
 import lombok.Data;
 import org.springframework.stereotype.Service;
-import top.e_learn.learnEnglish.applicationPage.applicationPageContent.ApplicationPageContent;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
 import java.util.List;
@@ -21,7 +20,9 @@ public class ApplicationPageService {
 
     private final ApplicationPageRepository applicationPageRepository;
 
-    public void savePageApplication(ApplicationPage applicationPage) {
+    public void saveNewAppPage(ApplicationPage applicationPage) {
+        String url = applicationPage.getUrl().replace("^/|/$", "");
+        applicationPage.setUrl(url);
         applicationPageRepository.save(applicationPage);
     }
 
@@ -41,18 +42,26 @@ public class ApplicationPageService {
 
     public boolean existDuplicateUrl(ApplicationPage applicationPage) {
         Optional<ApplicationPage> applicationPageOptional = applicationPageRepository.findApplicationPageByUrl(applicationPage.getUrl());
-        return applicationPageOptional.map(page -> page.getUuid().equals(applicationPage.getUuid())).orElse(false);
+        if(applicationPageOptional.isPresent()){
+            return applicationPageOptional.map(page -> !page.getUuid().equals(applicationPage.getUuid())).orElse(true);
+        }
+        return false;
+    }
+    public ApplicationPage getApplicationPageByUrl(String url) {
+        return applicationPageRepository.findApplicationPageByUrl(url)
+                .orElseThrow(() -> new ObjectNotFoundException("No AppPage by UUID"));
     }
 
     public void saveAppPage(ApplicationPage applicationPageDb, ApplicationPage applicationPage) {
-
-    }
-
-    public void saveNewAppPage(ApplicationPage applicationPage) {
-
+        String url = applicationPage.getUrl().replace("^/|/$", "");
+        applicationPageDb.setUrl(url);
+        Optional.ofNullable(applicationPage.getH1()).ifPresent(applicationPageDb::setH1);
+        Optional.ofNullable(applicationPage.getHtmlTagTitle()).ifPresent(applicationPageDb::setHtmlTagTitle);
+        Optional.ofNullable(applicationPage.getHtmlTagDescription()).ifPresent(applicationPageDb::setHtmlTagDescription);
+        applicationPageRepository.save(applicationPageDb);
     }
 
     public ApplicationPage getNewAppPage(String uuid) {
-        return null;
+       return new ApplicationPage(uuid, "h1 нової сторінки","унікальний url нової сторінки");
     }
 }
