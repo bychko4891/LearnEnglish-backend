@@ -7,8 +7,6 @@ package top.e_learn.learnEnglish.category;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.category.Category;
-import top.e_learn.learnEnglish.model.CategoryPage;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

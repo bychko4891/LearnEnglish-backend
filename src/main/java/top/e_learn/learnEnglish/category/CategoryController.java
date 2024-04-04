@@ -12,7 +12,7 @@ import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
-import top.e_learn.learnEnglish.service.FileStorageService;
+import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Data;
@@ -97,7 +97,7 @@ public class CategoryController {
                 Category categoryDb = categoryService.getCategoryByUuid(uuid);
                 category.setImage(new Image());
                 if (imageFile != null) {
-                    category.getImage().setImageName(fileStorageService.storeFile(imageFile, categoryStorePath, category.getName()));
+                    category.getImage().setImageName(fileStorageService.storeFile(imageFile, categoryStorePath, ""));
                     if (categoryDb.getImage().getImageName() != null)
                         fileStorageService.deleteFileFromStorage(categoryDb.getImage().getImageName(), categoryStorePath);
                 }
@@ -108,7 +108,7 @@ public class CategoryController {
             } catch (ObjectNotFoundException e) {
                 Image image = new Image();
                 if (imageFile != null)
-                    image.setImageName(fileStorageService.storeFile(imageFile, categoryStorePath, category.getName()));
+                    image.setImageName(fileStorageService.storeFile(imageFile, categoryStorePath, ""));
                 category.setImage(image);
                 return ResponseEntity.ok(categoryService.saveNewCategory(category));
             }
@@ -116,13 +116,19 @@ public class CategoryController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/admin/subcategories/main-category/{uuid}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @JsonView(JsonViews.ViewAllCategories.class)
-    public ResponseEntity<List<Category>> getSubcatego(@RequestParam("mainCategoryId") String uuid, Principal principal) {
-        if (principal != null && !uuid.isBlank()) {
-            return ResponseEntity.ok(categoryService.getSubcategoriesFromMainCategory(uuid));
-        }
-        return ResponseEntity.notFound().build();
+    @GetMapping("/category/{uuid}")
+    public ResponseEntity<List<Category>> getCategoryByUuid(@PathVariable String uuid) {
+        return ResponseEntity.ok(categoryService.getSubcategoriesFromMainCategory(uuid));
+    }
+
+    @GetMapping("/category/main-categories")
+    public ResponseEntity<?> getMainCategoriesByPage(@RequestParam (name = "categoryPage") String categoryPage) {
+        return switch (categoryPage) {
+            case "vocabulary" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.VOCABULARY_PAGE));
+            case "stories" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.MINI_STORIES));
+            case "lesson-words" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_WORDS));
+            case "lesson-phrases" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_PHRASES));
+            default -> ResponseEntity.badRequest().body("");
+        };
     }
 }

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.property;
+package top.e_learn.learnEnglish.fileStorage;
 
 /**
  * @author: Anatolii Bychko

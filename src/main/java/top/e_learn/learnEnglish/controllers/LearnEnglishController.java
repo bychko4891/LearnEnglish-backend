@@ -34,41 +34,8 @@
 //    private final MiniStoryService miniStoryService;
 //
 //
-////    @GetMapping("/")
-////    public String index(Principal principal, Model model) {
-////        if (principal != null) {
-////            return "redirect:/lesson/1";
-////        } else {
-////            PageApplication mainTop = pageApplicationService.getPageApplication(5l);
-////            PageApplication mainBottom = pageApplicationService.getPageApplication(6l);
-////            if (mainTop.getContentAppPage() != null) {
-////                model.addAttribute("mainTop", mainTop.getContentAppPage().getDescription());
-////            } else {
-////                model.addAttribute("mainTop", "No text in this page");
-////            }
-////            if (mainBottom.getContentAppPage() != null) {
-////                model.addAttribute("mainBottom", mainBottom.getContentAppPage().getDescription());
-////            }
-////            model.addAttribute("title", "Англійська за 16 годин - e-learn.top");
-////            return "main";
-////        }
-////    }
-//
-////    @GetMapping("/test")
-////    public String indexTest(Model model) {
-////        PageApplication mainTop = pageApplicationService.getPageApplication(5l);
-////        PageApplication mainBottom = pageApplicationService.getPageApplication(6l);
-////        if (mainTop.getContentAppPage() != null) {
-////            model.addAttribute("mainTop", mainTop.getContentAppPage().getDescription());
-////        } else {
-////            model.addAttribute("mainTop", "No text in this page");
-////        }
-////        if (mainBottom.getContentAppPage() != null) {
-////            model.addAttribute("mainBottom", mainBottom.getContentAppPage().getDescription());
-////        }
-////        model.addAttribute("title", "Англійська за 16 годин - e-learn.top");
-////            return "temp";
-////    }
+
+
 //
 //
 //

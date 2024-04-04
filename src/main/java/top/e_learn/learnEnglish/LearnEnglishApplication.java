@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.property.FileStorageProperties;
+import top.e_learn.learnEnglish.fileStorage.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

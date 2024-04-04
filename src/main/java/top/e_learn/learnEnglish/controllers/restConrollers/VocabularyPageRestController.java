@@ -11,7 +11,7 @@ import top.e_learn.learnEnglish.model.VocabularyPage;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
-import top.e_learn.learnEnglish.service.FileStorageService;
+import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.service.VocabularyPageService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;

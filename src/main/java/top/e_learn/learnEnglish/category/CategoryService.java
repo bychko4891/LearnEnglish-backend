@@ -10,7 +10,6 @@ package top.e_learn.learnEnglish.category;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
-import top.e_learn.learnEnglish.model.CategoryPage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import org.springframework.stereotype.Service;
@@ -53,7 +52,7 @@ public class CategoryService {
         return categoryRepository.findCategoriesByMainCategoryOrderByNameAsc(mainCategory);
     }
 
-    public List<Category> getMainCategoryListByCategoryPage(boolean mainCategory, CategoryPage categoryPage) {
+    public List<Category> getMainCategoriesByCategoryPage(boolean mainCategory, CategoryPage categoryPage) {
         return categoryRepository.findCategoriesByMainCategoryAndCategoryPageOrderByNameAsc(mainCategory, categoryPage);
     }
 

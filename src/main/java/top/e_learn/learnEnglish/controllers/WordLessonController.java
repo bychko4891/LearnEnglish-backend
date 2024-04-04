@@ -16,7 +16,7 @@
 //import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.RequestParam;
 //import top.e_learn.learnEnglish.category.Category;
-//import top.e_learn.learnEnglish.model.CategoryPage;
+//import top.e_learn.learnEnglish.category.CategoryPage;
 //import top.e_learn.learnEnglish.model.WordLesson;
 //import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.category.CategoryService;

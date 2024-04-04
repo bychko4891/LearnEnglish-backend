@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.controllers;
+package top.e_learn.learnEnglish.fileStorage;
 
 /**
  * @author: Anatolii Bychko
@@ -8,7 +8,6 @@ package top.e_learn.learnEnglish.controllers;
  */
 
 import top.e_learn.learnEnglish.utils.exception.FileFormatException;
-import top.e_learn.learnEnglish.service.FileStorageService;
 import lombok.Data;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,7 +77,7 @@ public class FileStorageController {
         return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/category-image/{imageFileName:.+}")
+    @GetMapping("/category-img/{imageFileName:.+}")
     public ResponseEntity<byte[]> categoryImage(@PathVariable String imageFileName) throws IOException {
         Resource resource = fileStorageService.loadFileAsResource(imageFileName, categoryStorePath);
         InputStream in = resource.getInputStream();

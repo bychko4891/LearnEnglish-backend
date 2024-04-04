@@ -12,7 +12,7 @@ import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.payload.response.GetAppPageContentResponse;
-import top.e_learn.learnEnglish.service.FileStorageService;
+import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 

@@ -24,7 +24,7 @@ public class CustomAppPageContentSerializer extends JsonSerializer<ApplicationPa
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
-        gen.writeNumberField("order", value.getOrder());
+        gen.writeNumberField("order", value.getPositionOrder());
         gen.writeObjectField("image", value.getImage());
         gen.writeObjectField("positionContent", value.getPositionContent());
         if (value.getApplicationPage() != null) {

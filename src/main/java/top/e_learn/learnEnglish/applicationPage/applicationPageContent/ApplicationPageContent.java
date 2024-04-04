@@ -37,7 +37,7 @@ public class ApplicationPageContent implements Serializable {
     private String description;
 
     @Column
-    private int order;
+    private int positionOrder;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "page_application_id")

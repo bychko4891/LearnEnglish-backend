@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.fileStorage;
 
 /**
  * @author: Anatolii Bychko
@@ -9,7 +9,6 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.utils.exception.FileStorageException;
 import top.e_learn.learnEnglish.utils.exception.MyFileNotFoundException;
-import top.e_learn.learnEnglish.property.FileStorageProperties;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
