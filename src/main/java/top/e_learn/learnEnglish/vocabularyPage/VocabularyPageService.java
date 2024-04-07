@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.vocabularyPage;
 
 /**
  * @author: Anatolii Bychko
@@ -7,9 +7,7 @@ package top.e_learn.learnEnglish.service;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.VocabularyPage;
 import top.e_learn.learnEnglish.model.Word;
-import top.e_learn.learnEnglish.repository.VocabularyPageRepository;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.service.WordService;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +50,6 @@ public class VocabularyPageService {
         return vocabularyPageRepository.findAllVocabularyPage(pageable);
     }
 
-    public long countVocabularyPages() {
-        return vocabularyPageRepository.lastId();
-    }
 
     @Transactional
     public CustomResponseMessage saveVocabularyPage(VocabularyPage vocabularyPageDB, VocabularyPage vocabularyPage) {
@@ -105,6 +101,9 @@ public class VocabularyPageService {
             } else return new CustomResponseMessage(Message.ERROR, vocabularyPage.getName());
     }
 
+    public List<VocabularyPage> getVocabularyPagesFromCategory(long categoryId) {
+        return vocabularyPageRepository.findAllByCategoryId(categoryId);
+    }
 
 
 }

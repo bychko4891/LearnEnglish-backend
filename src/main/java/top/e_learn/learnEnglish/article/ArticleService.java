@@ -10,9 +10,19 @@ package top.e_learn.learnEnglish.article;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Data
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+
+    public List<Article> findAllArticlesFromCategory(long categoryId) {
+        return articleRepository.findAllByCategoryId(categoryId);
+    }
+
+    public List<Article> getAllArticles() {
+        return (List<Article>)articleRepository.findAll();
+    }
 }

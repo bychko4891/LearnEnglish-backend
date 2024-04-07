@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.repository;
+package top.e_learn.learnEnglish.vocabularyPage;
 
 /**
  * @author: Anatolii Bychko
@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.repository;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.VocabularyPage;
+import top.e_learn.learnEnglish.vocabularyPage.VocabularyPage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,12 +23,11 @@ public interface VocabularyPageRepository extends JpaRepository<VocabularyPage, 
     @Query("SELECT v FROM VocabularyPage v ORDER BY v.id ASC")
     Page<VocabularyPage> findAllVocabularyPage(Pageable pageable);
 
-    @Query("SELECT MAX(v.id) FROM VocabularyPage  v")
-    long lastId();
-
-    boolean existsVocabularyPageByNameIgnoreCase(String vocabularyPageName);
-
     @Query("SELECT vp FROM VocabularyPage vp WHERE LOWER(vp.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +
             "AND vp.id NOT IN (SELECT wl.vocabularyPage.id FROM WordInWordLesson wl WHERE wl.vocabularyPage.id IS NOT NULL)")
     List<VocabularyPage> findVocabularyPageForWordLesson(@Param("firstLetter") String firstLetter);
+
+    List<VocabularyPage> findAllByCategoryId(long categoryId);
+
+    boolean existsVocabularyPageByNameIgnoreCase(String vocabularyPageName);
 }

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.vocabularyPage;
 
 /**
  * @author: Anatolii Bychko
@@ -8,6 +8,9 @@ package top.e_learn.learnEnglish.model;
  */
 
 import top.e_learn.learnEnglish.category.Category;
+import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.model.PhraseApplication;
+import top.e_learn.learnEnglish.model.Word;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
@@ -25,6 +28,9 @@ public class VocabularyPage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView(JsonViews.ViewFieldUUID.class)
     private Long id;
+
+    @Column
+    private String uuid;
 
     @Column
     @JsonView(JsonViews.ViewFieldName.class)

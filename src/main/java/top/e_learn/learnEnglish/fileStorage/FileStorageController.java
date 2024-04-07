@@ -43,16 +43,17 @@ public class FileStorageController {
 
     private final FileStorageService fileStorageService;
 
-    @PostMapping("/admin/web-image/upload")
+    @PostMapping("/admin/upload-web-img")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> uploadWebImage(@RequestParam("imageFile") MultipartFile imageFile,
+    public ResponseEntity<String> uploadWebImageFromTinyMce(@RequestPart("imageFile") MultipartFile imageFile,
                                                  Principal principal) throws IOException {
         if (principal != null) {
             String contentType = imageFile.getContentType();
             if (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/png")
                     || contentType.equalsIgnoreCase("image/webp") || contentType.equalsIgnoreCase("image/jpg")) {
                 String fileName = fileStorageService.storeFile(imageFile, webImageStorePath, "webImage");
-                return ResponseEntity.ok("/web-image/" + fileName);
+                System.out.println(fileName);
+                return ResponseEntity.ok(fileName);
             } else throw new FileFormatException("Дозволено тільки зображення");
         }
         return ResponseEntity.notFound().build();

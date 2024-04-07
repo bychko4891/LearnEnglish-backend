@@ -11,6 +11,7 @@ import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.Data;
+import top.e_learn.learnEnglish.vocabularyPage.VocabularyPage;
 
 @Entity
 @Table(name = "words_in_word_lesson")

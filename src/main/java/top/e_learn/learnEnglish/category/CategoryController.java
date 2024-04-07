@@ -7,6 +7,8 @@ package top.e_learn.learnEnglish.category;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import top.e_learn.learnEnglish.article.Article;
+import top.e_learn.learnEnglish.article.ArticleService;
 import top.e_learn.learnEnglish.payload.response.GetCategoryResponse;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.model.Image;
@@ -39,6 +41,8 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     private final FileStorageService fileStorageService;
+
+    private final ArticleService articleService;
 
 
     @GetMapping("/admin/categories")
@@ -117,8 +121,10 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{uuid}")
-    public ResponseEntity<List<Category>> getCategoryByUuid(@PathVariable String uuid) {
-        return ResponseEntity.ok(categoryService.getSubcategoriesFromMainCategory(uuid));
+    public ResponseEntity<?> getCategoryByUuid(@PathVariable String uuid) {
+        Category category = categoryService.getCategoryByUuid(uuid);
+        List<Article> articles = articleService.findAllArticlesFromCategory(category.getId());
+        return ResponseEntity.ok(new GetCategoryResponse(category, articles, new ArrayList<>()));
     }
 
     @GetMapping("/category/main-categories")

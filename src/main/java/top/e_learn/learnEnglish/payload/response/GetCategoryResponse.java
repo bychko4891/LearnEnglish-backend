@@ -29,4 +29,9 @@ public class GetCategoryResponse {
         this.mainCategories = mainCategories;
     }
 
+    public GetCategoryResponse(Category category, List<Article> articles, List<Category> mainCategories) {
+        this.category = category;
+        this.mainCategories = mainCategories;
+        this.articles = articles;
+    }
 }
