@@ -9,6 +9,7 @@ package top.e_learn.learnEnglish.category;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import top.e_learn.learnEnglish.model.Image;
@@ -38,6 +39,14 @@ public class Category implements Serializable {
 
     @Column(name = "description", columnDefinition = "text")
     private String description;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagDescription;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagTitle;
 
     @Column
     private boolean mainCategory = false;

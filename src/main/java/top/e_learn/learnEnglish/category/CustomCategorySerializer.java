@@ -35,6 +35,8 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
+        gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());
         gen.writeObjectField("categoryPage", value.getCategoryPage());
         gen.writeObjectField("image", value.getImage());
@@ -60,6 +62,8 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
+        gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());
         gen.writeObjectField("categoryPage", value.getCategoryPage());
         gen.writeObjectField("image", value.getImage());

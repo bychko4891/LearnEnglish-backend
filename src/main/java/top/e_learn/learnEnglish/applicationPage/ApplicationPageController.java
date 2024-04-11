@@ -21,10 +21,7 @@ import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -80,16 +77,7 @@ public class ApplicationPageController {
         if (principal != null) {
             Locale currentLocale = LocaleContextHolder.getLocale();
             if (bindingResult.hasErrors()) {
-                List<CustomFieldError> errorFields = new ArrayList<>();
-                try {
-                    errorFields = bindingResult.getFieldErrors().stream()
-                            .map(fieldError -> new CustomFieldError(fieldError.getField(), messageSource.getMessage(fieldError.getDefaultMessage(), null, currentLocale)))
-                            .collect(Collectors.toList());
-                    return ResponseEntity.badRequest().body(ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields));
-                } catch (NoSuchMessageException e) {
-                    errorFields.clear();
-                    return ResponseEntity.badRequest().body(ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields));
-                }
+                return ResponseEntity.badRequest().body(bindingResultMessages(bindingResult));
             }
             if(applicationPageService.existDuplicateUrl(applicationPage)) {
                 return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("page.bad.url.duplicate", null, currentLocale)));
@@ -109,6 +97,21 @@ public class ApplicationPageController {
     @GetMapping("/page/{url}")
     public ResponseEntity<?> getAppPage(@PathVariable  String url) {
         return ResponseEntity.ok(applicationPageService.getApplicationPageByUrl(url));
+    }
+
+    private Map<String, String> bindingResultMessages(BindingResult bindingResult) {
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        List<CustomFieldError> errorFields = new ArrayList<>();
+        try {
+            errorFields = bindingResult.getFieldErrors().stream()
+                    .map(fieldError -> new CustomFieldError(fieldError.getField(), messageSource.getMessage(fieldError.getDefaultMessage(), null, currentLocale)))
+                    .collect(Collectors.toList());
+            return ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields);
+        } catch (NoSuchMessageException e) {
+            errorFields.clear();
+            errorFields.add(new CustomFieldError("serverError", messageSource.getMessage("server.error", null, currentLocale)));
+            return ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields);
+        }
     }
 
 }

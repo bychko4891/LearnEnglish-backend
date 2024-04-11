@@ -106,9 +106,9 @@ public class CategoryController {
                         fileStorageService.deleteFileFromStorage(categoryDb.getImage().getImageName(), categoryStorePath);
                 }
                 if (category.isMainCategory() && category.getParentCategory() == null) {
-                    return ResponseEntity.ok(categoryService.saveMainCategory(category, categoryDb));
+                    return ResponseEntity.ok(categoryService.saveMainCategory(categoryDb, category));
                 }
-                return ResponseEntity.ok(categoryService.saveSubcategory(category, categoryDb));
+                return ResponseEntity.ok(categoryService.saveSubcategory(categoryDb, category));
             } catch (ObjectNotFoundException e) {
                 Image image = new Image();
                 if (imageFile != null)

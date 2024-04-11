@@ -27,6 +27,7 @@ public class Article {
 
     @Column
     private String uuid;
+
     @Column
     @Size(max = 360, message = "page.bad.size")
     private String h1;
@@ -46,10 +47,16 @@ public class Article {
     @JoinColumn(name = "image_id")
     private Image image;
 
-    @OneToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "category_id")
     private Category category;
 
     public Article() {
+    }
+
+    public Article(String uuid, String h1, String description) {
+        this.uuid = uuid;
+        this.h1 = h1;
+        this.description = description;
     }
 }

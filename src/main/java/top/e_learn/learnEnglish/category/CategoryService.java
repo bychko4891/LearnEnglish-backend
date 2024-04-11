@@ -65,11 +65,15 @@ public class CategoryService {
     }
 
 
-    public CustomResponseMessage saveMainCategory(Category category, Category categoryDb) {
-        categoryDb.setName(category.getName());
-        categoryDb.setDescription(category.getDescription());
+    public CustomResponseMessage saveMainCategory(Category categoryDb, Category category) {
+        Optional.ofNullable(category.getName()).ifPresent(categoryDb::setName);
+        Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
+        Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
+        Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
         categoryDb.setMainCategory(true);
         categoryDb.setShowDescriptionInPage(category.isShowDescriptionInPage());
+
+
 
         List<CategoryPage> categoryPages = new ArrayList<>(category.getCategoryPage());
         if (!categoryPages.isEmpty() && !categoryPages.get(0).equals(CategoryPage.NO_PAGE)) {
@@ -87,9 +91,11 @@ public class CategoryService {
     }
 
 
-    public CustomResponseMessage saveSubcategory(Category category, Category categoryDb) {
-        categoryDb.setName(category.getName());
-        categoryDb.setDescription(category.getDescription());
+    public CustomResponseMessage saveSubcategory(Category categoryDb, Category category) {
+        Optional.ofNullable(category.getName()).ifPresent(categoryDb::setName);
+        Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
+        Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
+        Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
         categoryDb.setMainCategory(false);
         categoryDb.getCategoryPage().clear();
         if (categoryDb.getParentCategory() == null || !category.getParentCategory().getUuid().isBlank() && !category.getParentCategory().getUuid().equals(categoryDb.getParentCategory().getUuid())) {
