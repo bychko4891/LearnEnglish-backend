@@ -1,6 +1,6 @@
 package top.e_learn.learnEnglish.utils.dto;
 
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;

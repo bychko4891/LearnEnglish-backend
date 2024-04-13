@@ -40,7 +40,7 @@ public class ApplicationPageController {
             List<ApplicationPage> applicationPageContentList = applicationPageService.getAllAppPages();
             return ResponseEntity.ok(applicationPageContentList);
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/admin/app-pages/new-page")
@@ -49,7 +49,7 @@ public class ApplicationPageController {
         if (principal != null) {
             return ResponseEntity.ok(UUID.randomUUID().toString());
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
 
@@ -65,7 +65,7 @@ public class ApplicationPageController {
                 return ResponseEntity.ok(applicationPage);
             }
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @PutMapping("/admin/app-pages/page/{uuid}")
@@ -91,7 +91,7 @@ public class ApplicationPageController {
                 return ResponseEntity.ok(new MessageResponse( messageSource.getMessage("entity.save.success", null, currentLocale)));
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/page/{url}")

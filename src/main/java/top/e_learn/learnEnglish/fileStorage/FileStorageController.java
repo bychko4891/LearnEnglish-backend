@@ -45,7 +45,7 @@ public class FileStorageController {
 
     @PostMapping("/admin/upload-web-img")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> uploadWebImageFromTinyMce(@RequestPart("imageFile") MultipartFile imageFile,
+    public ResponseEntity<?> uploadWebImageFromTinyMce(@RequestPart("imageFile") MultipartFile imageFile,
                                                  Principal principal) throws IOException {
         if (principal != null) {
             String contentType = imageFile.getContentType();
@@ -56,7 +56,7 @@ public class FileStorageController {
                 return ResponseEntity.ok(fileName);
             } else throw new FileFormatException("Дозволено тільки зображення");
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/audio/{audioFileName:.+}")

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.word;
 
 /**
  * @author: Anatolii Bychko
@@ -8,8 +8,6 @@ package top.e_learn.learnEnglish.service;
  */
 
 import top.e_learn.learnEnglish.utils.dto.DtoWordToUI;
-import top.e_learn.learnEnglish.model.Word;
-import top.e_learn.learnEnglish.repository.WordRepository;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import jakarta.transaction.Transactional;
@@ -20,83 +18,82 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// Буде змінюватись
 @Service
 @RequiredArgsConstructor
 public class WordService {
+
     private final WordRepository wordRepository;
 
-    public Word getWord(Long id) {
-        Optional<Word> wordOptional = wordRepository.findById(id);
-        if (wordOptional.isPresent()) {
-            return wordOptional.get();
-        } else throw new RuntimeException("");
+    public Word getWordByUuid(String uuid) {
+        return wordRepository.findWordByUuid(uuid).orElseThrow(() -> new ObjectNotFoundException("Article with uuid: " + uuid + "not found"));
     }
 
-    public Word getNewWord(Long id) {
+    public Word getWordById(long id) {
+        return wordRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Article with id: " + id + "not found"));
+    }
+
+    public Word getNewWord(String uuid) {
         Word word = new Word();
-        word.setId(id);
+        word.setUuid(uuid);
         word.setName("name");
-//        word.setDescription("Enter text");
         return word;
     }
-
 
     public Page<Word> getWordsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         return wordRepository.findAll(pageable);
     }
 
-    public Long countWords() {
-        return wordRepository.lastId();
-    }
-
-
     @Transactional
     public CustomResponseMessage saveWord(Word wordDB, Word word) {
-        String wordName = StringUtils.normalizeSpace(word.getName()).replaceAll("\\s{2,}", " ");;
-        Optional <Word> wordDuplicate = wordRepository.findWordByNameEqualsIgnoreCase(wordName);
-        if (wordDuplicate.isEmpty() || wordDuplicate.get().getId().equals(wordDB.getId())) {
-            if(wordDB.getAudio().getUsaAudioName() != null &&  wordDB.getAudio().getBrAudioName().equals(wordDB.getAudio().getUsaAudioName())
-                    && word.getAudio().getUsaAudioName() == null && word.getAudio().getBrAudioName() != null
-                    || word.getAudio().getUsaAudioName() != null && word.getAudio().getBrAudioName() == null) {
-                if(word.getAudio().getBrAudioName() != null) {
-                    wordDB.getAudio().setBrAudioName(word.getAudio().getBrAudioName());
-                    wordDB.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
-                }
-                if(word.getAudio().getUsaAudioName() != null) {
-                    wordDB.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
-                    wordDB.getAudio().setUsaAudioName(word.getAudio().getUsaAudioName());
-                }
-            }
-            Optional.ofNullable(word.getAudio().getBrAudioName()).ifPresent(audioName -> wordDB.getAudio().setBrAudioName(audioName));
-            Optional.ofNullable(word.getAudio().getUsaAudioName()).ifPresent(audioName -> wordDB.getAudio().setUsaAudioName(audioName));
-
-            if (wordDB.getAudio().getUsaAudioName() == null && word.getAudio().getBrAudioName() != null)
-                wordDB.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
-
-            if (wordDB.getAudio().getBrAudioName() == null && word.getAudio().getUsaAudioName() != null)
-                wordDB.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
-
-//            Optional.ofNullable(wordName).filter(name -> !name.isEmpty()).ifPresent(wordDB::setName);
-            Optional.of(wordName).ifPresent(wordDB::setName);
-            Optional.ofNullable(word.getTranslate()).ifPresent(wordDB::setTranslate);
-            Optional.ofNullable(word.getBrTranscription()).ifPresent(wordDB::setBrTranscription);
-            Optional.ofNullable(word.getUsaTranscription()).ifPresent(wordDB::setUsaTranscription);
-            Optional.ofNullable(word.getIrregularVerbPt()).ifPresent(wordDB::setIrregularVerbPt);
-            Optional.ofNullable(word.getIrregularVerbPp()).ifPresent(wordDB::setIrregularVerbPp);
-            wordDB.setActiveURL(word.isActiveURL());
-            wordRepository.save(wordDB);
-            return new CustomResponseMessage(Message.SUCCESS_SAVE_WORD_USER);
-        }
-        return new CustomResponseMessage(Message.ERROR_DUPLICATE_TEXT);
+        String wordName = StringUtils.normalizeSpace(word.getName()).replaceAll("\\s{2,}", " ");
+        Optional.of(wordName).ifPresent(wordDB::setName);
+        Optional.ofNullable(word.getTranslate()).ifPresent(wordDB::setTranslate);
+        Optional.ofNullable(word.getBrTranscription()).ifPresent(wordDB::setBrTranscription);
+        Optional.ofNullable(word.getUsaTranscription()).ifPresent(wordDB::setUsaTranscription);
+        Optional.ofNullable(word.getIrregularVerbPt()).ifPresent(wordDB::setIrregularVerbPt);
+        Optional.ofNullable(word.getIrregularVerbPp()).ifPresent(wordDB::setIrregularVerbPp);
+        wordDB.setActiveURL(word.isActiveURL());
+        wordRepository.save(saveAudiosNameToWord(wordDB, word));
+        return new CustomResponseMessage(Message.SUCCESS_SAVE_WORD_USER);
     }
 
+    private Word saveAudiosNameToWord(Word wordDB, Word word) {
+        if (wordDB.getAudio().getUsaAudioName() != null && wordDB.getAudio().getBrAudioName().equals(wordDB.getAudio().getUsaAudioName())
+                && word.getAudio().getUsaAudioName() == null && word.getAudio().getBrAudioName() != null
+                || word.getAudio().getUsaAudioName() != null && word.getAudio().getBrAudioName() == null) {
+            if (word.getAudio().getBrAudioName() != null) {
+                wordDB.getAudio().setBrAudioName(word.getAudio().getBrAudioName());
+                wordDB.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
+            }
+            if (word.getAudio().getUsaAudioName() != null) {
+                wordDB.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
+                wordDB.getAudio().setUsaAudioName(word.getAudio().getUsaAudioName());
+            }
+        }
+        Optional.ofNullable(word.getAudio().getBrAudioName()).ifPresent(audioName -> wordDB.getAudio().setBrAudioName(audioName));
+        Optional.ofNullable(word.getAudio().getUsaAudioName()).ifPresent(audioName -> wordDB.getAudio().setUsaAudioName(audioName));
+
+        if (wordDB.getAudio().getUsaAudioName() == null && word.getAudio().getBrAudioName() != null)
+            wordDB.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
+
+        if (wordDB.getAudio().getBrAudioName() == null && word.getAudio().getUsaAudioName() != null)
+            wordDB.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
+        return wordDB;
+    }
+
+
+    public boolean wordDuplicate(Word word) {
+        String wordName = StringUtils.normalizeSpace(word.getName()).replaceAll("\\s{2,}", " ");
+        Optional<Word> wordDuplicate = wordRepository.findWordByNameEqualsIgnoreCase(wordName);
+        return !(wordDuplicate.isEmpty() || wordDuplicate.get().getId().equals(word.getId()));
+    }
 
     @Transactional
     public CustomResponseMessage saveNewWord(Word word) {
@@ -154,9 +151,6 @@ public class WordService {
     public List<Word> searchWordForPhraseApplication(String searchTerm) {
         return wordRepository.findWordForPhraseApplication(searchTerm);
     }
-
-
-
 
 
 }

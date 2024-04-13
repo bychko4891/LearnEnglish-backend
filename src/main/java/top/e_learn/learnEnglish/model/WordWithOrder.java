@@ -9,6 +9,7 @@ package top.e_learn.learnEnglish.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import top.e_learn.learnEnglish.word.Word;
 
 @Entity
 @Table(name = "words_with_order")

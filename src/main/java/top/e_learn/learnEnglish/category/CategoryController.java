@@ -7,9 +7,17 @@ package top.e_learn.learnEnglish.category;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import jakarta.validation.Valid;
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.BindingResult;
 import top.e_learn.learnEnglish.article.Article;
 import top.e_learn.learnEnglish.article.ArticleService;
 import top.e_learn.learnEnglish.payload.response.GetCategoryResponse;
+import top.e_learn.learnEnglish.utils.CustomFieldError;
+import top.e_learn.learnEnglish.utils.MessageResponse;
+import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
@@ -26,9 +34,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api")
@@ -44,16 +51,18 @@ public class CategoryController {
 
     private final ArticleService articleService;
 
+    private final MessageSource messageSource;
+
 
     @GetMapping("/admin/categories")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @JsonView(JsonViews.ViewAllCategories.class)
-    public ResponseEntity<List<Category>> allCategories(Principal principal) {
+    public ResponseEntity<?> allCategories(Principal principal) {
         if (principal != null) {
             List<Category> categories = categoryService.getAllCategories();
             return ResponseEntity.ok(categories);
         }
-        return ResponseEntity.badRequest().body(new ArrayList<>());
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/admin/category/{uuid}")
@@ -75,7 +84,7 @@ public class CategoryController {
                 return ResponseEntity.ok(new GetCategoryResponse(category, mainCategories));
             }
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
 
@@ -85,15 +94,20 @@ public class CategoryController {
         if (principal != null) {
             return ResponseEntity.ok(UUID.randomUUID().toString());
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @PutMapping("/admin/category/{uuid}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<CustomResponseMessage> savesCategory(@PathVariable String uuid,
+    public ResponseEntity<?> savesCategory(@PathVariable String uuid,
                                                                @RequestPart(value = "image", required = false) MultipartFile imageFile,
-                                                               @RequestPart(value = "category") Category category,
+                                                               @Valid @RequestPart(value = "category") Category category,
+                                                               BindingResult bindingResult,
                                                                Principal principal) throws IOException {
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResultMessages(bindingResult));
+        }
         if (principal != null) {
             if (category.getUuid() != null && category.getParentCategory() != null && category.getUuid().equals(category.getParentCategory().getUuid()))
                 return ResponseEntity.ok(new CustomResponseMessage(Message.ERROR));
@@ -106,18 +120,21 @@ public class CategoryController {
                         fileStorageService.deleteFileFromStorage(categoryDb.getImage().getImageName(), categoryStorePath);
                 }
                 if (category.isMainCategory() && category.getParentCategory() == null) {
-                    return ResponseEntity.ok(categoryService.saveMainCategory(categoryDb, category));
+                    categoryService.saveMainCategory(categoryDb, category);
+                    return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
                 }
-                return ResponseEntity.ok(categoryService.saveSubcategory(categoryDb, category));
+                categoryService.saveSubcategory(categoryDb, category);
+                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
             } catch (ObjectNotFoundException e) {
                 Image image = new Image();
                 if (imageFile != null)
                     image.setImageName(fileStorageService.storeFile(imageFile, categoryStorePath, ""));
                 category.setImage(image);
-                return ResponseEntity.ok(categoryService.saveNewCategory(category));
+                categoryService.saveNewCategory(category);
+                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/category/{uuid}")
@@ -136,5 +153,20 @@ public class CategoryController {
             case "lesson-phrases" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_PHRASES));
             default -> ResponseEntity.badRequest().body("");
         };
+    }
+
+    private Map<String, String> bindingResultMessages(BindingResult bindingResult) {
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        List<CustomFieldError> errorFields = new ArrayList<>();
+        try {
+            errorFields = bindingResult.getFieldErrors().stream()
+                    .map(fieldError -> new CustomFieldError(fieldError.getField(), messageSource.getMessage(fieldError.getDefaultMessage(), null, currentLocale)))
+                    .collect(Collectors.toList());
+            return ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields);
+        } catch (NoSuchMessageException e) {
+            errorFields.clear();
+            errorFields.add(new CustomFieldError("serverError", messageSource.getMessage("server.error", null, currentLocale)));
+            return ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields);
+        }
     }
 }

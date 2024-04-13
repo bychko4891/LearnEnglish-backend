@@ -8,11 +8,11 @@
 // */
 //
 //import top.e_learn.learnEnglish.model.UserContextHolder;
-//import top.e_learn.learnEnglish.model.Word;
+//import top.e_learn.learnEnglish.word.Word;
 //import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.service.PageApplicationService;
 //import top.e_learn.learnEnglish.user.UserService;
-//import top.e_learn.learnEnglish.service.WordService;
+//import top.e_learn.learnEnglish.word.WordService;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.data.domain.Page;
 //import org.springframework.stereotype.Controller;

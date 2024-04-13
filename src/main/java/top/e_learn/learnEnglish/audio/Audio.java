@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.audio;
 
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Setter
 @Table(name = "audio")
 public class Audio implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -28,12 +29,6 @@ public class Audio implements Serializable {
     @Column
     @JsonView(JsonViews.ViewFieldName.class)
     private String usaAudioName;
-
-//    @OneToOne(mappedBy = "audio")
-//    private Word word;
-
-//    @OneToOne(mappedBy = "audio")
-//    private TranslationPair translationPair;
 
     public Audio() {
     }

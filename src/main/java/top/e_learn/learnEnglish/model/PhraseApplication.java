@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import top.e_learn.learnEnglish.audio.Audio;
 
 import java.util.ArrayList;
 import java.util.List;

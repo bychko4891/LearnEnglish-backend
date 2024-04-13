@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.vocabularyPage;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.e_learn.learnEnglish.service.WordService;
+import top.e_learn.learnEnglish.word.WordService;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,7 +54,7 @@ public class VocabularyPageService {
     @Transactional
     public CustomResponseMessage saveVocabularyPage(VocabularyPage vocabularyPageDB, VocabularyPage vocabularyPage) {
         if(!vocabularyPage.getWord().getId().equals(vocabularyPageDB.getWord().getId())) {
-            Word word = wordService.getWord(vocabularyPage.getWord().getId());
+            Word word = wordService.getWordById(vocabularyPage.getWord().getId());
             vocabularyPageDB.setWord(word);
             vocabularyPageDB.setName(word.getName());
         }
@@ -74,7 +74,7 @@ public class VocabularyPageService {
 
     @Transactional
     public CustomResponseMessage saveNewVocabularyPage(VocabularyPage vocabularyPage) {
-        Word word = wordService.getWord(vocabularyPage.getWord().getId());
+        Word word = wordService.getWordById(vocabularyPage.getWord().getId());
         vocabularyPage.setName(word.getName());
         vocabularyPage.setWord(word);
         if(vocabularyPage.getCategory().getId() == 0) vocabularyPage.setCategory(null);

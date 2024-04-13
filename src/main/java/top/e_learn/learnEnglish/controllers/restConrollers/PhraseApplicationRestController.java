@@ -29,7 +29,7 @@ public class PhraseApplicationRestController {
 
     @PostMapping("/phrase-application-save")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<CustomResponseMessage> savePhraseApplication(@RequestBody PhraseApplication phraseApplication,
+    public ResponseEntity<?> savePhraseApplication(@RequestBody PhraseApplication phraseApplication,
                                                                        Principal principal) {
         if (principal != null) {
             try {
@@ -40,7 +40,7 @@ public class PhraseApplicationRestController {
             }
 //            return ResponseEntity.ok(wordLessonService.saveWordLesson(dtoWordLesson));
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
 }

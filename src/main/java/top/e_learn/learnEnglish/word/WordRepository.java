@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.repository;
+package top.e_learn.learnEnglish.word;
 
 /**
  * @author: Anatolii Bychko
@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.repository;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -20,8 +20,8 @@ import java.util.Optional;
 
 @Repository
 public interface WordRepository extends CrudRepository<Word, Long> {
-    @Query("SELECT MAX(w.id) FROM Word  w")
-    Long lastId();
+
+    Optional<Word> findWordByUuid(String uuid);
 
     @Query("SELECT w FROM Word w ORDER BY w.id ASC")
     Page<Word> findAll(Pageable pageable);

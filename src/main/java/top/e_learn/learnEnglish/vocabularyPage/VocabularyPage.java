@@ -10,7 +10,7 @@ package top.e_learn.learnEnglish.vocabularyPage;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.model.PhraseApplication;
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;

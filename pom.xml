@@ -78,11 +78,6 @@
 			<version>2.13.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.webjars.npm</groupId>
-			<artifactId>tinymce</artifactId>
-			<version>6.8.2</version>
-		</dependency>
-		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 			<version>3.1.2.RELEASE</version>

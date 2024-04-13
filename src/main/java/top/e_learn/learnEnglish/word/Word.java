@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.word;
 
 /**
  * @author: Anatolii Bychko
@@ -7,6 +7,7 @@ package top.e_learn.learnEnglish.model;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import top.e_learn.learnEnglish.audio.Audio;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
@@ -18,11 +19,15 @@ import java.io.Serializable;
 @Table(name = "words")
 @Data
 public class Word implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     @JsonView(JsonViews.ViewWordId.class)
     private Long id;
+
+    @Column
+    private String uuid;
 
     @Column
     @JsonView(JsonViews.ViewFieldName.class)

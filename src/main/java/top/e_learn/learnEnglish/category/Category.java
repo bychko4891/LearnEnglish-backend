@@ -35,6 +35,7 @@ public class Category implements Serializable {
     private String uuid;
 
     @Column
+    @Size(max = 360, message = "page.bad.size")
     private String name;
 
     @Column(name = "description", columnDefinition = "text")

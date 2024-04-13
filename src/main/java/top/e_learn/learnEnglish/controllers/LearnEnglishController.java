@@ -16,11 +16,11 @@
 //import org.springframework.web.bind.annotation.RequestParam;
 //import top.e_learn.learnEnglish.category.Category;
 //import top.e_learn.learnEnglish.model.MiniStory;
-//import top.e_learn.learnEnglish.model.Word;
+//import top.e_learn.learnEnglish.word.Word;
 //import top.e_learn.learnEnglish.category.CategoryService;
 //import top.e_learn.learnEnglish.service.MiniStoryService;
 //import top.e_learn.learnEnglish.service.PageApplicationService;
-//import top.e_learn.learnEnglish.service.WordService;
+//import top.e_learn.learnEnglish.word.WordService;
 //
 //import java.util.List;
 //

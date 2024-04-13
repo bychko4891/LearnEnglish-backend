@@ -58,7 +58,7 @@ public class ArticleController {
         if (principal != null) {
             return ResponseEntity.ok(articleService.getAllArticles());
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/admin/articles/new-article")
@@ -67,7 +67,7 @@ public class ArticleController {
         if (principal != null) {
             return ResponseEntity.ok(UUID.randomUUID().toString());
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/admin/article/{uuid}")
@@ -83,7 +83,7 @@ public class ArticleController {
                 return ResponseEntity.ok(new GetArticleResponse(newArticle, mainCategories));
             }
         }
-        return ResponseEntity.badRequest().body("Access denied");
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/article/{uuid}")
@@ -124,7 +124,7 @@ public class ArticleController {
                 return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
 

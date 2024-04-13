@@ -48,7 +48,7 @@ public class VocabularyPageController {
 
     @PostMapping("/admin/vocabulary-page/save")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<CustomResponseMessage> vocabularyPageSave(@RequestPart(value = "image", required = false) MultipartFile imageFile,
+    public ResponseEntity<?> vocabularyPageSave(@RequestPart(value = "image", required = false) MultipartFile imageFile,
                                                                     @RequestPart(value = "vocabularyPage") VocabularyPage vocabularyPage,
                                                                     Principal principal) throws RuntimeException, IOException {
         if (principal != null) {
@@ -79,18 +79,18 @@ public class VocabularyPageController {
                 return ResponseEntity.ok(vocabularyPageService.saveNewVocabularyPage(vocabularyPage));
             }
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/admin/search-vocabulary-page-for-lesson")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @JsonView(JsonViews.ViewIdAndName.class)
-    public ResponseEntity<List<VocabularyPage>> searchWordForVocabularyPage(@RequestParam("searchTerm") String searchTerm, Principal principal) {
+    public ResponseEntity<?> searchWordForVocabularyPage(@RequestParam("searchTerm") String searchTerm, Principal principal) {
         if (!searchTerm.isBlank() && principal != null) {
             List<VocabularyPage> vocabularyPageList = vocabularyPageService.searchVocabularyPageForWordLesson(searchTerm);
             return ResponseEntity.ok(vocabularyPageList);
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @PostMapping("/vocabulary-page/{id}/verify-user-word")

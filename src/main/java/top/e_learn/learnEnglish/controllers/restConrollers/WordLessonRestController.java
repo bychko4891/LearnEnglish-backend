@@ -32,7 +32,7 @@ public class WordLessonRestController {
 
     @PostMapping("/admin/word-lesson/save")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<CustomResponseMessage> saveWordLesson(@RequestBody WordLesson wordLesson, Principal principal) {
+    public ResponseEntity<?> saveWordLesson(@RequestBody WordLesson wordLesson, Principal principal) {
         if (principal != null) {
             try {
                 WordLesson wordLessonDB = wordLessonService.getWordLesson(wordLesson.getId());
@@ -42,7 +42,7 @@ public class WordLessonRestController {
             }
 
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/word-lesson/{id}/start-lesson")

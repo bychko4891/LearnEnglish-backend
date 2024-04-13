@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.audio;
 
 /**
  * @author: Anatolii Bychko
@@ -7,7 +7,6 @@ package top.e_learn.learnEnglish.service;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.repository.AudioRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 

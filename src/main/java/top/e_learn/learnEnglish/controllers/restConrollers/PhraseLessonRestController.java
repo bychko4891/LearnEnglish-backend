@@ -29,7 +29,7 @@ public class PhraseLessonRestController {
 
     @PostMapping("/admin/phrase-lessons/phrase-lesson-save/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<CustomResponseMessage> phraseLessonSave(@PathVariable(name = "id") long id,
+    public ResponseEntity<?> phraseLessonSave(@PathVariable(name = "id") long id,
                                                                   @RequestBody PhraseLesson phraseLesson,
                                                                   Principal principal) {
         if (principal != null) {
@@ -44,7 +44,7 @@ public class PhraseLessonRestController {
 ////            return ResponseEntity.ok(phraseLessonService.saveLesson(phraseLesson)); // Додати перевірку на новий чи вже існуючий !!!!!
         return null;
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(403).body("Access denied");
     }
 
 }

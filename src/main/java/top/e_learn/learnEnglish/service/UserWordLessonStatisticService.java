@@ -1,6 +1,6 @@
 package top.e_learn.learnEnglish.service;
 
-/*
+/**
  * @author: Anatolii Bychko
  * Application Name: Learn English
  * Description: My Description
@@ -9,7 +9,7 @@ package top.e_learn.learnEnglish.service;
 
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatistic;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatisticToUi;
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.model.WordLesson;
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.model.users.UserWordLessonStatistic;
@@ -18,10 +18,11 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.word.WordService;
 
 import java.util.ArrayList;
 import java.util.List;
-// Буде змінюватись
+
 @Service
 @RequiredArgsConstructor
 public class UserWordLessonStatisticService {
@@ -37,7 +38,7 @@ public class UserWordLessonStatisticService {
 
     public void saveUserWordLessonStatistic(DtoUserWordLessonStatistic dtoUserWordLessonStatistics) {
         UserWordLessonStatistic userWordLessonStatistic = new UserWordLessonStatistic();
-        Word word = wordService.getWord(dtoUserWordLessonStatistics.getWordId());
+        Word word = wordService.getWordById(dtoUserWordLessonStatistics.getWordId());
         WordLesson wordLesson = wordLessonService.getWordLesson(dtoUserWordLessonStatistics.getWordLessonId());
         userWordLessonStatistic.setUser(dtoUserWordLessonStatistics.getUser());
         userWordLessonStatistic.setWordLesson(wordLesson);

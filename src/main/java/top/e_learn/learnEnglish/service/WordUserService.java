@@ -1,6 +1,6 @@
 package top.e_learn.learnEnglish.service;
 
-/*
+/**
  * @author: Anatolii Bychko
  * Application Name: Learn English
  * Description: My Description
@@ -8,7 +8,7 @@ package top.e_learn.learnEnglish.service;
  */
 
 
-import top.e_learn.learnEnglish.model.Word;
+import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.model.WordUser;
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.repository.WordUserRepository;
@@ -16,9 +16,9 @@ import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.word.WordService;
 
 import java.util.Optional;
-// Не Буде змінюватись
 @Service
 @RequiredArgsConstructor
 public class WordUserService {
@@ -30,7 +30,7 @@ public class WordUserService {
         Optional<WordUser> wordUserOptional = wordUserRepository.findWordUserByUserIdAndWordId(user.getId(), wordId);
         if(wordUserOptional.isEmpty()) {
             WordUser wordUser = new WordUser();
-            Word word = wordService.getWord(wordId);
+            Word word = wordService.getWordById(wordId);
             wordUser.setUser(user);
             wordUser.setWord(word);
             wordUser.setRepeatable(true);
