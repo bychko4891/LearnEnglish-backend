@@ -42,6 +42,7 @@ public class WordService {
         Word word = new Word();
         word.setUuid(uuid);
         word.setName("name");
+        word.setTranslate("translate");
         return word;
     }
 
@@ -98,18 +99,13 @@ public class WordService {
     @Transactional
     public CustomResponseMessage saveNewWord(Word word) {
         String wordName = StringUtils.normalizeSpace(word.getName()).replaceAll("\\s{2,}", " ");
-        if (!wordRepository.existsWordByNameEqualsIgnoreCase(wordName)) {
-            if (word.getAudio().getUsaAudioName() == null || word.getAudio().getBrAudioName() == null) {
-                if (word.getAudio().getUsaAudioName() == null)
-                    word.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
-                if (word.getAudio().getBrAudioName() == null)
-                    word.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
-            }
-            word.setName(wordName);
-            wordRepository.save(word);
-            return new CustomResponseMessage(Message.SUCCESS_SAVE_WORD_USER);
-        }
-        return new CustomResponseMessage(Message.ERROR_DUPLICATE_TEXT);
+        if (word.getAudio().getUsaAudioName() == null)
+            word.getAudio().setUsaAudioName(word.getAudio().getBrAudioName());
+        if (word.getAudio().getBrAudioName() == null)
+            word.getAudio().setBrAudioName(word.getAudio().getUsaAudioName());
+        word.setName(wordName);
+        wordRepository.save(word);
+        return new CustomResponseMessage(Message.SUCCESS_SAVE_WORD_USER);
     }
 
 

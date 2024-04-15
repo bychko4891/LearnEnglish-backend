@@ -88,7 +88,7 @@ public class WordController {
                                       @RequestPart(value = "br", required = false) MultipartFile brAudio,
                                       @RequestPart(value = "usa", required = false) MultipartFile usaAudio,
                                       @RequestPart(value = "word") Word word,
-                                      Principal principal) throws RuntimeException, IOException {
+                                      Principal principal) throws  IOException {
         if (principal != null) {
             if (word.getName() == null || word.getName().isEmpty())
                 return ResponseEntity.ok(new CustomResponseMessage(Message.ERROR_REQUIRED_FIELD));
@@ -114,9 +114,9 @@ public class WordController {
                 Audio audio = new Audio();
                 audio.setName(word.getName());
                 if (brAudio != null)
-                    audio.setBrAudioName(fileStorageService.storeFile(brAudio, audioStorePath, word.getName()));
+                    audio.setBrAudioName(fileStorageService.storeFile(brAudio, audioStorePath, word.getName() + "_br_"));
                 if (usaAudio != null)
-                    audio.setBrAudioName(fileStorageService.storeFile(usaAudio, audioStorePath, word.getName()));
+                    audio.setUsaAudioName(fileStorageService.storeFile(usaAudio, audioStorePath, word.getName() + "_usa_"));
                 word.setAudio(audio);
                 return ResponseEntity.ok(wordService.saveNewWord(word));
             }
