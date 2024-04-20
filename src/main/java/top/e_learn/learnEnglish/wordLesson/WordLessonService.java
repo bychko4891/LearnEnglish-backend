@@ -1,11 +1,9 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.wordLesson;
 
-import top.e_learn.learnEnglish.model.WordInWordLesson;
+import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLesson;
 import top.e_learn.learnEnglish.user.User;
-import top.e_learn.learnEnglish.model.WordLesson;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.category.CategoryRepository;
-import top.e_learn.learnEnglish.repository.WordLessonRepository;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import jakarta.transaction.Transactional;

@@ -15,6 +15,7 @@ import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatistic;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatisticToUi;
 import top.e_learn.learnEnglish.utils.dto.DtoWordToUI;
 import top.e_learn.learnEnglish.word.WordService;
+import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 
 import java.security.Principal;
 import java.util.List;

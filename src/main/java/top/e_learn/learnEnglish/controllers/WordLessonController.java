@@ -17,12 +17,12 @@
 //import org.springframework.web.bind.annotation.RequestParam;
 //import top.e_learn.learnEnglish.category.Category;
 //import top.e_learn.learnEnglish.category.CategoryPage;
-//import top.e_learn.learnEnglish.model.WordLesson;
+//import top.e_learn.learnEnglish.wordLesson.WordLesson;
 //import top.e_learn.learnEnglish.user.User;
 //import top.e_learn.learnEnglish.category.CategoryService;
 //import top.e_learn.learnEnglish.user.UserService;
-//import top.e_learn.learnEnglish.service.WordInWordLessonService;
-//import top.e_learn.learnEnglish.service.WordLessonService;
+//import top.e_learn.learnEnglish.word.wordInWordLesson.WordInWordLessonService;
+//import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 //
 //import java.security.Principal;
 //import java.util.ArrayList;

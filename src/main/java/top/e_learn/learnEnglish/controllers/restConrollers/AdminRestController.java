@@ -19,6 +19,7 @@ import top.e_learn.learnEnglish.service.*;
 import top.e_learn.learnEnglish.user.UserService;
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairToUI;
 import top.e_learn.learnEnglish.utils.dto.DtoTranslationPairsPage;
+import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 
 import java.security.Principal;
 import java.util.List;

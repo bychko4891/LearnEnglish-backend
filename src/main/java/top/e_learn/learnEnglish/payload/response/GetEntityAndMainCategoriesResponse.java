@@ -9,21 +9,20 @@ package top.e_learn.learnEnglish.payload.response;
 
 import lombok.Getter;
 import lombok.Setter;
-import top.e_learn.learnEnglish.article.Article;
 import top.e_learn.learnEnglish.category.Category;
 
 import java.util.List;
 
 @Getter
 @Setter
-public class GetArticleResponse {
+public class GetEntityAndMainCategoriesResponse<T> {
 
-    private Article article;
+    private T t;
 
     private List<Category> mainCategories;
 
-    public GetArticleResponse(Article article, List<Category> mainCategories) {
-        this.article = article;
+    public GetEntityAndMainCategoriesResponse(T t, List<Category> mainCategories) {
+        this.t = t;
         this.mainCategories = mainCategories;
     }
 

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.wordInWordLesson;
 
 /**
  * @author: Anatolii Bychko
@@ -8,8 +8,6 @@ package top.e_learn.learnEnglish.service;
  */
 
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
-import top.e_learn.learnEnglish.model.WordInWordLesson;
-import top.e_learn.learnEnglish.repository.WordInWordLessonRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.data.domain.Page;
@@ -43,14 +41,14 @@ public class WordInWordLessonService {
     public List<WordInWordLesson> wordInWordLessonsToWordLessonAudit(List<Long> wordsId, int wordAuditCounter) {
         List<WordInWordLesson> wordInWordLessons = repository.findByIds(wordsId);
         for (int i = 0; i < wordInWordLessons.size(); i++) {
-            wordInWordLessons.get(i).setTotalPage(wordAuditCounter);
+//            wordInWordLessons.get(i).setTotalPage(wordAuditCounter);
         }
         return wordInWordLessons;
     }
 
     public WordInWordLesson getWordForWordLessonAudit(long wordInWordLessonId, int wordAuditCounter, int wordsIdListLength) {
         WordInWordLesson wordInWordLesson = getWordInWordLesson(wordInWordLessonId);
-        wordInWordLesson.setTotalPage(wordAuditCounter - 1);
+//        wordInWordLesson.setTotalPage(wordAuditCounter - 1);
         int count = (int) (Math.random() * 10);
         if (count % 2 != 0 && wordsIdListLength > 2) {
             wordInWordLesson.setWordAuditSlide("slideAuditRadios");

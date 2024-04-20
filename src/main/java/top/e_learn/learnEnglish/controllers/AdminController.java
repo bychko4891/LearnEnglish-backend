@@ -38,17 +38,6 @@
 //    private final WayForPayModuleService wayForPayModuleService;
 //
 //
-//    @GetMapping
-//    public String adminPage(Principal principal, Model model) {
-//        if (principal != null) {
-//            model.addAttribute("wayForPaySettings", wayForPayModuleService.getWayForPayModule());
-//
-//            return "admin/mainAdmin";
-//        }
-//        return "redirect:/login";
-//    }
-//
-
 //
 //    @GetMapping("/users")
 //    public String usersListAdminPage(Model model,

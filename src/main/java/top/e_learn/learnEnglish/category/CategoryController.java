@@ -90,7 +90,7 @@ public class CategoryController {
 
     @GetMapping("/admin/categories/new-category")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<String> nwCategory(Principal principal) {
+    public ResponseEntity<String> newCategory(Principal principal) {
         if (principal != null) {
             return ResponseEntity.ok(UUID.randomUUID().toString());
         }
@@ -147,7 +147,7 @@ public class CategoryController {
     @GetMapping("/category/main-categories")
     public ResponseEntity<?> getMainCategoriesByPage(@RequestParam (name = "categoryPage") String categoryPage) {
         return switch (categoryPage) {
-            case "vocabulary" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.VOCABULARY_PAGE));
+            case "dictionary" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.DICTIONARY_PAGE));
             case "stories" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.MINI_STORIES));
             case "lesson-words" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_WORDS));
             case "lesson-phrases" -> ResponseEntity.ok(categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_PHRASES));

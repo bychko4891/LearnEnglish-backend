@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.wordInWordLesson;
 
 /**
  * @author: Anatolii Bychko
@@ -11,7 +11,8 @@ import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.Data;
-import top.e_learn.learnEnglish.vocabularyPage.VocabularyPage;
+import top.e_learn.learnEnglish.dictionaryPage.DictionaryPage;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
 
 @Entity
 @Table(name = "words_in_word_lesson")
@@ -21,8 +22,11 @@ public class WordInWordLesson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-//    @JsonView(JsonViews.ViewFieldId.class)
     private Long id;
+
+    @Column(columnDefinition = "text")
+    @JsonView(JsonViews.ViewFieldUUID.class)
+    private String cardInfo;
 
     @ManyToOne
     @JoinColumn(name = "word_lesson_id")
@@ -32,14 +36,11 @@ public class WordInWordLesson {
     @ManyToOne
     @JoinColumn(name = "vocabulary_page_id", referencedColumnName = "id")
     @JsonView(JsonViews.ViewFieldWord.class)
-    private VocabularyPage vocabularyPage;
+    private DictionaryPage dictionaryPage;
 
     @Column(name = "list_order")
     private Integer listOrder;
 
-    @Transient
-    @JsonView(JsonViews.ViewFieldOther.class)
-    private int totalPage;
 
     @Transient
     @JsonView(JsonViews.ViewFieldOther.class)

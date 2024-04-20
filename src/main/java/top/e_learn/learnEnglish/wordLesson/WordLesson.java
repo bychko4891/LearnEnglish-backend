@@ -1,6 +1,6 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.wordLesson;
 
-/*
+/**
  * @author: Anatolii Bychko
  * Application Name: Learn English
  * Description: My Description
@@ -8,6 +8,7 @@ package top.e_learn.learnEnglish.model;
  */
 
 import top.e_learn.learnEnglish.category.Category;
+import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLesson;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -51,7 +52,6 @@ public class WordLesson implements Serializable {
 
     @Transient
     private UserWordLessonProgress userWordLessonProgress;
-
 
     public WordLesson() {
     }

@@ -1,11 +1,8 @@
-package top.e_learn.learnEnglish.controllers.restConrollers;
+package top.e_learn.learnEnglish.wordLesson;
 
 import top.e_learn.learnEnglish.utils.dto.DtoWordToUI;
-import top.e_learn.learnEnglish.model.WordInWordLesson;
-import top.e_learn.learnEnglish.model.WordLesson;
-import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
-import top.e_learn.learnEnglish.service.WordInWordLessonService;
-import top.e_learn.learnEnglish.service.WordLessonService;
+import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLesson;
+import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLessonService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.servlet.http.HttpSession;
@@ -22,7 +19,7 @@ import java.util.List;
 
 @RestController
 @Data
-public class WordLessonRestController {
+public class WordLessonController {
 
     private final WordInWordLessonService wordInWordLessonService;
 
@@ -67,7 +64,7 @@ public class WordLessonRestController {
             Page<WordInWordLesson> wordsFromLesson = wordInWordLessonService.wordsFromWordLesson(page, size, wordLessonId);
             List<WordInWordLesson> words = wordsFromLesson.getContent();
             WordInWordLesson word = words.get(0);
-            word.setTotalPage(wordsFromLesson.getTotalPages());
+//            word.setTotalPage(wordsFromLesson.getTotalPages());
             return ResponseEntity.ok(word);
         }
         return ResponseEntity.notFound().build();

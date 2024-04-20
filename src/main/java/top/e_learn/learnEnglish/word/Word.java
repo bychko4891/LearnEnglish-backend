@@ -7,11 +7,12 @@ package top.e_learn.learnEnglish.word;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.audio.Audio;
-import top.e_learn.learnEnglish.utils.JsonViews;
-import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
+import top.e_learn.learnEnglish.audio.Audio;
 
 import java.io.Serializable;
 
@@ -23,14 +24,16 @@ public class Word implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
-    @JsonView(JsonViews.ViewWordId.class)
     private Long id;
 
     @Column
     private String uuid;
 
     @Column
-    @JsonView(JsonViews.ViewFieldName.class)
+    @NotNull(message = "field.input.notnull")
+    @Size(min = 1,max = 45, message = "word.name.size")
+    @Pattern(regexp = "^\\S*$", message = "field.input.spaces")
+    @Pattern(regexp = "(^[a-zA-Z`']+$)|(^[a-zA-Z]+-[a-zA-Z]+$)", message = "word.name.pattern")
     private String name;
 
     @Column
@@ -40,7 +43,6 @@ public class Word implements Serializable {
     private String brTranscription;
 
     @Column
-    @JsonView(JsonViews.ViewFieldOther.class)
     private String usaTranscription;
 
     @Column
@@ -54,7 +56,6 @@ public class Word implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "audio_id")
-    @JsonView(JsonViews.ViewFieldAudio.class)
     private Audio audio;
 
 

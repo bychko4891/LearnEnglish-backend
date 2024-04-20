@@ -136,8 +136,7 @@ public class UserController {
             return ResponseEntity.ok(new MessageResponse(success));
         }
         String error = messageSource.getMessage("user.bad.email.forgot.password", null, currentLocale);
-        MessageResponse message = new MessageResponse(error);
-        return ResponseEntity.status(404).body(message);
+        return ResponseEntity.status(404).body(new MessageResponse(error));
     }
 
     @PostMapping("/user/{id}/user-text-check")

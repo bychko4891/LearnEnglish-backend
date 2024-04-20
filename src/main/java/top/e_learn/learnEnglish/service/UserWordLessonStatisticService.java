@@ -10,7 +10,7 @@ package top.e_learn.learnEnglish.service;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatistic;
 import top.e_learn.learnEnglish.utils.dto.DtoUserWordLessonStatisticToUi;
 import top.e_learn.learnEnglish.word.Word;
-import top.e_learn.learnEnglish.model.WordLesson;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.model.users.UserWordLessonStatistic;
 import top.e_learn.learnEnglish.repository.UserWordLessonStatisticRepository;
@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import top.e_learn.learnEnglish.word.WordService;
+import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 
 import java.util.ArrayList;
 import java.util.List;

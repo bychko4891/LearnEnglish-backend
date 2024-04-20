@@ -22,10 +22,7 @@ import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.category.CategoryService;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.model.Image;
-import top.e_learn.learnEnglish.payload.response.GetArticleResponse;
-import top.e_learn.learnEnglish.payload.response.GetCategoryResponse;
-import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
-import top.e_learn.learnEnglish.responsemessage.Message;
+import top.e_learn.learnEnglish.payload.response.GetEntityAndMainCategoriesResponse;
 import top.e_learn.learnEnglish.utils.CustomFieldError;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
@@ -77,10 +74,10 @@ public class ArticleController {
             List<Category> mainCategories = categoryService.getMainCategories(true);
             try {
                 Article article = articleService.getArticleByUuid(uuid);
-                return ResponseEntity.ok(new GetArticleResponse(article, mainCategories));
+                return ResponseEntity.ok(new GetEntityAndMainCategoriesResponse<>(article, mainCategories));
             } catch (ObjectNotFoundException e) {
                 Article newArticle = articleService.getNewArticle(uuid);
-                return ResponseEntity.ok(new GetArticleResponse(newArticle, mainCategories));
+                return ResponseEntity.ok(new GetEntityAndMainCategoriesResponse<>(newArticle, mainCategories));
             }
         }
         return ResponseEntity.status(403).body("Access denied");

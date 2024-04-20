@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.vocabularyPage;
+package top.e_learn.learnEnglish.dictionaryPage;
 
 /**
  * @author: Anatolii Bychko
@@ -7,6 +7,7 @@ package top.e_learn.learnEnglish.vocabularyPage;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import jakarta.validation.constraints.Size;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.model.PhraseApplication;
@@ -20,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "vocabulary_page")
+@Table(name = "dictionary_page")
 @Data
-public class VocabularyPage {
+public class DictionaryPage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +38,15 @@ public class VocabularyPage {
     private String name;
 
     @Column(columnDefinition = "text")
-    @JsonView(JsonViews.ViewFieldUUID.class)
-    private String cardInfo;
-
-    @Column(columnDefinition = "text")
     private String description;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagDescription;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagTitle;
 
     @Column
     private boolean published = false;

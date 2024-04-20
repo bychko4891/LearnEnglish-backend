@@ -12,6 +12,7 @@ import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.repository.UserWordLessonProgressRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 
 import java.util.Optional;
 // Не Буде змінюватись

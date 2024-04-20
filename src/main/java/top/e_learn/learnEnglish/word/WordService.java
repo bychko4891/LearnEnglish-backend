@@ -134,8 +134,7 @@ public class WordService {
 
     @Transactional
     public List<Word> searchWordToAdminPage(String searchTerm) {
-//        return wordRepository.findWordToAdmin(searchTerm);
-        return null;
+        return wordRepository.findWordToAdmin(searchTerm);
     }
 
     @Transactional

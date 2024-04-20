@@ -7,7 +7,7 @@ package top.e_learn.learnEnglish.model.users;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.model.WordLesson;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
