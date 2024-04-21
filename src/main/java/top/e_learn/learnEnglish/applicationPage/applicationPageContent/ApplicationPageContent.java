@@ -22,6 +22,7 @@ import java.util.Set;
 @Data
 @JsonSerialize(using = CustomAppPageContentSerializer.class)
 public class ApplicationPageContent implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

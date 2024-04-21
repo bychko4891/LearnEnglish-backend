@@ -7,6 +7,7 @@ package top.e_learn.learnEnglish.dictionaryPage;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import top.e_learn.learnEnglish.category.CategoryService;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
@@ -28,6 +29,8 @@ import java.util.Optional;
 public class DictionaryPageService {
 
     private final DictionaryPageRepository dictionaryPageRepository;
+
+    private final CategoryService categoryService;
 
     private final WordService wordService;
 
@@ -57,7 +60,7 @@ public class DictionaryPageService {
     }
 
     @Transactional
-    public CustomResponseMessage saveDictionaryPage(DictionaryPage dictionaryPageDB, DictionaryPage dictionaryPage) {
+    public void saveDictionaryPage(DictionaryPage dictionaryPageDB, DictionaryPage dictionaryPage) {
         if(!dictionaryPage.getWord().getId().equals(dictionaryPageDB.getWord().getId())) {
             Word word = wordService.getWordById(dictionaryPage.getWord().getId());
             dictionaryPageDB.setWord(word);
@@ -74,19 +77,18 @@ public class DictionaryPageService {
             }
         }
         dictionaryPageRepository.save(dictionaryPageDB);
-        return new CustomResponseMessage(Message.SUCCESS_SAVE_WORD_USER);
     }
 
     @Transactional
-    public CustomResponseMessage saveNewDictionaryPage(DictionaryPage dictionaryPage) {
-        Word word = wordService.getWordById(dictionaryPage.getWord().getId());
+    public void saveNewDictionaryPage(DictionaryPage dictionaryPage) {
+        Word word = wordService.getWordByUuid(dictionaryPage.getWord().getUuid());
         dictionaryPage.setName(word.getName());
         dictionaryPage.setWord(word);
-        if(dictionaryPage.getCategory().getId() == 0) dictionaryPage.setCategory(null);
-        if(dictionaryPage.getWord().getId() == null ) dictionaryPage.setWord(null);
+        if(dictionaryPage.getCategory() != null) {
+            dictionaryPage.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getUuid()));
+        }
         //TODO : Add phrases Application
         dictionaryPageRepository.save(dictionaryPage);
-        return new CustomResponseMessage(Message.ADD_BASE_SUCCESS);
     }
 
     public boolean existDictionaryPageByName(String vocabularyPageName) {

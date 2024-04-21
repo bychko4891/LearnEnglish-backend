@@ -21,7 +21,7 @@ public class WordInWordLesson {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column
     private Long id;
 
     @Column(columnDefinition = "text")
@@ -34,7 +34,7 @@ public class WordInWordLesson {
     private WordLesson wordLesson;
 
     @ManyToOne
-    @JoinColumn(name = "vocabulary_page_id", referencedColumnName = "id")
+    @JoinColumn(name = "dictionary_page_id", referencedColumnName = "id")
     @JsonView(JsonViews.ViewFieldWord.class)
     private DictionaryPage dictionaryPage;
 

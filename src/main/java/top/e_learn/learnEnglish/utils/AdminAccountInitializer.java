@@ -7,26 +7,23 @@ package top.e_learn.learnEnglish.utils;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
-import top.e_learn.learnEnglish.model.Image;
-import top.e_learn.learnEnglish.model.WayForPayModule;
-import top.e_learn.learnEnglish.user.Role;
-import top.e_learn.learnEnglish.user.User;
-import top.e_learn.learnEnglish.user.UserGender;
-import top.e_learn.learnEnglish.user.statistics.UserStatistics;
-import top.e_learn.learnEnglish.user.UserRepository;
-import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
-import top.e_learn.learnEnglish.service.WayForPayModuleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
+import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
+import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.model.WayForPayModule;
+import top.e_learn.learnEnglish.service.WayForPayModuleService;
+import top.e_learn.learnEnglish.user.Role;
+import top.e_learn.learnEnglish.user.User;
+import top.e_learn.learnEnglish.user.UserGender;
+import top.e_learn.learnEnglish.user.UserRepository;
+import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.UUID;
 
 @Component
@@ -39,15 +36,16 @@ public class AdminAccountInitializer implements ApplicationRunner {
     @Value(("${user.admin.password}"))
     private String adminPassword;
 
-
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final ApplicationPageService applicationPageService;
 
     private final WayForPayModuleService wayForPayModuleService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         if (userRepository.count() == 0) {
             User admin = new User();
             admin.setLogin("Admin");
@@ -58,10 +56,10 @@ public class AdminAccountInitializer implements ApplicationRunner {
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.getUserRole().add(Role.ROLE_ADMIN);
             admin.getGender().add(UserGender.MALE);
-            UserStatistics userStatistics = new UserStatistics();
-            userStatistics.setStudyTimeInTwoWeeks(new ArrayList<>(Arrays.asList(0)));
-            userStatistics.setTrainingDaysInMonth(new ArrayList<>(Arrays.asList(LocalDate.now())));
-            admin.setStatistics(userStatistics);
+//            UserStatistics userStatistics = new UserStatistics();
+//            userStatistics.setStudyTimeInTwoWeeks(new ArrayList<>(Arrays.asList(0)));
+//            userStatistics.setTrainingDaysInMonth(new ArrayList<>(Arrays.asList(LocalDate.now())));
+            admin.setStatistics(new UserStatistics());
             Image image = new Image();
             image.setImageName("no-avatar.png");
             admin.setUserAvatar(image);
@@ -82,10 +80,10 @@ public class AdminAccountInitializer implements ApplicationRunner {
         demo.setPassword(passwordEncoder.encode("demo"));
         demo.getUserRole().add(Role.ROLE_DEMO);
         demo.getGender().add(UserGender.MALE);
-        UserStatistics userStatistics = new UserStatistics();
-        userStatistics.setStudyTimeInTwoWeeks(new ArrayList<>(Arrays.asList(0)));
-        userStatistics.setTrainingDaysInMonth(new ArrayList<>(Arrays.asList(LocalDate.now())));
-        demo.setStatistics(userStatistics);
+//        UserStatistics userStatistics = new UserStatistics();
+//        userStatistics.setStudyTimeInTwoWeeks(new ArrayList<>(Arrays.asList(0)));
+//        userStatistics.setTrainingDaysInMonth(new ArrayList<>(Arrays.asList(LocalDate.now())));
+        demo.setStatistics(new UserStatistics());
         Image image = new Image();
         image.setImageName("no-avatar.png");
         demo.setUserAvatar(image);

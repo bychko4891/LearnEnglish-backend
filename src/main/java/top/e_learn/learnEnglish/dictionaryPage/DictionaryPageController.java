@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ValidateFields;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
@@ -117,12 +118,12 @@ public class DictionaryPageController {
                 return ResponseEntity.badRequest().body(validateFields.bindingResultMessages(bindingResult));
             }
             if (dictionaryPage.getWord() == null || dictionaryPage.getWord().getId() == null) {
-                return ResponseEntity.ok(new CustomResponseMessage(Message.ERROR_REQUIRED_FIELD));
+                return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("dictionary.null.word", null, currentLocale)));
             }
             try {
                 DictionaryPage dictionaryPageDB = dictionaryPageService.getDictionaryPageByUuid(uuid);
-                if (!dictionaryPage.getWord().getId().equals(dictionaryPageDB.getWord().getId()) && dictionaryPageService.existDictionaryPageByName(dictionaryPage.getWord().getName())) {
-                    return ResponseEntity.ok(new CustomResponseMessage(Message.ERROR_DUPLICATE_TEXT));
+                if (!dictionaryPage.getWord().getUuid().equals(dictionaryPageDB.getWord().getUuid()) && dictionaryPageService.existDictionaryPageByName(dictionaryPage.getWord().getName())) {
+                    return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("dictionary.duplicate", null, currentLocale)));
                 }
                 dictionaryPage.setImage(new Image());
                 if (imageFile != null) {
@@ -130,17 +131,19 @@ public class DictionaryPageController {
                     if (dictionaryPageDB.getImage().getImageName() != null)
                         fileStorageService.deleteFileFromStorage(dictionaryPageDB.getImage().getImageName(), wordStorePath);
                 }
-                return ResponseEntity.ok(dictionaryPageService.saveDictionaryPage(dictionaryPageDB, dictionaryPage));
+                dictionaryPageService.saveDictionaryPage(dictionaryPageDB, dictionaryPage);
+                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
 
             } catch (ObjectNotFoundException e) {
                 if (dictionaryPageService.existDictionaryPageByName(dictionaryPage.getWord().getName())) {
-                    return ResponseEntity.ok(new CustomResponseMessage(Message.ERROR_DUPLICATE_TEXT));
+                    return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("dictionary.duplicate", null, currentLocale)));
                 }
                 Image image = new Image();
                 if (imageFile != null)
                     image.setImageName(fileStorageService.storeFile(imageFile, wordStorePath, dictionaryPage.getWord().getName()));
                 dictionaryPage.setImage(image);
-                return ResponseEntity.ok(dictionaryPageService.saveNewDictionaryPage(dictionaryPage));
+                dictionaryPageService.saveNewDictionaryPage(dictionaryPage);
+                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
             }
         }
         return ResponseEntity.status(403).body("Access denied");

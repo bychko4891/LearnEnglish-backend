@@ -65,8 +65,7 @@ public class UserStatistics implements Serializable {
     @Column(name = "error_count")
     private Integer errorCount; // 2 в круговий графік
 
-    @OneToOne(mappedBy = "statistics",
-            cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "statistics", cascade = CascadeType.ALL)
     private User user;
 
     public UserStatistics() {

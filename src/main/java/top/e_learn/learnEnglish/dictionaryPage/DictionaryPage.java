@@ -70,7 +70,7 @@ public class DictionaryPage {
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "phrase_examples",
-            joinColumns = @JoinColumn(name = "vocabulary_page_id"),
+            joinColumns = @JoinColumn(name = "dictionary_page_id"),
             inverseJoinColumns = @JoinColumn(name = "phrase_application_id"))
     private List<PhraseApplication> phraseExamples = new ArrayList<>();
 
