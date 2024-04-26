@@ -7,7 +7,6 @@ package top.e_learn.learnEnglish.word;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.word.Word;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -38,11 +37,11 @@ public interface WordRepository extends CrudRepository<Word, Long> {
 //    @Query("SELECT w FROM Word w WHERE w.wordInWordLesson.id = NULL AND LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%')")
     @Query("SELECT w FROM Word w WHERE LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +
         "AND w.id NOT IN (SELECT wl.dictionaryPage.id FROM WordInWordLesson wl WHERE wl.dictionaryPage.id IS NOT NULL)")
-    List<Word> findWordToAdmin(@Param("firstLetter") String firstLetter);
+    List<Word> findWordToWordLesson(@Param("firstLetter") String firstLetter);
 
     @Query("SELECT w FROM Word w WHERE LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +
-        "AND w.id NOT IN (SELECT vp.word.id FROM DictionaryPage vp WHERE vp.word.id IS NOT NULL)")
-    List<Word> findWordForVocabularyPage(@Param("firstLetter") String firstLetter);
+        "AND w.id NOT IN (SELECT dp.word.id FROM DictionaryPage dp WHERE dp.word.id IS NOT NULL)")
+    List<Word> findWordToDictionaryPageAdminPage(@Param("firstLetter") String firstLetter);
 
     @Query("SELECT w FROM Word w WHERE LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%')")
     List<Word> findWordForPhraseApplication(@Param("firstLetter") String firstLetter);

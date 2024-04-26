@@ -83,7 +83,7 @@ public class DictionaryPageService {
     public void saveNewDictionaryPage(DictionaryPage dictionaryPage) {
         Word word = wordService.getWordByUuid(dictionaryPage.getWord().getUuid());
         dictionaryPage.setName(word.getName());
-        dictionaryPage.setWord(word);
+        dictionaryPage.setWord(wordService.getWordByUuid(dictionaryPage.getWord().getUuid()));
         if(dictionaryPage.getCategory() != null) {
             dictionaryPage.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getUuid()));
         }

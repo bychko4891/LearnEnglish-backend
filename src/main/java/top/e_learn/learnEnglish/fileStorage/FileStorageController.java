@@ -90,7 +90,7 @@ public class FileStorageController {
         return new ResponseEntity<>(imageBytes, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/vocabulary-page/{imageFileName:.+}")
+    @GetMapping("/dictionary-page/{imageFileName:.+}")
     public ResponseEntity<byte[]> vocabularyPageImage(@PathVariable String imageFileName) throws IOException {
         Resource resource = fileStorageService.loadFileAsResource(imageFileName,vocabularyPageStorePath);
         InputStream in = resource.getInputStream();

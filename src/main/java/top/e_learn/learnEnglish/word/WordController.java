@@ -105,7 +105,7 @@ public class WordController {
             if (bindingResult.hasErrors()) {
                 return ResponseEntity.badRequest().body(bindingResultMessages(bindingResult));
             }
-            if (wordService.wordDuplicate(word)) {
+            if (!wordService.wordDuplicate(word)) {
                 return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("word.duplicate", null, currentLocale)));
             }
             try {

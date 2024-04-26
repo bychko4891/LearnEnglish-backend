@@ -86,7 +86,7 @@ public class AutController {
 
     @PostMapping("/google")
     @JsonView(JsonViews.ViewFieldJWT.class)
-    @CrossOrigin(origins = "*", allowedHeaders = "*", maxAge = 3600)
+    @CrossOrigin(origins = "https://e-learn.top", allowedHeaders = "*", maxAge = 3600)
     public ResponseEntity<?> googleAuth(@RequestBody GoogleAuthRequest googleAuthRequest) throws MessagingException {
         if (!validate.existsByEmail(googleAuthRequest.getEmail())) {
             userService.createUserGoogleAuth(googleAuthRequest);

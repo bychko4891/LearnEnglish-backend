@@ -7,15 +7,16 @@ package top.e_learn.learnEnglish.dictionaryPage;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.model.Image;
 import top.e_learn.learnEnglish.model.PhraseApplication;
-import top.e_learn.learnEnglish.word.Word;
 import top.e_learn.learnEnglish.utils.JsonViews;
-import com.fasterxml.jackson.annotation.JsonView;
-import jakarta.persistence.*;
-import lombok.Data;
+import top.e_learn.learnEnglish.word.Word;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -72,7 +72,7 @@ public class DictionaryPageController {
     @GetMapping("/admin/dictionary-pages")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getDictionaryPagesForAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                        @RequestParam(value = "size", defaultValue = "30", required = false) int size,
+                                                        @RequestParam(value = "size", defaultValue = "25", required = false) int size,
                                                         Principal principal) {
         if (principal != null) {
             if (page < 0) page = 0;

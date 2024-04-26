@@ -98,7 +98,7 @@ public class CategoryService {
         Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
         categoryDb.setMainCategory(false);
         categoryDb.getCategoryPage().clear();
-        if (categoryDb.getParentCategory() == null || !category.getParentCategory().getUuid().isBlank() && !category.getParentCategory().getUuid().equals(categoryDb.getParentCategory().getUuid())) {
+        if (category.getParentCategory() != null) {
             categoryDb.setParentCategory(getCategoryByUuid(category.getParentCategory().getUuid()));
         }
         if(category.getImage().getImageName() != null) categoryDb.getImage().setImageName(category.getImage().getImageName());

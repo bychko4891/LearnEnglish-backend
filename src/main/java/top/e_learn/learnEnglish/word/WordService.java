@@ -93,7 +93,7 @@ public class WordService {
     public boolean wordDuplicate(Word word) {
         String wordName = StringUtils.normalizeSpace(word.getName()).replaceAll("\\s{2,}", " ");
         Optional<Word> wordDuplicate = wordRepository.findWordByNameEqualsIgnoreCase(wordName);
-        return !(wordDuplicate.isEmpty() || wordDuplicate.get().getId().equals(word.getId()));
+        return (wordDuplicate.isEmpty() || wordDuplicate.get().getUuid().equals(word.getUuid()));
     }
 
     @Transactional
@@ -134,12 +134,13 @@ public class WordService {
 
     @Transactional
     public List<Word> searchWordToAdminPage(String searchTerm) {
-        return wordRepository.findWordToAdmin(searchTerm);
+        return wordRepository.findWordToDictionaryPageAdminPage(searchTerm);
     }
 
     @Transactional
     public List<Word> searchWordForVocabularyPage(String searchTerm) {
-        return wordRepository.findWordForVocabularyPage(searchTerm);
+//        return wordRepository.findWordForVocabularyPage(searchTerm);
+        return null;
     }
 
     @Transactional

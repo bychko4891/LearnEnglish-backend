@@ -63,7 +63,7 @@ public class Category implements Serializable {
     @Enumerated(EnumType.STRING)
     private Set<CategoryPage> categoryPage = new HashSet<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_category_id")
     private Category parentCategory;
 
@@ -73,14 +73,10 @@ public class Category implements Serializable {
     @Transient
     private int countWordLessons;
 
-    @PrePersist
-    private void init(){
-        this.uuid = UUID.randomUUID().toString();
-    }
-
+//    @PrePersist
+//    private void init(){
+//        this.uuid = UUID.randomUUID().toString();
+//    }
     public Category() {
     }
-
-
-
 }
