@@ -11,9 +11,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.UuidGenerator;
 import top.e_learn.learnEnglish.category.Category;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.model.PhraseApplication;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import top.e_learn.learnEnglish.word.Word;
@@ -22,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "dictionary_page")
+@Table(name = "dictionary_pages")
 @Data
 public class DictionaryPage {
 

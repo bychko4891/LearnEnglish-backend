@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.model.WayForPayModule;
 import top.e_learn.learnEnglish.service.WayForPayModuleService;
 import top.e_learn.learnEnglish.user.Role;
@@ -51,7 +51,7 @@ public class AdminAccountInitializer implements ApplicationRunner {
             admin.setLogin("Admin");
             admin.setName("Admin");
             admin.setEmail(adminEmail);
-            admin.setActive(true);
+            admin.setEnable(true);
             admin.setUserPhrasesInLesson(false);
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.getUserRole().add(Role.ROLE_ADMIN);
@@ -75,7 +75,7 @@ public class AdminAccountInitializer implements ApplicationRunner {
         demo.setLogin("Demo");
         demo.setName("Demo");
         demo.setEmail("demo@mail.com");
-        demo.setActive(true);
+        demo.setEnable(true);
         demo.setUserPhrasesInLesson(false);
         demo.setPassword(passwordEncoder.encode("demo"));
         demo.getUserRole().add(Role.ROLE_DEMO);

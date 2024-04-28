@@ -43,7 +43,7 @@ public class PhraseUserRestController {
             }
             service.cleaningText(phraseUserDto);
             if(ValidateFields.validateTranslationPairs(phraseUserDto)){
-                User user = userService.findByEmail(principal.getName());
+                User user = userService.getUserByEmail(principal.getName());
                 if(service.duplicatePhraseUserInDB(user, phraseUserDto.getEngPhrase())) return ResponseEntity.ok(new CustomResponseMessage(Message.LOGIN_ERROR)); // ЗМІНИТИ !!!
                 return ResponseEntity.ok(service.saveNewPhraseUser(user, phraseUserDto));
             }

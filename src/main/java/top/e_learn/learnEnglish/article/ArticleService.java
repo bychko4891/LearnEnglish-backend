@@ -9,6 +9,9 @@ package top.e_learn.learnEnglish.article;
 
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.category.CategoryService;
@@ -38,8 +41,9 @@ public class ArticleService {
         return new Article(uuid, "Enter h1 new Article", "Enter description new Article");
     }
 
-    public List<Article> getAllArticles() {
-        return (List<Article>)articleRepository.findAll();
+    public Page<Article> getArticlesPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return articleRepository.findAll(pageable);
     }
 
     @Transactional
@@ -49,6 +53,7 @@ public class ArticleService {
         Optional.ofNullable(article.getDescription()).ifPresent(articleDb::setDescription);
         Optional.ofNullable(article.getHtmlTagDescription()).ifPresent(articleDb::setHtmlTagDescription);
         Optional.ofNullable(article.getHtmlTagTitle()).ifPresent(articleDb::setHtmlTagTitle);
+        articleDb.setPublished(article.isPublished());
         if(article.getCategory() != null) {
             if(articleDb.getCategory() == null || !articleDb.getCategory().getUuid().equals(article.getCategory().getUuid())) {
             Category categoryByUuid = categoryService.getCategoryByUuid(article.getCategory().getUuid());

@@ -12,7 +12,7 @@
 //import top.e_learn.learnEnglish.service.TranslationPairService;
 //import top.e_learn.learnEnglish.service.PhraseUserService;
 //import top.e_learn.learnEnglish.user.UserService;
-//import top.e_learn.learnEnglish.service.UserStatisticsService;
+//import top.e_learn.learnEnglish.user.statistics.UserStatisticsService;
 //import jakarta.servlet.http.HttpSession;
 //import lombok.RequiredArgsConstructor;
 //import org.apache.commons.lang3.StringUtils;

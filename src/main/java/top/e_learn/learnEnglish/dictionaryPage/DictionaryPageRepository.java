@@ -22,6 +22,7 @@ public interface DictionaryPageRepository extends JpaRepository<DictionaryPage, 
 
 
     Optional<DictionaryPage> findDictionaryPageByUuid(String uuid);
+    Optional<DictionaryPage> findDictionaryPageByName(String name);
 
     @Query("SELECT d FROM DictionaryPage d ORDER BY d.id ASC")
     Page<DictionaryPage> findAllDictionaryPage(Pageable pageable);

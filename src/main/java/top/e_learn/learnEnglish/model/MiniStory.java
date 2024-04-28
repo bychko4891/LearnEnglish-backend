@@ -11,6 +11,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import top.e_learn.learnEnglish.audio.Audio;
 import top.e_learn.learnEnglish.category.Category;
+import top.e_learn.learnEnglish.image.Image;
 
 import java.io.Serializable;
 import java.util.UUID;

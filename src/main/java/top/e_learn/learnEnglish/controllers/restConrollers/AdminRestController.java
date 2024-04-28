@@ -40,23 +40,6 @@ public class AdminRestController {
 
 
 
-    @PostMapping("/users/user/user-active")
-    @ResponseBody
-    public void userFieldActive(@RequestParam("userActive") boolean userActive,
-                                @RequestParam("userId") Long userId,
-                                Principal principal) {
-        if (principal != null) {
-            userService.userActiveEditAdminPage(userId, userActive);
-            System.out.println(userActive);
-//                return ResponseEntity.ok(new ResponseStatus(Message.SUCCESS_CREATELESSON));
-        }
-//        return ResponseEntity.ok(new ResponseStatus(Message.ERROR_CREATELESSON));
-    }
-
-
-
-
-
     @GetMapping("/search")
     public ResponseEntity<List<DtoTranslationPairToUI>> search(@RequestParam("searchTerm") String searchTerm) {
 

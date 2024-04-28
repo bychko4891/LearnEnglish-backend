@@ -5,7 +5,6 @@ import org.springframework.http.HttpMethod;
 import top.e_learn.learnEnglish.config.CustomRequestLoggingFilter;
 import top.e_learn.learnEnglish.security.jwt.AuthEntryPointJwt;
 import top.e_learn.learnEnglish.security.jwt.AuthTokenFilter;
-import top.e_learn.learnEnglish.service.UserDetailsServiceImpl;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

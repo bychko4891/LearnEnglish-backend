@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPageService;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.payload.response.GetAppPageContentResponse;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.utils.MessageResponse;

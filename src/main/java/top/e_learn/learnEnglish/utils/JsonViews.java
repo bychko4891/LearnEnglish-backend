@@ -1,6 +1,7 @@
 package top.e_learn.learnEnglish.utils;
 
 public final class JsonViews {
+    public interface ViewFieldId {}
     public interface ViewFieldUUID {}
     public interface ViewFieldLogin {}
     public interface ViewFieldName{}
@@ -12,10 +13,7 @@ public final class JsonViews {
     public interface ViewFieldAuthority{}
     public interface ViewFieldJWT{}
     public interface ViewFieldUser{}
-
     public interface ViewWordId{}
-
-
     public interface ViewFieldOther{}
     public interface ViewFieldImage{}
     public interface ViewFieldWord{}
@@ -23,6 +21,7 @@ public final class JsonViews {
 
     public interface ViewUserProfile extends ViewFieldUUID, ViewFieldName, ViewFieldGender, ViewFieldImage, ViewFieldLogin,
             ViewFieldEmail, ViewFieldUserAbout, ViewFieldDateCreate, ViewFieldLastVisit, ViewFieldAuthority{}
+
 
     public interface ViewIdAndName extends ViewWordId, ViewFieldUUID, ViewFieldName{}
     public interface ViewAllCategories extends ViewFieldUUID, ViewFieldName, ViewFieldOther{}

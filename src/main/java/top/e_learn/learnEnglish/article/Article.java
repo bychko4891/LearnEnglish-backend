@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import top.e_learn.learnEnglish.category.Category;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 
 @Entity
 @Getter
@@ -42,6 +42,9 @@ public class Article {
     @Column
     @Size(max = 360, message = "page.bad.size")
     private String htmlTagTitle;
+
+    @Column
+    private boolean published = false;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")

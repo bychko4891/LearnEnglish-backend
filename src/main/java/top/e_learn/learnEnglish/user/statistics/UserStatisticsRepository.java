@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.repository;
+package top.e_learn.learnEnglish.user.statistics;
 
 /**
  * @author: Anatolii Bychko

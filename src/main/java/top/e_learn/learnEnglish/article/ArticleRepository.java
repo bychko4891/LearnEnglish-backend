@@ -7,6 +7,9 @@ package top.e_learn.learnEnglish.article;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -18,6 +21,8 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
     Optional<Article> findArticleByUuid(String uuid);
 
+    @Query("SELECT a FROM Article a ORDER BY a.id ASC")
+    Page<Article> findAll(Pageable pageable);
 
 
 }

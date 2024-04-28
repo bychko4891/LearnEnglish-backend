@@ -45,6 +45,10 @@ public class DictionaryPageService {
         return dictionaryPageRepository.findDictionaryPageByUuid(uuid).orElseThrow(() -> new ObjectNotFoundException("Dictionary page with uuid: " + uuid + "not found"));
     }
 
+    public DictionaryPage getDictionaryPageByName(String name) {
+        return dictionaryPageRepository.findDictionaryPageByName(name).orElseThrow(() -> new ObjectNotFoundException("Dictionary page with uuid: " + name + "not found"));
+    }
+
     public DictionaryPage getNewDictionaryPage(String uuid) {
         DictionaryPage dictionaryPage = new DictionaryPage();
         dictionaryPage.setUuid(uuid);
@@ -61,8 +65,8 @@ public class DictionaryPageService {
 
     @Transactional
     public void saveDictionaryPage(DictionaryPage dictionaryPageDB, DictionaryPage dictionaryPage) {
-        if(!dictionaryPage.getWord().getId().equals(dictionaryPageDB.getWord().getId())) {
-            Word word = wordService.getWordById(dictionaryPage.getWord().getId());
+        if (!dictionaryPage.getWord().getUuid().equals(dictionaryPageDB.getWord().getUuid())) {
+            Word word = wordService.getWordByUuid(dictionaryPage.getWord().getUuid());
             dictionaryPageDB.setWord(word);
             dictionaryPageDB.setName(word.getName());
         }
@@ -71,10 +75,8 @@ public class DictionaryPageService {
 //        Optional.ofNullable(dictionaryPage.getCardInfo()).ifPresent(dictionaryPageDB::setCardInfo);
         Optional.ofNullable(dictionaryPage.getDescription()).ifPresent(dictionaryPageDB::setDescription);
         dictionaryPageDB.setPublished(dictionaryPage.isPublished());
-        if (dictionaryPage.getCategory() != null && dictionaryPage.getCategory().getId() != 0) {
-            if (dictionaryPageDB.getCategory() == null || !dictionaryPage.getCategory().getId().equals(dictionaryPageDB.getCategory().getId())) {
-                dictionaryPageDB.setCategory(dictionaryPage.getCategory());
-            }
+        if (dictionaryPage.getCategory() != null) {
+            dictionaryPageDB.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getCategory().getUuid()));
         }
         dictionaryPageRepository.save(dictionaryPageDB);
     }
@@ -84,7 +86,7 @@ public class DictionaryPageService {
         Word word = wordService.getWordByUuid(dictionaryPage.getWord().getUuid());
         dictionaryPage.setName(word.getName());
         dictionaryPage.setWord(wordService.getWordByUuid(dictionaryPage.getWord().getUuid()));
-        if(dictionaryPage.getCategory() != null) {
+        if (dictionaryPage.getCategory() != null) {
             dictionaryPage.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getUuid()));
         }
         //TODO : Add phrases Application
@@ -103,15 +105,14 @@ public class DictionaryPageService {
 
     public CustomResponseMessage verifyUserWord(String wordVerify, long dictionaryPageId) {
         DictionaryPage dictionaryPage = getDictionaryPageById(dictionaryPageId);
-            if (dictionaryPage.getName().equals(StringUtils.normalizeSpace(wordVerify))) {
-                return new CustomResponseMessage(Message.SUCCESS, dictionaryPage.getName());
-            } else return new CustomResponseMessage(Message.ERROR, dictionaryPage.getName());
+        if (dictionaryPage.getName().equals(StringUtils.normalizeSpace(wordVerify))) {
+            return new CustomResponseMessage(Message.SUCCESS, dictionaryPage.getName());
+        } else return new CustomResponseMessage(Message.ERROR, dictionaryPage.getName());
     }
 
     public List<DictionaryPage> getDictionaryPagesFromCategory(long categoryId) {
         return dictionaryPageRepository.findAllByCategoryId(categoryId);
     }
-
 
 
 }

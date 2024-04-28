@@ -7,26 +7,24 @@ package top.e_learn.learnEnglish.word;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.validation.BindingResult;
-import top.e_learn.learnEnglish.audio.Audio;
-import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
-import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
-import top.e_learn.learnEnglish.responsemessage.Message;
-import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import org.springframework.data.domain.Page;
-import top.e_learn.learnEnglish.utils.CustomFieldError;
-import top.e_learn.learnEnglish.utils.JsonViews;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Value;
-import com.fasterxml.jackson.annotation.JsonView;
-import lombok.Data;
+import top.e_learn.learnEnglish.audio.Audio;
+import top.e_learn.learnEnglish.fileStorage.FileStorageService;
+import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
+import top.e_learn.learnEnglish.utils.CustomFieldError;
+import top.e_learn.learnEnglish.utils.JsonViews;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
@@ -53,7 +51,7 @@ public class WordController {
     @GetMapping("/admin/words")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getWordsForAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
-                                              @RequestParam(value = "size", defaultValue = "30", required = false) int size,
+                                              @RequestParam(value = "size", defaultValue = "25", required = false) int size,
                                               Principal principal) {
         if (principal != null) {
             if (page < 0) page = 0;

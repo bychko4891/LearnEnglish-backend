@@ -2,7 +2,7 @@ package top.e_learn.learnEnglish.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.user.Role;
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.user.UserGender;
@@ -75,6 +75,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isActive();
+        return user.isEnable();
     }
 }

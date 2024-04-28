@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import top.e_learn.learnEnglish.service.AuthService;
-import top.e_learn.learnEnglish.service.UserDetailsServiceImpl;
+import top.e_learn.learnEnglish.security.UserDetailsServiceImpl;
 
 import java.io.IOException;
 

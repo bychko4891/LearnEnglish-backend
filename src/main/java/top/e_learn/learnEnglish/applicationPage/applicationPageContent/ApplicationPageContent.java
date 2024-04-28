@@ -11,7 +11,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.Data;
 import top.e_learn.learnEnglish.applicationPage.ApplicationPage;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 
 import java.io.Serializable;
 import java.util.HashSet;

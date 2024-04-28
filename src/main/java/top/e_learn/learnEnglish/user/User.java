@@ -8,28 +8,33 @@ package top.e_learn.learnEnglish.user;
  */
 
 import com.fasterxml.jackson.annotation.JsonView;
-import top.e_learn.learnEnglish.model.Image;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import top.e_learn.learnEnglish.model.users.*;
+import top.e_learn.learnEnglish.image.Image;
+import top.e_learn.learnEnglish.model.users.PhraseUser;
+import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import top.e_learn.learnEnglish.utils.JsonViews;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.*;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
+@JsonSerialize(using = CustomUserSerializer.class)
 public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column()
+    @JsonView(JsonViews.ViewFieldId.class)
     private Long id;
 
     @Column
@@ -51,8 +56,8 @@ public class User implements Serializable {
     @Column(name = "unique_service_code", length = 1000)
     private String uniqueServiceCode;
 
-    @Column(name = "active")
-    private boolean active;
+    @Column(name = "enable")
+    private boolean enable;
 
     @Column(name = "user_phrases_in_lesson")
     private boolean userPhrasesInLesson;
@@ -60,17 +65,25 @@ public class User implements Serializable {
     @Column(name = "user_ip")
     private String userIp;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "avatar_id")
-    @JsonView(JsonViews.ViewFieldImage.class)
-    private Image userAvatar;
+    @Column(length = 300)
+    @JsonView(JsonViews.ViewFieldUserAbout.class)
+    private String about;
 
     @Column(name = "password", length = 1000)
     private String password;
 
-    @Column(length = 300)
-    @JsonView(JsonViews.ViewFieldUserAbout.class)
-    private String about;
+    @Column(name = "date_of_created")
+    @JsonView(JsonViews.ViewFieldDateCreate.class)
+    private LocalDateTime dateOfCreated;
+
+    @Column(name = "last_visit")
+    @JsonView(JsonViews.ViewFieldLastVisit.class)
+    private LocalDateTime lastVisit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    @JsonView(JsonViews.ViewFieldImage.class)
+    private Image userAvatar;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "statistics_id")
@@ -94,13 +107,7 @@ public class User implements Serializable {
     @JsonView(JsonViews.ViewFieldGender.class)
     private Set<UserGender> gender = new HashSet<>();
 
-    @Column(name = "date_of_created")
-    @JsonView(JsonViews.ViewFieldDateCreate.class)
-    private LocalDateTime dateOfCreated;
 
-    @Column(name = "last_visit")
-    @JsonView(JsonViews.ViewFieldLastVisit.class)
-    private LocalDateTime lastVisit;
 
     @PrePersist
     private void init(){

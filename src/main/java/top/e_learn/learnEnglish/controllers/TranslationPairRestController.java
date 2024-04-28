@@ -46,7 +46,7 @@ public class TranslationPairRestController {
                         .collect(Collectors.toList());
                 return ResponseEntity.badRequest().body(errors);
             }
-            String roleUser = userService.findByEmail(principal.getName()).getUserRole().toString();
+            String roleUser = userService.getUserByEmail(principal.getName()).getUserRole().toString();
             Optional<?> optional = phraseUserService.check(dtoTranslationPair, roleUser);
             Object object = optional.get();
             if(object instanceof DtoTranslationPairToUI){

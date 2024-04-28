@@ -19,7 +19,7 @@ import top.e_learn.learnEnglish.utils.CustomFieldError;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;

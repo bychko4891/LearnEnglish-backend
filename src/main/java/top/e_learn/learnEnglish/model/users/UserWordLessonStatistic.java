@@ -1,6 +1,6 @@
 package top.e_learn.learnEnglish.model.users;
 
-/*
+/**
  * @author: Anatolii Bychko
  * Application Name: Learn English
  * Description: My Description

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -21,8 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.category.CategoryService;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.payload.response.GetEntityAndMainCategoriesResponse;
+import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
 import top.e_learn.learnEnglish.utils.CustomFieldError;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
@@ -51,9 +53,19 @@ public class ArticleController {
 
     @GetMapping("/admin/articles")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<?> getArticles(Principal principal) {
+    public ResponseEntity<?> getArticlesForAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
+                                         @RequestParam(value = "size", defaultValue = "25", required = false) int size,
+                                         Principal principal) {
         if (principal != null) {
-            return ResponseEntity.ok(articleService.getAllArticles());
+            if (page < 0) page = 0;
+            Page<Article> articlePage = articleService.getArticlesPage(page, size);
+            int totalPages = articlePage.getTotalPages();
+            if (articlePage.getTotalPages() == 0) totalPages = 1;
+            return ResponseEntity.ok(new GetPaginationEntityPage<>(articlePage.getContent(),
+                    totalPages,
+                    articlePage.getTotalElements(),
+                    articlePage.getNumber()
+            ));
         }
         return ResponseEntity.status(403).body("Access denied");
     }

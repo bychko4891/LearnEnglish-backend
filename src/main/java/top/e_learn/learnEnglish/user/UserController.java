@@ -11,11 +11,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.payload.request.ForgotPasswordRequest;
 import top.e_learn.learnEnglish.payload.request.SignupRequest;
+import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
 import top.e_learn.learnEnglish.payload.response.UserJwtForLoginResponse;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
@@ -38,13 +40,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
+@Data
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("api")
 public class UserController {
 
     @Value("${file.upload-user-avatar}")
     private String userAvatarStorePath;
-//    Locale currentLocale = LocaleContextHolder.getLocale();
 
     private final UserService userService;
 
@@ -66,7 +68,7 @@ public class UserController {
 
     private final MessageSource messageSource;
 
-    @PostMapping("/api/signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest,
                                           BindingResult bindingResult) throws MessagingException {
 
@@ -84,8 +86,39 @@ public class UserController {
         return ResponseEntity.ok(new CustomFieldError("general", messageSource.getMessage("user.signup.success", null, currentLocale)));
     }
 
+    @GetMapping("/admin/users")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public ResponseEntity<?> getUsersForAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
+                                     @RequestParam(value = "size", defaultValue = "10", required = false) int size,
+                                     Principal principal) {
+        if (principal != null) {
+            if (page < 0) page = 0;
+            Page<User> userPage = userService.getUsersPage(page, size);
+            int totalPages = userPage.getTotalPages();
+            if (userPage.getTotalPages() == 0) totalPages = 1;
+            return ResponseEntity.ok(new GetPaginationEntityPage<>(userPage.getContent(),
+                    totalPages,
+                    userPage.getTotalElements(),
+                    userPage.getNumber()
+            ));
+        }
+        return ResponseEntity.status(403).body("Access denied");
+    }
 
-    @GetMapping("/api/validate-email/{code}")
+    @PutMapping("/admin/user-enable")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void userFieldActive(@RequestParam("userEnable") boolean userActive,
+                                @RequestParam("userUuid") String userId,
+                                Principal principal) {
+        if (principal != null) {
+            userService.userEnable(userId, userActive);
+            System.out.println(userActive);
+//                return ResponseEntity.ok(new ResponseStatus(Message.SUCCESS_CREATELESSON));
+        }
+//        return ResponseEntity.ok(new ResponseStatus(Message.ERROR_CREATELESSON));
+    }
+
+    @GetMapping("/validate-email/{code}")
     public ResponseEntity<?> verificationUserEmail(@PathVariable("code") String code) {
         Locale currentLocale = LocaleContextHolder.getLocale();
         Optional<User> optionalUser = userService.verificationUserEmail(code);
@@ -107,7 +140,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/api/user/profile")
+    @GetMapping("/user/profile")
     @JsonView(JsonViews.ViewUserProfile.class)
     public ResponseEntity<?> getUserProfile(Principal principal) {
         if (principal != null) {
@@ -117,14 +150,14 @@ public class UserController {
         return ResponseEntity.badRequest().body("Error principal");
     }
 
-    @GetMapping("/api/user/{uuid}")
+    @GetMapping("/user/{uuid}")
     @JsonView(JsonViews.ViewUserProfile.class)
     public ResponseEntity<?> getUserInfo(@PathVariable String uuid) {
-        User user = userService.getUserByUUID(uuid);
+        User user = userService.getUserByUuid(uuid);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/api/forgot-password")
+    @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPasswordStepOne(@Valid @RequestBody ForgotPasswordRequest email, BindingResult bindingResult) throws MessagingException {
         Locale currentLocale = LocaleContextHolder.getLocale();
         if (bindingResult.hasErrors()) {
@@ -151,7 +184,7 @@ public class UserController {
     }
 
 
-    @PutMapping("/api/user/edit")
+    @PutMapping("/user/edit")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<String> setUserInfo(@RequestParam(value = "firstName", required = false) String firstName,
                                               @RequestParam(value = "lastName", required = false) String lastName,
@@ -169,7 +202,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/api/user/update-password")
+    @PostMapping("/user/update-password")
     @PreAuthorize("hasAnyAuthority('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<CustomResponseMessage> setUserPassword(@PathVariable("userId") Long userId,
                                                                  @RequestParam(value = "password") String oldPassword,
@@ -182,11 +215,11 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/api/user/delete")
+    @DeleteMapping("/user/delete")
     public ResponseEntity<CustomResponseMessage> userProfileRemove(@RequestParam("password") String userPassword,
                                                                    Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             return ResponseEntity.ok(userService.userProfileDelete(user, userPassword));
         }
         return ResponseEntity.notFound().build();
@@ -197,7 +230,7 @@ public class UserController {
     public ResponseEntity<CustomResponseMessage> wordUserPlus(@RequestParam("wordId") Long wordId,
                                                               Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             return ResponseEntity.ok(wordUserService.userWordPlus(user, wordId));
         }
         return ResponseEntity.notFound().build();
@@ -207,7 +240,7 @@ public class UserController {
     public ResponseEntity<CustomResponseMessage> userWordRemove(@RequestParam("wordId") Long wordId,
                                                                 Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             return ResponseEntity.ok(wordUserService.userWordRemove(wordId, user));
         }
         return ResponseEntity.notFound().build();
@@ -219,7 +252,7 @@ public class UserController {
                                                                     @RequestParam("translationPairsId") Long id,
                                                                     Principal principal) {
         if (principal != null) {
-            Long userId = userService.findByEmail(principal.getName()).getId();
+            Long userId = userService.getUserByEmail(principal.getName()).getId();
             return ResponseEntity.ok(phraseAndUserService.setRepetitionPhrase(id, userId, isChecked));
         }
         return ResponseEntity.notFound().build();
@@ -230,7 +263,7 @@ public class UserController {
                                                                   @RequestParam("wordId") Long id,
                                                                   Principal principal) {
         if (principal != null) {
-            Long userId = userService.findByEmail(principal.getName()).getId();
+            Long userId = userService.getUserByEmail(principal.getName()).getId();
             return ResponseEntity.ok(wordUserService.setRepetitionWord(id, userId, isChecked));
         }
         return ResponseEntity.notFound().build();
@@ -240,7 +273,7 @@ public class UserController {
     public ResponseEntity<CustomResponseMessage> userPhraseRemove(@RequestParam("phraseId") Long translationPairId,
                                                                   Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             return ResponseEntity.ok(phraseAndUserService.userPhraseRemove(translationPairId, user));
         }
         return ResponseEntity.notFound().build();
@@ -250,7 +283,7 @@ public class UserController {
     public ResponseEntity<String> wordLessonStart(@PathVariable long wordLessonId, @RequestParam("start") boolean start,
                                                   Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             userWordLessonProgressService.startWordLesson(user, wordLessonId, start);
             return ResponseEntity.ok("tab2");
         }
@@ -264,7 +297,7 @@ public class UserController {
         if (principal != null && imageFile != null) {
             String contentType = imageFile.getContentType();
             if (contentType.equals("image/png")) {
-                User user = userService.findByEmail(principal.getName());
+                User user = userService.getUserByEmail(principal.getName());
                 String imageFileName = fileStorageService.storeFile(imageFile, userAvatarStorePath, user.getName());
                 session.setAttribute("avatarName", imageFileName);
                 if (user.getUserAvatar().getImageName() != null && !user.getUserAvatar().getImageName().equalsIgnoreCase("no-avatar.png")) {
@@ -295,5 +328,25 @@ public class UserController {
     }
 
 
-}
+    //    @GetMapping("/user/words")
+//    public String getUserWords(@RequestParam(value = "page", defaultValue = "0") int page,
+//                               @RequestParam(value = "size", defaultValue = "10", required = false) int size,
+//                               Principal principal,
+//                               Model model)  {
+//        if (principal != null) {
+//            if (page < 0) page = 0;
+//            Long userId = userService.findByEmail(principal.getName()).getId();
+//            Page<Word> words = wordService.getUserWords(page, size, userId);
+//            if (words.getTotalPages() == 0) {
+//                model.addAttribute("totalPages", 1);
+//            } else {
+//                model.addAttribute("totalPages", words.getTotalPages());
+//            }
+//            model.addAttribute("words",words);
+//            model.addAttribute("currentPage", page);
+//            return "userWords";
+//        } else return "redirect:/login";
+//    }
 
+
+}

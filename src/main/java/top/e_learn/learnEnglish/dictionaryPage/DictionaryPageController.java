@@ -14,11 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.category.CategoryService;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
 import top.e_learn.learnEnglish.payload.response.GetEntityAndMainCategoriesResponse;
 import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
-import top.e_learn.learnEnglish.responsemessage.Message;
 import top.e_learn.learnEnglish.fileStorage.FileStorageService;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -149,6 +148,11 @@ public class DictionaryPageController {
         return ResponseEntity.status(403).body("Access denied");
     }
 
+    @GetMapping("/dictionary-page/{name}")
+    public ResponseEntity<?> getDictionaryPageByName(@PathVariable String name) {
+        return ResponseEntity.ok(dictionaryPageService.getDictionaryPageByName(name));
+    }
+
     @GetMapping("/admin/search-dictionary-page-for-lesson")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @JsonView(JsonViews.ViewIdAndName.class)
@@ -170,88 +174,5 @@ public class DictionaryPageController {
         return ResponseEntity.notFound().build();
     }
 
-
-    //    @GetMapping("/admin/vocabulary-pages")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public String wordsListAdminPage(@RequestParam(value = "page", defaultValue = "0") int page,
-//                                     @RequestParam(value = "size", defaultValue = "30", required = false) int size,
-//                                     Principal principal,
-//                                     Model model) {
-//        if (principal != null) {
-//            if (page < 0) page = 0;
-//            Page<VocabularyPage> vocabularyPages = vocabularyPageService.getVocabularyPages(page, size);
-//            if (vocabularyPages.getTotalPages() == 0) {
-//                model.addAttribute("totalPages", 1);
-//            } else {
-//                model.addAttribute("totalPages", vocabularyPages.getTotalPages());
-//            }
-//            model.addAttribute("vocabularyPages", vocabularyPages.getContent());
-//            model.addAttribute("currentPage", page);
-//
-//            return "admin/vocabularyPages";
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/admin/vocabulary-pages/new-vocabulary-page")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public String newVocabularyPage(Principal principal) {
-//        if (principal != null) {
-//            try {
-//                long count = vocabularyPageService.countVocabularyPages() + 1;
-//                return "redirect:/admin/vocabulary-pages/vocabulary-page-edit/" + count;
-//            } catch (RuntimeException e) {
-//                return "redirect:/admin/vocabulary-pages/vocabulary-page-edit/1";
-//            }
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/admin/vocabulary-pages/vocabulary-page-edit/{id}")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public String editVocabularyPage(@PathVariable("id") long id, Model model, Principal principal) {
-//        if (principal != null) {
-//            List<Category> mainCategories = categoryService.getMainCategoryListByCategoryPage(true, CategoryPage.VOCABULARY_PAGE);
-//            model.addAttribute("category", "Відсутня");
-//            model.addAttribute("mainCategories", mainCategories);
-//            try {
-//                VocabularyPage vocabularyPage = vocabularyPageService.getVocabularyPage(id);
-//                if (vocabularyPage.getCategory() != null) {
-//                    model.addAttribute("category", vocabularyPage.getCategory().getName());
-//                }
-//                model.addAttribute("vocabularyPage", vocabularyPage);
-//            } catch (RuntimeException e) {
-//                model.addAttribute("vocabularyPage", vocabularyPageService.getNewVocabularyPage(id));
-//            }
-//            return "admin/vocabularyPageEdit";
-//        }
-//        return "redirect:/login";
-//    }
-//
-//    @GetMapping("/vocabulary/main-categories")
-//    public String wordsMainCategories(Model model) {
-//        List<Category> mainCategories = categoryService.getMainCategoryListByCategoryPage(true, CategoryPage.VOCABULARY_PAGE);
-//        if (mainCategories != null) {
-//            model.addAttribute("mainCategories", mainCategories);
-//        }
-//        return "vocabularyMainCategories";
-//    }
-//
-
-//
-//
-//    @GetMapping("/vocabulary/main-category/{uuid}")
-//    public String wordsSubcategoriesFromMainCategories(@PathVariable String uuid, Model model) {
-//        Category mainCategory = categoryService.getCategoryByUIID(uuid);
-//
-//        if (mainCategory.isViewSubcategoryFullNoInfoOrNameAndInfo()) {
-//            return "vocabularySubcategories_And_Info_Field";
-//        } else {
-////            List<Category> wordsSubCategoriesAndSubSubInMainCategory = categoryService.getSubcategoriesAndSubSubcategoriesInMainCategory(id);
-//            model.addAttribute("mainCategory", mainCategory);
-////            model.addAttribute("mainCategoryId", mainCategory.getId());
-//            return "vocabularySubcategories_No_Info_Field";
-//        }
-//    }
 
 }

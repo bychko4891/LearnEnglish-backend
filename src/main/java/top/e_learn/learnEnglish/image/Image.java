@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.model;
+package top.e_learn.learnEnglish.image;
 
 /**
  * @author: Anatolii Bychko
@@ -7,12 +7,11 @@ package top.e_learn.learnEnglish.model;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.user.User;
-import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import top.e_learn.learnEnglish.utils.JsonViews;
 
 import java.io.Serializable;
 
@@ -21,12 +20,13 @@ import java.io.Serializable;
 @Setter
 @Table(name = "images")
 public class Image implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
-    @Column(name = "image_name", length = 1000)
+    @Column(name = "image_name")
     @JsonView(JsonViews.ViewFieldName.class)
     private String imageName;
 
@@ -36,12 +36,8 @@ public class Image implements Serializable {
     @Column
     private String height;
 
-    @Column(length = 1000)
-    private boolean webImage = false;
-
-
-    @OneToOne(mappedBy = "userAvatar", cascade = CascadeType.ALL)
-    private User user;
+    @Column
+    private boolean articleImage = false;
 
     public Image() {
     }

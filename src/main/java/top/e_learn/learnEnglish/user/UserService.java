@@ -8,12 +8,15 @@ package top.e_learn.learnEnglish.user;
  */
 
 import jakarta.mail.MessagingException;
+import jakarta.transaction.Transactional;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.thymeleaf.context.Context;
-import top.e_learn.learnEnglish.model.Image;
+import top.e_learn.learnEnglish.image.Image;
+import top.e_learn.learnEnglish.security.UserDetailsServiceImpl;
 import top.e_learn.learnEnglish.service.MailSenderService;
-import top.e_learn.learnEnglish.service.UserDetailsServiceImpl;
 import top.e_learn.learnEnglish.user.statistics.UserStatistics;
 import top.e_learn.learnEnglish.payload.request.ForgotPasswordRequest;
 import top.e_learn.learnEnglish.payload.request.GoogleAuthRequest;
@@ -24,7 +27,6 @@ import top.e_learn.learnEnglish.security.UserDetailsImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,10 +36,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang3.StringUtils;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -45,9 +45,9 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class UserService {
+
     @Value(("${application.host}"))
     private String host;
-    Locale currentLocale = LocaleContextHolder.getLocale();
 
     private final UserRepository userRepository;
 
@@ -61,17 +61,17 @@ public class UserService {
 
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
+    @Transactional
     public void createUser(SignupRequest signUpRequest) throws MessagingException {
         User user = new User();
-        String email = StringUtils.normalizeSpace(signUpRequest.getEmail());
-        user.setEmail(email);
-        user.setLogin(email.replaceAll("@{1}.+", ""));
+        user.setEmail(signUpRequest.getEmail());
+        user.setLogin(signUpRequest.getEmail().replaceAll("@{1}.+", ""));
         user.setName(signUpRequest.getName());
         user.setUniqueServiceCode(UUID.randomUUID().toString());
         user.getGender().add(UserGender.MALE);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.getUserRole().add(Role.ROLE_USER);
-        log.info("Saving new User with email: {}", email);
+//        log.info("Saving new User with email: {}", email);
         UserStatistics userStatistics = new UserStatistics();
         userStatistics.setStudyTimeInTwoWeeks(new ArrayList<>(Arrays.asList(0)));
         userStatistics.setTrainingDaysInMonth(new ArrayList<>(Arrays.asList(LocalDate.now())));
@@ -83,10 +83,11 @@ public class UserService {
         mailSend(user, "mail.subject.activation", "activation_message_");
     }
 
+    @Transactional
     public void createUserGoogleAuth(GoogleAuthRequest request) throws MessagingException {
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setActive(true);
+        user.setEnable(true);
         user.setLogin(request.getEmail().replaceAll("@{1}.+", ""));
         user.setName(request.getName());
         user.getGender().add(UserGender.MALE);
@@ -109,43 +110,65 @@ public class UserService {
         return userRepository.findByEmail(userDetails.getUsername()).get();
     }
 
-
-    public User findByEmail(String email) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isPresent()) {
-
-        }
-        return userRepository.findByEmail(email).get();
+    @Transactional
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ObjectNotFoundException("No User by EmailL: " + email));
     }
 
-    public User getUserByUUID(String uuid) {
+    @Transactional
+    public User getUserByUuid(String uuid) {
         return userRepository.findUsersByUuid(uuid)
-                .orElseThrow(() -> new ObjectNotFoundException("No User by UUID"));
+                .orElseThrow(() -> new ObjectNotFoundException("No User by Uuid: " + uuid));
     }
 
+    @Transactional
     public Optional<User> verificationUserEmail(String code) {
         Optional<User> userOptional = userRepository.findUsersByUniqueServiceCode(code);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            user.setActive(true);
-//            user.setUniqueServiceCode(null);
+            user.setEnable(true);
+            user.setUniqueServiceCode(null);
             userRepository.save(user);
             return Optional.of(user);
         }
         return userOptional;
     }
 
-    public boolean findUserByServiceCode(String code) {
-        Optional<User> userOptional = userRepository.findUsersByUniqueServiceCode(code);
+    @Transactional
+    public Page<User> getUsersPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.getPageUsers(pageable);
+    }
+
+    @Transactional
+    public void userEnable(String userUuid, boolean userActive) {
+        User user = getUserByUuid(userUuid);
+        user.setEnable(userActive);
+        userRepository.save(user);
+    }
+
+    @Transactional
+    public boolean forgotPasswordStepOne(ForgotPasswordRequest emailRequest) throws MessagingException {
+        Optional<User> userOptional = userRepository.findByEmail(emailRequest.email());
         if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setUniqueServiceCode(UUID.randomUUID().toString());
+            userRepository.save(user);
+            mailSend(user, "mail.subject.forgot.password.step.one", "forgot_password_message_");
             return true;
         }
         return false;
     }
 
 
-    public User getUserById(long id) {
-        return userRepository.findById(id).get();
+    private void mailSend(User user, String mailSubject, String mailTemplate) throws MessagingException {
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        Context context = new Context();
+        context.setVariable("username", user.getName());
+        context.setVariable("host", host);
+        context.setVariable("code", user.getUniqueServiceCode());
+        mailSender.sendSimpleMessage(user.getEmail(), messageSource.getMessage(mailSubject, null, currentLocale), mailTemplate + currentLocale.getLanguage(), context);
     }
 
     // доробити !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -202,24 +225,8 @@ public class UserService {
         }
     }
 
-    public Page<User> getUsersPage(int page, int size) {
-//        Pageable pageable = PageRequest.of(page, size);
-//        return userRepository.findAll(pageable);
-        return null;
-    }
 
-    public void userActiveEditAdminPage(Long userId, boolean userActive) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
 
-            User user = optionalUser.get();
-            user.setActive(userActive);
-            userRepository.save(user);
-//            return userRepository.save(user);
-        } else {
-            throw new IllegalArgumentException("User with id " + userId + " not found");
-        }
-    }
 
     public void saveUserIp(long userId, String ipAddress) {
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -233,33 +240,8 @@ public class UserService {
 
     }
 
-    public boolean forgotPasswordStepOne(ForgotPasswordRequest emailRequest) throws MessagingException {
-        Optional<User> userOptional = userRepository.findByEmail(emailRequest.email());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            user.setUniqueServiceCode(UUID.randomUUID().toString());
-            userRepository.save(user);
-            mailSend(user, "mail.subject.forgot.password.step.one", "forgot_password_message_");
-            return true;
-        }
-        return false;
-    }
 
 
-    private void mailSend (User user, String mailSubject, String mailTemplate) throws MessagingException {
-        Context context = new Context();
-        context.setVariable("username", user.getName());
-        context.setVariable("host", host);
-        context.setVariable("code", user.getUniqueServiceCode());
-        mailSender.sendSimpleMessage(user.getEmail(), messageSource.getMessage(mailSubject, null, currentLocale), mailTemplate + currentLocale.getLanguage(), context);
-    }
-
-    private String generateRandomPassword() {
-        SecureRandom secureRandom = new SecureRandom();
-        byte[] randomBytes = new byte[10];
-        secureRandom.nextBytes(randomBytes);
-        return Base64.encodeBase64String(randomBytes);
-    }
 
 
     public boolean activateUser(String code) {

@@ -9,17 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import top.e_learn.learnEnglish.applicationPage.applicationPageContent.ApplicationPageContent;
-import top.e_learn.learnEnglish.model.Image;
-import top.e_learn.learnEnglish.payload.response.GetAppPageContentResponse;
 import top.e_learn.learnEnglish.utils.CustomFieldError;
 import top.e_learn.learnEnglish.utils.MessageResponse;
 import top.e_learn.learnEnglish.utils.ParserToResponseFromCustomFieldError;
-import top.e_learn.learnEnglish.utils.ValidateFields;
 import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;

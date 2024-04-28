@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.service;
+package top.e_learn.learnEnglish.security;
 
 /**
  * @author: Anatolii Bychko
@@ -8,7 +8,6 @@ package top.e_learn.learnEnglish.service;
  */
 
 import org.springframework.security.authentication.BadCredentialsException;
-import top.e_learn.learnEnglish.model.UserContextHolder;
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.user.UserRepository;
 import top.e_learn.learnEnglish.security.UserDetailsImpl;
@@ -27,15 +26,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    private final UserContextHolder userContextHolder;
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, UserAccountNotActivatedException {
         Optional<User> userOptional = userRepository.findByEmail(email);
         if (userOptional.isEmpty()) {
             throw new BadCredentialsException("user.bad.authorisation");
         }
-        if(!userOptional.get().isActive()) throw new UserAccountNotActivatedException("email.not.verification");
+        if(!userOptional.get().isEnable()) throw new UserAccountNotActivatedException("email.not.verification");
         User user = userOptional.get();
         return new UserDetailsImpl(user);
     }

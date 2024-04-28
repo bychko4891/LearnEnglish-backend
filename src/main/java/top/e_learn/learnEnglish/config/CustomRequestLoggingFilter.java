@@ -9,7 +9,7 @@ package top.e_learn.learnEnglish.config;
 
 import top.e_learn.learnEnglish.user.User;
 import top.e_learn.learnEnglish.user.UserService;
-import top.e_learn.learnEnglish.service.UserStatisticsService;
+import top.e_learn.learnEnglish.user.statistics.UserStatisticsService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.controllers;
+package top.e_learn.learnEnglish.user.statistics;
 
 /**
  * @author: Anatolii Bychko
@@ -9,7 +9,6 @@ package top.e_learn.learnEnglish.controllers;
 
 import top.e_learn.learnEnglish.utils.dto.DtoUserStatisticsToUi;
 import top.e_learn.learnEnglish.user.UserService;
-import top.e_learn.learnEnglish.service.UserStatisticsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +29,7 @@ public class UserStatisticsController {
     public ResponseEntity<List> getUserCalendarDays(@PathVariable(value = "userId") long userId,
                                                     Principal principal) {
         if (principal != null) {
-            userId = userService.findByEmail(principal.getName()).getId();
+            userId = userService.getUserByEmail(principal.getName()).getId();
             return ResponseEntity.ok(userStatisticsService.trainingDays(userId));
         }
         return ResponseEntity.notFound().build();
@@ -38,7 +37,7 @@ public class UserStatisticsController {
     @GetMapping("/user/user-statistics")
     public ResponseEntity<DtoUserStatisticsToUi> getTrainingUserStatistics(Principal principal) {
         if (principal != null) {
-            Long userId = userService.findByEmail(principal.getName()).getId();
+            Long userId = userService.getUserByEmail(principal.getName()).getId();
 //            UserStatistics userStatistics = userStatisticsService.trainingStatistics(userId);
             return ResponseEntity.ok(userStatisticsService.trainingStatistics(userId));
         }

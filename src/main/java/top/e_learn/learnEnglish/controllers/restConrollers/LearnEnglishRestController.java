@@ -85,7 +85,7 @@ public class LearnEnglishRestController {
                                                    @RequestBody DtoUserWordLessonStatistic userWordLessonStatistic,
                                                    Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             userWordLessonStatistic.setUser(user);
             userWordLessonStatisticService.saveUserWordLessonStatistic(userWordLessonStatistic);
             return ResponseEntity.ok("wordConfirm");
@@ -98,7 +98,7 @@ public class LearnEnglishRestController {
 
                                                                           Principal principal) {
         if (principal != null) {
-            User user = userService.findByEmail(principal.getName());
+            User user = userService.getUserByEmail(principal.getName());
             return ResponseEntity.ok(userWordLessonStatisticService.resultWordLessonAudit(user, wordLessonId));
         }
         return ResponseEntity.notFound().build();
