@@ -74,6 +74,9 @@ public class DictionaryPageService {
                 .ifPresent(imageName -> dictionaryPageDB.getImage().setImageName(imageName));
 //        Optional.ofNullable(dictionaryPage.getCardInfo()).ifPresent(dictionaryPageDB::setCardInfo);
         Optional.ofNullable(dictionaryPage.getDescription()).ifPresent(dictionaryPageDB::setDescription);
+        Optional.ofNullable(dictionaryPage.getPartOfSpeech()).ifPresent(dictionaryPageDB::setPartOfSpeech);
+        Optional.ofNullable(dictionaryPage.getHtmlTagDescription()).ifPresent(dictionaryPageDB::setHtmlTagDescription);
+        Optional.ofNullable(dictionaryPage.getHtmlTagTitle()).ifPresent(dictionaryPageDB::setHtmlTagTitle);
         dictionaryPageDB.setPublished(dictionaryPage.isPublished());
         if (dictionaryPage.getCategory() != null) {
             dictionaryPageDB.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getCategory().getUuid()));
@@ -87,7 +90,7 @@ public class DictionaryPageService {
         dictionaryPage.setName(word.getName());
         dictionaryPage.setWord(wordService.getWordByUuid(dictionaryPage.getWord().getUuid()));
         if (dictionaryPage.getCategory() != null) {
-            dictionaryPage.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getUuid()));
+            dictionaryPage.setCategory(categoryService.getCategoryByUuid(dictionaryPage.getCategory().getUuid()));
         }
         //TODO : Add phrases Application
         dictionaryPageRepository.save(dictionaryPage);
@@ -101,6 +104,11 @@ public class DictionaryPageService {
     @Transactional
     public List<DictionaryPage> searchDictionaryPageForWordLesson(String searchTerm) {
         return dictionaryPageRepository.findDictionaryPageForWordLesson(searchTerm);
+    }
+
+    @Transactional
+    public List<DictionaryPage> searchDictionaryPageForUser(String searchTerm) {
+        return dictionaryPageRepository.findDictionaryPageUserSearch(searchTerm);
     }
 
     public CustomResponseMessage verifyUserWord(String wordVerify, long dictionaryPageId) {

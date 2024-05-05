@@ -7,12 +7,14 @@ package top.e_learn.learnEnglish.word;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import top.e_learn.learnEnglish.audio.Audio;
+import top.e_learn.learnEnglish.utils.JsonViews;
 
 import java.io.Serializable;
 
@@ -37,6 +39,7 @@ public class Word implements Serializable {
     private String name;
 
     @Column
+    @JsonView(JsonViews.ViewFieldTranslate.class)
     private String translate;
 
     @Column

@@ -7,8 +7,9 @@ package top.e_learn.learnEnglish.wordLesson;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import jakarta.validation.constraints.Size;
 import top.e_learn.learnEnglish.category.Category;
-import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLesson;
+import top.e_learn.learnEnglish.wordLessonCard.WordLessonCard;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -34,21 +35,27 @@ public class WordLesson implements Serializable {
     private Long id;
 
     @Column
+    private String uuid;
+
+
+    @Column
+    @Size(max = 30, message = "word.lesson.name.size")
     private String name;
 
     @Column
+    @Size(max = 80, message = "word.lesson.description.size")
     private String description;
 
     @Column
-    private int serialNumber;
+    private int sortOrder;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "wordLesson", cascade = {CascadeType.ALL, CascadeType.MERGE}, orphanRemoval = true)
-    @OrderBy("listOrder")
-    private List<WordInWordLesson> words = new ArrayList<>();
+    @OrderBy("sortOrder")
+    private List<WordLessonCard> cards = new ArrayList<>();
 
     @Transient
     private UserWordLessonProgress userWordLessonProgress;

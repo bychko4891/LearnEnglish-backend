@@ -29,7 +29,7 @@ public class CategoryService {
     }
 
     public Category getCategoryByUuid(String uuid) {
-        return categoryRepository.findCategoriesByUuid(uuid)
+        return categoryRepository.findCategoryByUuid(uuid)
                 .orElseThrow(() -> new ObjectNotFoundException("Category with id: " + uuid + "not found"));
 
     }

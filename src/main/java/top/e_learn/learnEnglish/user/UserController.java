@@ -73,17 +73,14 @@ public class UserController {
                                           BindingResult bindingResult) throws MessagingException {
 
         Locale currentLocale = LocaleContextHolder.getLocale();
-        List<CustomFieldError> errorFields = new ArrayList<>();
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResultMessages(bindingResult));
         }
-
         if (validate.existsByEmail(signUpRequest.getEmail())) {
-            errorFields.add(new CustomFieldError("email", messageSource.getMessage("email.duplicate", null, currentLocale)));
-            return ResponseEntity.badRequest().body(ParserToResponseFromCustomFieldError.parseCustomFieldErrors(errorFields));
+            return ResponseEntity.badRequest().body(Map.of("email", messageSource.getMessage("email.duplicate", null, currentLocale)));
         }
         userService.createUser(signUpRequest);
-        return ResponseEntity.ok(new CustomFieldError("general", messageSource.getMessage("user.signup.success", null, currentLocale)));
+        return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("user.signup.success", null, currentLocale)));
     }
 
     @GetMapping("/admin/users")
@@ -107,15 +104,15 @@ public class UserController {
 
     @PutMapping("/admin/user-enable")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public void userFieldActive(@RequestParam("userEnable") boolean userActive,
+    public ResponseEntity<?> setUserActive(@RequestParam("userEnable") boolean userActive,
                                 @RequestParam("userUuid") String userId,
                                 Principal principal) {
         if (principal != null) {
+            Locale currentLocale = LocaleContextHolder.getLocale();
             userService.userEnable(userId, userActive);
-            System.out.println(userActive);
-//                return ResponseEntity.ok(new ResponseStatus(Message.SUCCESS_CREATELESSON));
+            return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
         }
-//        return ResponseEntity.ok(new ResponseStatus(Message.ERROR_CREATELESSON));
+        return ResponseEntity.status(403).body("Access denied");
     }
 
     @GetMapping("/validate-email/{code}")

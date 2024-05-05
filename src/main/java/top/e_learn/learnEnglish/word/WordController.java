@@ -149,7 +149,7 @@ public class WordController {
 
     @GetMapping("/admin/search-word-for-vocabulary-page")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @JsonView(JsonViews.ViewIdAndName.class)
+//    @JsonView(JsonViews.ViewIdAndName.class)
     public ResponseEntity<?> searchWordForVocabularyPage(@RequestParam("searchTerm") String searchTerm, Principal principal) {
         if (!searchTerm.isBlank() && principal != null) {
             List<Word> words = wordService.searchWordForVocabularyPage(searchTerm);

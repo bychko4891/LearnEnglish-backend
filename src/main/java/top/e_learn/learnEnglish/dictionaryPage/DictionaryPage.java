@@ -27,10 +27,11 @@ public class DictionaryPage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonView(JsonViews.ViewFieldUUID.class)
+    @JsonView(JsonViews.ViewFieldId.class)
     private Long id;
 
     @Column
+    @JsonView(JsonViews.ViewFieldUUID.class)
     private String uuid;
 
     @Column
@@ -39,6 +40,9 @@ public class DictionaryPage {
 
     @Column(columnDefinition = "text")
     private String description;
+
+    @Column(columnDefinition = "text")
+    private String partOfSpeech;
 
     @Column
     @Size(max = 360, message = "page.bad.size")

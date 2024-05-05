@@ -153,16 +153,24 @@ public class DictionaryPageController {
         return ResponseEntity.ok(dictionaryPageService.getDictionaryPageByName(name));
     }
 
-    @GetMapping("/admin/search-dictionary-page-for-lesson")
+    @GetMapping("/search/dictionary-pages")
+    @JsonView(JsonViews.ViewSearchDictionaryPages.class)
+    public ResponseEntity<?> searchDictionaryPageForUser(@RequestParam("searchTerm") String searchTerm) {
+        List<DictionaryPage> dictionaryPageList = dictionaryPageService.searchDictionaryPageForUser(searchTerm);
+        return ResponseEntity.ok(dictionaryPageList);
+    }
+
+    @GetMapping("/admin/search/dictionary-page")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @JsonView(JsonViews.ViewIdAndName.class)
-    public ResponseEntity<?> searchWordForDictionaryPage(@RequestParam("searchTerm") String searchTerm, Principal principal) {
+    public ResponseEntity<?> searchDictionaryPageForWordLesson(@RequestParam("searchTerm") String searchTerm, Principal principal) {
         if (!searchTerm.isBlank() && principal != null) {
             List<DictionaryPage> dictionaryPageList = dictionaryPageService.searchDictionaryPageForWordLesson(searchTerm);
             return ResponseEntity.ok(dictionaryPageList);
         }
         return ResponseEntity.status(403).body("Access denied");
     }
+
 
     @PostMapping("/dictionary-page/{id}/verify-user-word")
     public ResponseEntity<CustomResponseMessage> wordConfirm(@PathVariable("id") long vocabularyPageId,

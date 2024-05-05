@@ -40,7 +40,7 @@ public class UserWordLessonStatisticService {
     public void saveUserWordLessonStatistic(DtoUserWordLessonStatistic dtoUserWordLessonStatistics) {
         UserWordLessonStatistic userWordLessonStatistic = new UserWordLessonStatistic();
         Word word = wordService.getWordById(dtoUserWordLessonStatistics.getWordId());
-        WordLesson wordLesson = wordLessonService.getWordLesson(dtoUserWordLessonStatistics.getWordLessonId());
+        WordLesson wordLesson = wordLessonService.getWordLessonById(dtoUserWordLessonStatistics.getWordLessonId());
         userWordLessonStatistic.setUser(dtoUserWordLessonStatistics.getUser());
         userWordLessonStatistic.setWordLesson(wordLesson);
         userWordLessonStatistic.setWord(word.getName());

@@ -14,16 +14,20 @@ public final class JsonViews {
     public interface ViewFieldJWT{}
     public interface ViewFieldUser{}
     public interface ViewWordId{}
-    public interface ViewFieldOther{}
+
     public interface ViewFieldImage{}
     public interface ViewFieldWord{}
     public interface ViewFieldAudio{}
+    public interface ViewFieldTranslate{}
+
+    public interface ViewFieldOther{}
 
     public interface ViewUserProfile extends ViewFieldUUID, ViewFieldName, ViewFieldGender, ViewFieldImage, ViewFieldLogin,
             ViewFieldEmail, ViewFieldUserAbout, ViewFieldDateCreate, ViewFieldLastVisit, ViewFieldAuthority{}
 
 
     public interface ViewIdAndName extends ViewWordId, ViewFieldUUID, ViewFieldName{}
+    public interface ViewSearchDictionaryPages extends  ViewFieldUUID, ViewFieldName, ViewFieldWord, ViewFieldTranslate{}
     public interface ViewAllCategories extends ViewFieldUUID, ViewFieldName, ViewFieldOther{}
     public interface ViewWordForWordLesson extends ViewFieldUUID, ViewFieldName, ViewFieldOther, ViewFieldWord, ViewFieldImage, ViewFieldAudio{}
 

@@ -28,8 +28,11 @@ public interface DictionaryPageRepository extends JpaRepository<DictionaryPage, 
     Page<DictionaryPage> findAllDictionaryPage(Pageable pageable);
 
     @Query("SELECT d FROM DictionaryPage d WHERE LOWER(d.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +
-            "AND d.id NOT IN (SELECT wl.dictionaryPage.id FROM WordInWordLesson wl WHERE wl.dictionaryPage.id IS NOT NULL)")
+            "AND d.id NOT IN (SELECT wl.dictionaryPage.id FROM WordLessonCard wl WHERE wl.dictionaryPage.id IS NOT NULL)")
     List<DictionaryPage> findDictionaryPageForWordLesson(@Param("firstLetter") String firstLetter);
+
+    @Query("SELECT d FROM DictionaryPage d WHERE LOWER(d.name) LIKE CONCAT(LOWER(:firstLetter), '%')")
+    List<DictionaryPage> findDictionaryPageUserSearch(@Param("firstLetter") String firstLetter);
 
     List<DictionaryPage> findAllByCategoryId(long categoryId);
 

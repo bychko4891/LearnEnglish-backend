@@ -36,7 +36,7 @@ public interface WordRepository extends CrudRepository<Word, Long> {
 
 //    @Query("SELECT w FROM Word w WHERE w.wordInWordLesson.id = NULL AND LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%')")
     @Query("SELECT w FROM Word w WHERE LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +
-        "AND w.id NOT IN (SELECT wl.dictionaryPage.id FROM WordInWordLesson wl WHERE wl.dictionaryPage.id IS NOT NULL)")
+        "AND w.id NOT IN (SELECT wl.dictionaryPage.id FROM WordLessonCard wl WHERE wl.dictionaryPage.id IS NOT NULL)")
     List<Word> findWordToWordLesson(@Param("firstLetter") String firstLetter);
 
     @Query("SELECT w FROM Word w WHERE LOWER(w.name) LIKE CONCAT(LOWER(:firstLetter), '%') " +

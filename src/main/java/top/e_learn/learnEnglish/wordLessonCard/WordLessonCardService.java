@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.wordInWordLesson;
+package top.e_learn.learnEnglish.wordLessonCard;
 
 /**
  * @author: Anatolii Bychko
@@ -20,39 +20,39 @@ import java.util.Optional;
 
 @Service
 @Data
-public class WordInWordLessonService {
+public class WordLessonCardService {
 
-    private final WordInWordLessonRepository repository;
+    private final WordLessonCardRepository repository;
 
-    public WordInWordLesson getWordInWordLesson(long wordInWordLessonId) {
-        Optional<WordInWordLesson> wordInWordLessonOptional = repository.findById(wordInWordLessonId);
+    public WordLessonCard getWordInWordLesson(long wordInWordLessonId) {
+        Optional<WordLessonCard> wordInWordLessonOptional = repository.findById(wordInWordLessonId);
         if(wordInWordLessonOptional.isPresent()) {
             return wordInWordLessonOptional.get();
         } else throw new ObjectNotFoundException("");
     }
 
     @Transactional
-    public Page<WordInWordLesson> wordsFromWordLesson(int page, int size, long wordLessonId) {
+    public Page<WordLessonCard> wordsFromWordLesson(int page, int size, long wordLessonId) {
         Pageable pageable = PageRequest.of(page, size);
         return repository.wordsFromWordLesson(pageable, wordLessonId);
     }
 
     @Transactional
-    public List<WordInWordLesson> wordInWordLessonsToWordLessonAudit(List<Long> wordsId, int wordAuditCounter) {
-        List<WordInWordLesson> wordInWordLessons = repository.findByIds(wordsId);
-        for (int i = 0; i < wordInWordLessons.size(); i++) {
+    public List<WordLessonCard> wordInWordLessonsToWordLessonAudit(List<Long> wordsId, int wordAuditCounter) {
+        List<WordLessonCard> wordLessonCards = repository.findByIds(wordsId);
+        for (int i = 0; i < wordLessonCards.size(); i++) {
 //            wordInWordLessons.get(i).setTotalPage(wordAuditCounter);
         }
-        return wordInWordLessons;
+        return wordLessonCards;
     }
 
-    public WordInWordLesson getWordForWordLessonAudit(long wordInWordLessonId, int wordAuditCounter, int wordsIdListLength) {
-        WordInWordLesson wordInWordLesson = getWordInWordLesson(wordInWordLessonId);
+    public WordLessonCard getWordForWordLessonAudit(long wordInWordLessonId, int wordAuditCounter, int wordsIdListLength) {
+        WordLessonCard wordLessonCard = getWordInWordLesson(wordInWordLessonId);
 //        wordInWordLesson.setTotalPage(wordAuditCounter - 1);
         int count = (int) (Math.random() * 10);
         if (count % 2 != 0 && wordsIdListLength > 2) {
-            wordInWordLesson.setWordAuditSlide("slideAuditRadios");
+            wordLessonCard.setWordAuditSlide("slideAuditRadios");
         }
-        return wordInWordLesson;
+        return wordLessonCard;
     }
 }

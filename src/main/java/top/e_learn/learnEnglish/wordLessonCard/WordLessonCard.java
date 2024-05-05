@@ -1,4 +1,4 @@
-package top.e_learn.learnEnglish.wordInWordLesson;
+package top.e_learn.learnEnglish.wordLessonCard;
 
 /**
  * @author: Anatolii Bychko
@@ -7,26 +7,31 @@ package top.e_learn.learnEnglish.wordInWordLesson;
  * GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
-import top.e_learn.learnEnglish.utils.JsonViews;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import top.e_learn.learnEnglish.dictionaryPage.DictionaryPage;
+import top.e_learn.learnEnglish.utils.JsonViews;
 import top.e_learn.learnEnglish.wordLesson.WordLesson;
 
 @Entity
-@Table(name = "words_in_word_lesson")
-@Data
-public class WordInWordLesson {
+@Getter
+@Setter
+@Table(name = "word_lesson_cards")
+public class WordLessonCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
+    @Column
+    private String uuid;
+
     @Column(columnDefinition = "text")
     @JsonView(JsonViews.ViewFieldUUID.class)
-    private String cardInfo;
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "word_lesson_id")
@@ -38,13 +43,13 @@ public class WordInWordLesson {
     @JsonView(JsonViews.ViewFieldWord.class)
     private DictionaryPage dictionaryPage;
 
-    @Column(name = "list_order")
-    private Integer listOrder;
-
+    @Column(name = "sort_order")
+    private int sortOrder;
 
     @Transient
     @JsonView(JsonViews.ViewFieldOther.class)
     private String wordAuditSlide;
 
-
+    public WordLessonCard() {
+    }
 }

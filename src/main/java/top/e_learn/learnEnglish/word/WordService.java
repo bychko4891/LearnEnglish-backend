@@ -43,6 +43,8 @@ public class WordService {
         word.setUuid(uuid);
         word.setName("name");
         word.setTranslate("translate");
+        word.setBrTranscription("[]");
+        word.setUsaTranscription("[]");
         return word;
     }
 

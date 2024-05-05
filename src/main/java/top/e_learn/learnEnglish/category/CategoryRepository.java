@@ -29,6 +29,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     List<Category> findCategoriesByParentCategory_UuidOrderByNameAsc(String parentCategoryUuid);
 
-    Optional<Category> findCategoriesByUuid(String uuid);
+    Optional<Category> findCategoryByUuid(String uuid);
 
 }

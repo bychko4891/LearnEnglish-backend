@@ -33,7 +33,7 @@ public class UserWordLessonProgressService {
             UserWordLessonProgress userWordLessonProgress = new UserWordLessonProgress();
             userWordLessonProgress.setStartLesson(true);
             userWordLessonProgress.setUser(user);
-            userWordLessonProgress.setWordLesson(wordLessonService.getWordLesson(wordLessonId));
+            userWordLessonProgress.setWordLesson(wordLessonService.getWordLessonById(wordLessonId));
             userWordLessonProgressRepository.save(userWordLessonProgress);
         }
     }
@@ -49,7 +49,7 @@ public class UserWordLessonProgressService {
             UserWordLessonProgress userWordLessonProgress = new UserWordLessonProgress();
             userWordLessonProgress.setUser(user);
             userWordLessonProgress.setStartLesson(true);
-            userWordLessonProgress.setWordLesson(wordLessonService.getWordLesson(wordLessonId));
+            userWordLessonProgress.setWordLesson(wordLessonService.getWordLessonById(wordLessonId));
             userWordLessonProgress.setRating((int)wordLessonRating);
             userWordLessonProgressRepository.save(userWordLessonProgress);
         }

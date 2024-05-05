@@ -1,57 +1,60 @@
 package top.e_learn.learnEnglish.wordLesson;
 
-import top.e_learn.learnEnglish.wordInWordLesson.WordInWordLesson;
-import top.e_learn.learnEnglish.user.User;
-import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
-import top.e_learn.learnEnglish.category.CategoryRepository;
-import top.e_learn.learnEnglish.responsemessage.Message;
-import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
+import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
+import top.e_learn.learnEnglish.responsemessage.Message;
+import top.e_learn.learnEnglish.user.User;
+import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.word.WordService;
+import top.e_learn.learnEnglish.wordLessonCard.WordLessonCard;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// Буде змінюватись
 @Service
 @RequiredArgsConstructor
 public class WordLessonService {
 
-    private final WordLessonRepository repository;
-    private final CategoryRepository categoryRepository;
+    private final WordLessonRepository wordLessonRepository;
+
+
     private final WordService wordService;
 
     public Page<WordLesson> getWordLessonsPage(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return repository.findAll(pageable);
+        return wordLessonRepository.findAll(pageable);
     }
 
-    public long countWordLesson() {
-        return repository.lastId();
+    public WordLesson getWordLessonByUuid(String uuid) {
+        return wordLessonRepository.findWordLessonByUuid(uuid).orElseThrow(() -> new ObjectNotFoundException("Article with uuid: " + uuid + "not found"));
     }
 
     public int countWordLessonInCategory(long categoryId) {
-        return repository.countWordLessonByCategoryId(categoryId);
+        return wordLessonRepository.countWordLessonByCategoryId(categoryId);
     }
 
-    public WordLesson getWordLesson(Long id) {
-        Optional<WordLesson> wordLessonOptional = repository.findById(id);
+    public WordLesson getWordLessonById(Long id) {
+        Optional<WordLesson> wordLessonOptional = wordLessonRepository.findById(id);
         if (wordLessonOptional.isPresent()) {
             return wordLessonOptional.get();
         } else throw new RuntimeException("WordLesson no exist");
     }
 
-    public WordLesson getNewWordLesson(Long id) {
+    public WordLesson getNewWordLesson(String uuid) {
         WordLesson wordLesson = new WordLesson();
+        wordLesson.setUuid(uuid);
+        wordLesson.setSortOrder(0);
         wordLesson.setName("Enter new name");
         wordLesson.setDescription("Enter description");
-        wordLesson.setId(id);
+
+
         /////////// Переробити !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //        if (id != null && id.size() > 0) {
 //            for (PhraseApplication arr : id) {
@@ -69,34 +72,34 @@ public class WordLessonService {
     public CustomResponseMessage saveWordLesson(WordLesson wordLessonDB, WordLesson wordLesson) {
         Optional.ofNullable(wordLesson.getName()).ifPresent(wordLessonDB::setName);
         Optional.ofNullable(wordLesson.getDescription()).ifPresent(wordLessonDB::setDescription);
-        Optional.of(wordLesson.getSerialNumber()).ifPresent(wordLessonDB::setSerialNumber);
-        wordLessonDB.getWords().clear();
-        List<WordInWordLesson> listUI = wordLesson.getWords();
+        Optional.of(wordLesson.getSortOrder()).ifPresent(wordLessonDB::setSortOrder);
+        wordLessonDB.getCards().clear();
+        List<WordLessonCard> listUI = wordLesson.getCards();
         for (int i = 0; i < listUI.size(); i++) {
             listUI.get(i).setWordLesson(wordLessonDB);
-            wordLessonDB.getWords().add(listUI.get(i));
+            wordLessonDB.getCards().add(listUI.get(i));
         }
         if (wordLessonDB.getCategory() == null && wordLesson.getCategory().getId() != 0 || wordLesson.getCategory().getId() != 0 && !wordLessonDB.getCategory().getId().equals(wordLesson.getCategory().getId())) {
             wordLessonDB.setCategory(wordLesson.getCategory());
         }
-        repository.save(wordLessonDB);
+        wordLessonRepository.save(wordLessonDB);
         return new CustomResponseMessage(Message.ADD_BASE_SUCCESS);
     }
 
     @Transactional
     public CustomResponseMessage saveNewWordLesson(WordLesson wordLesson) {
         if (wordLesson.getCategory().getId() == 0) wordLesson.setCategory(null);
-        List<WordInWordLesson> words = wordLesson.getWords();
+        List<WordLessonCard> words = wordLesson.getCards();
         for (int i = 0; i < words.size(); i++) {
             words.get(i).setWordLesson(wordLesson);
         }
-        wordLesson.setWords(words);
-        repository.save(wordLesson);
+        wordLesson.setCards(words);
+        wordLessonRepository.save(wordLesson);
         return new CustomResponseMessage(Message.ADD_BASE_SUCCESS);
     }
 
     public List<WordLesson> getWordLessonsCategory(User user, Long categoryId) {
-        List<WordLesson> wordLessonList = repository.findAllByCategoryIdOrderBySerialNumber(categoryId);
+        List<WordLesson> wordLessonList = wordLessonRepository.findAllByCategoryIdOrderBySortOrder(categoryId);
         List<UserWordLessonProgress> userWordLessonProgressList = user.getWordLessonProgress();
         if (userWordLessonProgressList.size() != 0) {
             for (WordLesson wordLesson : wordLessonList) {
@@ -111,9 +114,9 @@ public class WordLessonService {
     }
 
     public List<Long> getWordInWordLessonIdsForWordLessonAudit(long wordLessonId) {
-        WordLesson wordLesson = repository.findById(wordLessonId).get();
+        WordLesson wordLesson = wordLessonRepository.findById(wordLessonId).get();
         List<Long> wordsId = new ArrayList<>();
-        for (WordInWordLesson arr : wordLesson.getWords()) {
+        for (WordLessonCard arr : wordLesson.getCards()) {
             wordsId.add(arr.getId());
         }
         return wordsId;
