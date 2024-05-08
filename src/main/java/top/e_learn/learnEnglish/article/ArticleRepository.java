@@ -19,6 +19,7 @@ public interface ArticleRepository extends CrudRepository<Article, Long> {
 
     List<Article> findAllByCategoryId(long categoryId);
 
+
     Optional<Article> findArticleByUuid(String uuid);
 
     @Query("SELECT a FROM Article a ORDER BY a.id ASC")

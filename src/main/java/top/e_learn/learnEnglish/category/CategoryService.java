@@ -70,6 +70,7 @@ public class CategoryService {
         Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
         Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
         Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
+        categoryDb.setSortOrder(category.getSortOrder());
         categoryDb.setMainCategory(true);
         categoryDb.setShowDescriptionInPage(category.isShowDescriptionInPage());
 
@@ -96,6 +97,7 @@ public class CategoryService {
         Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
         Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
         Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
+        categoryDb.setSortOrder(category.getSortOrder());
         categoryDb.setMainCategory(false);
         categoryDb.getCategoryPage().clear();
         if (category.getParentCategory() != null) {

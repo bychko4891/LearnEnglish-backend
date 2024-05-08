@@ -10,7 +10,6 @@ package top.e_learn.learnEnglish.category;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import top.e_learn.learnEnglish.category.Category;
 
 import java.io.IOException;
 
@@ -35,6 +34,7 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("miniDescription", value.getMiniDescription());
         gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
         gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());
@@ -62,6 +62,7 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("miniDescription", value.getMiniDescription());
         gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
         gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());

@@ -35,11 +35,17 @@ public class Category implements Serializable {
     private String uuid;
 
     @Column
+    private int sortOrder;
+
+    @Column
     @Size(max = 360, message = "page.bad.size")
     private String name;
 
-    @Column(name = "description", columnDefinition = "text")
+    @Column(columnDefinition = "text")
     private String description;
+
+    @Column(columnDefinition = "text")
+    private String miniDescription;
 
     @Column
     @Size(max = 360, message = "page.bad.size")

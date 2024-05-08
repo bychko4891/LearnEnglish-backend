@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import top.e_learn.learnEnglish.article.Article;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +24,8 @@ public interface WordLessonRepository extends CrudRepository<WordLesson, Long> {
 
     @Query("SELECT wl FROM WordLesson wl ORDER BY wl.id ASC")
     Page<WordLesson> findAll(Pageable pageable);
+
+    List<WordLesson> findAllByCategoryId(long categoryId);
 
     int countWordLessonByCategoryId(Long categoryId);
 

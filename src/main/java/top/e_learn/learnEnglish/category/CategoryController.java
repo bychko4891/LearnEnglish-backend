@@ -31,6 +31,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
+import top.e_learn.learnEnglish.wordLesson.WordLessonService;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -50,6 +52,8 @@ public class CategoryController {
     private final FileStorageService fileStorageService;
 
     private final ArticleService articleService;
+
+    private final WordLessonService wordLessonService;
 
     private final MessageSource messageSource;
 
@@ -137,11 +141,18 @@ public class CategoryController {
         return ResponseEntity.status(403).body("Access denied");
     }
 
-    @GetMapping("/category/{uuid}")
-    public ResponseEntity<?> getCategoryByUuid(@PathVariable String uuid) {
+    @GetMapping("/dictionary/category/{uuid}")
+    public ResponseEntity<?> getCategoryToDictionaryPageByUuid(@PathVariable String uuid) {
         Category category = categoryService.getCategoryByUuid(uuid);
         List<Article> articles = articleService.findAllArticlesFromCategory(category.getId());
-        return ResponseEntity.ok(new GetCategoryResponse(category, articles, new ArrayList<>()));
+        return ResponseEntity.ok(new GetCategoryResponse<>(category, articles, new ArrayList<>()));
+    }
+
+    @GetMapping("/word-lesson/category/{uuid}")
+    public ResponseEntity<?> getCategoryToWordLessonByUuid(@PathVariable String uuid) {
+        Category category = categoryService.getCategoryByUuid(uuid);
+        List<WordLesson> wordLessons = wordLessonService.findAllWordLessonsFromCategory(category.getId());
+        return ResponseEntity.ok(new GetCategoryResponse<>(category, wordLessons, new ArrayList<>()));
     }
 
     @GetMapping("/category/main-categories")

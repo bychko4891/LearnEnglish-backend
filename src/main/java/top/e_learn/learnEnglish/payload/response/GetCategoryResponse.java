@@ -16,22 +16,23 @@ import java.util.List;
 
 @Getter
 @Setter
-public class GetCategoryResponse {
+public class GetCategoryResponse <T> {
 
     private Category category;
 
     private List<Category> mainCategories;
 
-    private List<Article> articles;
+    private T t;
+//    private List<Article> articles;
 
     public GetCategoryResponse(Category category, List<Category> mainCategories) {
         this.category = category;
         this.mainCategories = mainCategories;
     }
 
-    public GetCategoryResponse(Category category, List<Article> articles, List<Category> mainCategories) {
+    public GetCategoryResponse(Category category, T t, List<Category> mainCategories) {
         this.category = category;
         this.mainCategories = mainCategories;
-        this.articles = articles;
+        this.t = t;
     }
 }

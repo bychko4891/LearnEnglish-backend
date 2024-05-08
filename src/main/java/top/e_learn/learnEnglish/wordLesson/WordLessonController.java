@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import top.e_learn.learnEnglish.category.Category;
+import top.e_learn.learnEnglish.category.CategoryPage;
 import top.e_learn.learnEnglish.category.CategoryService;
 import top.e_learn.learnEnglish.payload.response.GetEntityAndMainCategoriesResponse;
 import top.e_learn.learnEnglish.payload.response.GetPaginationEntityPage;
@@ -77,7 +78,7 @@ public class WordLessonController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getDictionaryPageByUuid(@PathVariable String uuid, Principal principal) {
         if (principal != null) {
-            List<Category> mainCategories = categoryService.getMainCategories(true);
+            List<Category> mainCategories = categoryService.getMainCategoriesByCategoryPage(true, CategoryPage.LESSON_WORDS);
             try {
                 WordLesson wordLesson = wordLessonService.getWordLessonByUuid(uuid);
                 return ResponseEntity.ok(new GetEntityAndMainCategoriesResponse<>(wordLesson, mainCategories));
@@ -100,37 +101,12 @@ public class WordLessonController {
             if (bindingResult.hasErrors()) {
                 return ResponseEntity.badRequest().body(bindingResultMessages(bindingResult));
             }
-//            if (!wordService.wordDuplicate(word)) {
-//                return ResponseEntity.badRequest().body(new MessageResponse(messageSource.getMessage("word.duplicate", null, currentLocale)));
-//            }
-//            try {
-//                Word wordDB = wordService.getWordByUuid(uuid);
-//                word.setAudio(new Audio());
-//                if (brAudio != null) {
-//                    word.getAudio().setBrAudioName(fileStorageService.storeFile(brAudio, audioStorePath, word.getName()));
-//                    if (wordDB.getAudio().getBrAudioName() != null)
-//                        fileStorageService.deleteFileFromStorage(wordDB.getAudio().getBrAudioName(), audioStorePath);
-//                }
-//                if (usaAudio != null) {
-//                    word.getAudio().setUsaAudioName(fileStorageService.storeFile(usaAudio, audioStorePath, word.getName()));
-//                    if (wordDB.getAudio().getUsaAudioName() != null)
-//                        fileStorageService.deleteFileFromStorage(wordDB.getAudio().getUsaAudioName(), audioStorePath);
-//                }
-//                wordService.saveWord(wordDB, word);
-//                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
-//
-//            } catch (ObjectNotFoundException e) {
-//                Audio audio = new Audio();
-//                audio.setName(word.getName());
-//                if (brAudio != null)
-//                    audio.setBrAudioName(fileStorageService.storeFile(brAudio, audioStorePath, word.getName() + "_br_"));
-//                if (usaAudio != null)
-//                    audio.setUsaAudioName(fileStorageService.storeFile(usaAudio, audioStorePath, word.getName() + "_usa_"));
-//                word.setAudio(audio);
-//                wordService.saveNewWord(word);
-//                return ResponseEntity.ok(new MessageResponse(messageSource.getMessage("entity.save.success", null, currentLocale)));
-//            }
-        return null;
+            try {
+                WordLesson wordLessonDB = wordLessonService.getWordLessonByUuid(wordLesson.getUuid());
+                return ResponseEntity.ok(wordLessonService.saveWordLesson(wordLessonDB, wordLesson));
+            } catch (ObjectNotFoundException e) {
+                return ResponseEntity.ok(wordLessonService.saveNewWordLesson(wordLesson));
+            }
         }
         return ResponseEntity.status(403).body("Access denied");
     }

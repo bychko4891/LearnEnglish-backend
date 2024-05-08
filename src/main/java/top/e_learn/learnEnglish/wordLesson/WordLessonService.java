@@ -6,6 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import top.e_learn.learnEnglish.article.Article;
+import top.e_learn.learnEnglish.category.CategoryService;
+import top.e_learn.learnEnglish.dictionaryPage.DictionaryPage;
+import top.e_learn.learnEnglish.dictionaryPage.DictionaryPageService;
 import top.e_learn.learnEnglish.model.users.UserWordLessonProgress;
 import top.e_learn.learnEnglish.responsemessage.CustomResponseMessage;
 import top.e_learn.learnEnglish.responsemessage.Message;
@@ -23,6 +27,10 @@ import java.util.Optional;
 public class WordLessonService {
 
     private final WordLessonRepository wordLessonRepository;
+
+    private final CategoryService categoryService;
+
+    private final DictionaryPageService dictionaryPageService;
 
 
     private final WordService wordService;
@@ -74,13 +82,14 @@ public class WordLessonService {
         Optional.ofNullable(wordLesson.getDescription()).ifPresent(wordLessonDB::setDescription);
         Optional.of(wordLesson.getSortOrder()).ifPresent(wordLessonDB::setSortOrder);
         wordLessonDB.getCards().clear();
-        List<WordLessonCard> listUI = wordLesson.getCards();
-        for (int i = 0; i < listUI.size(); i++) {
-            listUI.get(i).setWordLesson(wordLessonDB);
-            wordLessonDB.getCards().add(listUI.get(i));
+        List<WordLessonCard> requestCards = wordLesson.getCards();
+        for (int i = 0; i < requestCards.size(); i++) {
+            requestCards.get(i).setWordLesson(wordLessonDB);
+            requestCards.get(i).setDictionaryPage(dictionaryPageService.getDictionaryPageByUuid(requestCards.get(i).getDictionaryPage().getUuid()));
+            wordLessonDB.getCards().add(requestCards.get(i));
         }
-        if (wordLessonDB.getCategory() == null && wordLesson.getCategory().getId() != 0 || wordLesson.getCategory().getId() != 0 && !wordLessonDB.getCategory().getId().equals(wordLesson.getCategory().getId())) {
-            wordLessonDB.setCategory(wordLesson.getCategory());
+        if (wordLesson.getCategory() != null && !wordLesson.getCategory().getUuid().isBlank()) {
+            wordLessonDB.setCategory(categoryService.getCategoryByUuid(wordLesson.getCategory().getUuid()));
         }
         wordLessonRepository.save(wordLessonDB);
         return new CustomResponseMessage(Message.ADD_BASE_SUCCESS);
@@ -88,14 +97,21 @@ public class WordLessonService {
 
     @Transactional
     public CustomResponseMessage saveNewWordLesson(WordLesson wordLesson) {
-        if (wordLesson.getCategory().getId() == 0) wordLesson.setCategory(null);
-        List<WordLessonCard> words = wordLesson.getCards();
-        for (int i = 0; i < words.size(); i++) {
-            words.get(i).setWordLesson(wordLesson);
+        if (wordLesson.getCategory() != null && !wordLesson.getCategory().getUuid().isBlank()) {
+            wordLesson.setCategory(categoryService.getCategoryByUuid(wordLesson.getCategory().getUuid()));
         }
-        wordLesson.setCards(words);
+        List<WordLessonCard> wordLessonCards = wordLesson.getCards();
+        for (int i = 0; i < wordLessonCards.size(); i++) {
+            wordLessonCards.get(i).setDictionaryPage(dictionaryPageService.getDictionaryPageByUuid(wordLessonCards.get(i).getDictionaryPage().getUuid()));
+            wordLessonCards.get(i).setWordLesson(wordLesson);
+        }
+        wordLesson.setCards(wordLessonCards);
         wordLessonRepository.save(wordLesson);
         return new CustomResponseMessage(Message.ADD_BASE_SUCCESS);
+    }
+
+    public List<WordLesson> findAllWordLessonsFromCategory(long categoryId) {
+        return wordLessonRepository.findAllByCategoryId(categoryId);
     }
 
     public List<WordLesson> getWordLessonsCategory(User user, Long categoryId) {

@@ -7,6 +7,7 @@ package top.e_learn.learnEnglish.wordLesson;
  *  GitHub source code: https://github.com/bychko4891/learnenglish
  */
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.validation.constraints.Size;
 import top.e_learn.learnEnglish.category.Category;
 import top.e_learn.learnEnglish.wordLessonCard.WordLessonCard;
@@ -26,6 +27,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "word_lessons")
+@JsonSerialize(using = CustomWordLessonSerializer.class)
 public class WordLesson implements Serializable {
 
     @Id
@@ -36,7 +38,6 @@ public class WordLesson implements Serializable {
 
     @Column
     private String uuid;
-
 
     @Column
     @Size(max = 30, message = "word.lesson.name.size")
@@ -53,7 +54,7 @@ public class WordLesson implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "wordLesson", cascade = {CascadeType.ALL, CascadeType.MERGE}, orphanRemoval = true)
+    @OneToMany(mappedBy = "wordLesson", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("sortOrder")
     private List<WordLessonCard> cards = new ArrayList<>();
 
