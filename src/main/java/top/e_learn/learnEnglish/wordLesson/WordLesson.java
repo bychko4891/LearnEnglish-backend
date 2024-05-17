@@ -44,8 +44,20 @@ public class WordLesson implements Serializable {
     private String name;
 
     @Column
-    @Size(max = 80, message = "word.lesson.description.size")
+    @Size(max = 80, message = "word.lesson.h1.size")
+    private String h1;
+
+    @Column
+    @Size(max = 200, message = "word.lesson.description.size")
     private String description;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagDescription;
+
+    @Column
+    @Size(max = 360, message = "page.bad.size")
+    private String htmlTagTitle;
 
     @Column
     private int sortOrder;

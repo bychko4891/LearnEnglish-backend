@@ -29,7 +29,7 @@ public class CategoryService {
     }
 
     public Category getCategoryByUuid(String uuid) {
-        return categoryRepository.findCategoryByUuid(uuid)
+        return categoryRepository.findCategoryByUuidOrderBySortOrderAsc(uuid)
                 .orElseThrow(() -> new ObjectNotFoundException("Category with id: " + uuid + "not found"));
 
     }
@@ -68,6 +68,7 @@ public class CategoryService {
     public CustomResponseMessage saveMainCategory(Category categoryDb, Category category) {
         Optional.ofNullable(category.getName()).ifPresent(categoryDb::setName);
         Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
+        Optional.ofNullable(category.getMiniDescription()).ifPresent(categoryDb::setMiniDescription);
         Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
         Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
         categoryDb.setSortOrder(category.getSortOrder());
@@ -95,6 +96,7 @@ public class CategoryService {
     public CustomResponseMessage saveSubcategory(Category categoryDb, Category category) {
         Optional.ofNullable(category.getName()).ifPresent(categoryDb::setName);
         Optional.ofNullable(category.getDescription()).ifPresent(categoryDb::setDescription);
+        Optional.ofNullable(category.getMiniDescription()).ifPresent(categoryDb::setMiniDescription);
         Optional.ofNullable(category.getHtmlTagTitle()).ifPresent(categoryDb::setHtmlTagTitle);
         Optional.ofNullable(category.getHtmlTagDescription()).ifPresent(categoryDb::setHtmlTagDescription);
         categoryDb.setSortOrder(category.getSortOrder());

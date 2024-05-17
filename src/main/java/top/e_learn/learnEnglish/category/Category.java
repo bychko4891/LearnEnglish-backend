@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import top.e_learn.learnEnglish.image.Image;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
 
 import java.io.Serializable;
 import java.util.*;
@@ -77,12 +78,8 @@ public class Category implements Serializable {
     private List<Category> subcategories = new ArrayList<>();
 
     @Transient
-    private int countWordLessons;
+    private List<WordLesson> wordLessons = new ArrayList<>();
 
-//    @PrePersist
-//    private void init(){
-//        this.uuid = UUID.randomUUID().toString();
-//    }
     public Category() {
     }
 }

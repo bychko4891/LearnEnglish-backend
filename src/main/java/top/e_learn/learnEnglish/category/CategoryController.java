@@ -151,8 +151,16 @@ public class CategoryController {
     @GetMapping("/word-lesson/category/{uuid}")
     public ResponseEntity<?> getCategoryToWordLessonByUuid(@PathVariable String uuid) {
         Category category = categoryService.getCategoryByUuid(uuid);
-        List<WordLesson> wordLessons = wordLessonService.findAllWordLessonsFromCategory(category.getId());
-        return ResponseEntity.ok(new GetCategoryResponse<>(category, wordLessons, new ArrayList<>()));
+        category.setWordLessons(wordLessonService.findAllWordLessonsFromCategory(category.getId()));
+        if(!category.getSubcategories().isEmpty()) {
+            for (int i = 0; i < category.getSubcategories().size(); i++) {
+                long categoryId = category.getSubcategories().get(i).getId();
+                category.getSubcategories().get(i).setWordLessons(wordLessonService.findAllWordLessonsFromCategory(categoryId));
+            }
+        }
+//        List<WordLesson> wordLessons = wordLessonService.findAllWordLessonsFromCategory(category.getId());
+        return ResponseEntity.ok(category);
+//        return ResponseEntity.ok(new GetCategoryResponse<>(category, wordLessons, new ArrayList<>()));
     }
 
     @GetMapping("/category/main-categories")

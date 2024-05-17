@@ -32,10 +32,15 @@ public class CustomWordLessonSerializer extends JsonSerializer<WordLesson> {
         }
 
         gen.writeStartObject();
-        gen.writeNumberField("id", value.getId());
+        if(value.getId() != null) {
+            gen.writeNumberField("id", value.getId());
+        }
         gen.writeStringField("uuid", value.getUuid());
         gen.writeStringField("name", value.getName());
+        gen.writeStringField("h1", value.getH1());
         gen.writeStringField("description", value.getDescription());
+        gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
+        gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeNumberField("sortOrder", value.getSortOrder());
         gen.writeObjectField("category", value.getCategory());
 

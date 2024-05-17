@@ -25,7 +25,6 @@ import top.e_learn.learnEnglish.utils.exception.ObjectNotFoundException;
 import top.e_learn.learnEnglish.wordLessonCard.WordLessonCard;
 import top.e_learn.learnEnglish.wordLessonCard.WordLessonCardService;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,8 +48,8 @@ public class WordLessonController {
     @GetMapping("/admin/word-lessons")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getWordLessonsForAdmin(@RequestParam(value = "page", defaultValue = "0") int page,
-                                              @RequestParam(value = "size", defaultValue = "25", required = false) int size,
-                                              Principal principal) {
+                                                    @RequestParam(value = "size", defaultValue = "25", required = false) int size,
+                                                    Principal principal) {
         if (principal != null) {
             if (page < 0) page = 0;
             Page<WordLesson> wordLessonPage = wordLessonService.getWordLessonsPage(page, size);
@@ -84,6 +83,7 @@ public class WordLessonController {
                 return ResponseEntity.ok(new GetEntityAndMainCategoriesResponse<>(wordLesson, mainCategories));
             } catch (ObjectNotFoundException e) {
                 WordLesson newWordLesson = wordLessonService.getNewWordLesson(uuid);
+                GetEntityAndMainCategoriesResponse<WordLesson> r = new GetEntityAndMainCategoriesResponse<>(newWordLesson, mainCategories);
                 return ResponseEntity.ok(new GetEntityAndMainCategoriesResponse<>(newWordLesson, mainCategories));
             }
         }
@@ -112,57 +112,10 @@ public class WordLessonController {
     }
 
 
-//    @PostMapping("/admin/word-lesson/save")
-//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//    public ResponseEntity<?> saveWordLesson(@RequestBody WordLesson wordLesson, Principal principal) {
-//        if (principal != null) {
-//            try {
-//                WordLesson wordLessonDB = wordLessonService.getWordLessonById(wordLesson.getId());
-//                return ResponseEntity.ok(wordLessonService.saveWordLesson(wordLessonDB, wordLesson));
-//            } catch (RuntimeException e) {
-//                return ResponseEntity.ok(wordLessonService.saveNewWordLesson(wordLesson));
-//            }
-//
-//        }
-//        return ResponseEntity.status(403).body("Access denied");
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @GetMapping("/word-lesson/{uuid}")
+    public ResponseEntity<?> getWordLesson(@PathVariable String uuid) {
+        return ResponseEntity.ok(wordLessonService.getWordLessonByUuid(uuid));
+    }
 
 
     @GetMapping("/word-lesson/{id}/start-lesson")

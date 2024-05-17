@@ -124,15 +124,6 @@ public class WordService {
         return new PageImpl<>(words, pageable, resultPage.getTotalElements());
     }
 
-    public List<DtoWordToUI> searchWord(String searchTerm) {
-//        List<Word> wordsResult = wordRepository.findWord(searchTerm);
-//        List<DtoWordToUI> dtoWordToUIList = new ArrayList<>();
-//        for (Word arr : wordsResult) {
-//            dtoWordToUIList.add(DtoWordToUI.convertToDTO(arr));
-//        }
-//        return dtoWordToUIList;
-        return null;
-    }
 
     @Transactional
     public List<Word> searchWordToAdminPage(String searchTerm) {

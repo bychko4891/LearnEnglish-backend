@@ -15,8 +15,6 @@ import java.util.Optional;
 
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
-    @Query("SELECT MAX(c.id) FROM Category c")
-    Long lastId();
 
     @Query("SELECT  c FROM Category c where c.parentCategory IS NULL")
     List<Category> getAllByMainCategories();
@@ -29,6 +27,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     List<Category> findCategoriesByParentCategory_UuidOrderByNameAsc(String parentCategoryUuid);
 
-    Optional<Category> findCategoryByUuid(String uuid);
+    Optional<Category> findCategoryByUuidOrderBySortOrderAsc(String uuid);
 
 }

@@ -79,8 +79,11 @@ public class WordLessonService {
     @Transactional
     public CustomResponseMessage saveWordLesson(WordLesson wordLessonDB, WordLesson wordLesson) {
         Optional.ofNullable(wordLesson.getName()).ifPresent(wordLessonDB::setName);
+        Optional.ofNullable(wordLesson.getH1()).ifPresent(wordLessonDB::setH1);
         Optional.ofNullable(wordLesson.getDescription()).ifPresent(wordLessonDB::setDescription);
         Optional.of(wordLesson.getSortOrder()).ifPresent(wordLessonDB::setSortOrder);
+        Optional.of(wordLesson.getHtmlTagTitle()).ifPresent(wordLessonDB::setHtmlTagTitle);
+        Optional.of(wordLesson.getHtmlTagDescription()).ifPresent(wordLessonDB::setHtmlTagDescription);
         wordLessonDB.getCards().clear();
         List<WordLessonCard> requestCards = wordLesson.getCards();
         for (int i = 0; i < requestCards.size(); i++) {

@@ -39,17 +39,7 @@
 //
 //
 //
-////    @GetMapping("/lessons")
-////    public String lessons(Model model) {
-////        model.addAttribute("title", "About the app Learn English");
-////        PageApplication pageApplication = pageApplicationService.getPageApplication(3l);
-////        if (pageApplication.getContentAppPage() != null) {
-////            model.addAttribute("pageText", pageApplication.getContentAppPage().getDescription());
-////        } else {
-////            model.addAttribute("pageText", "No text in this page");
-////        }
-////        return "lessons";
-////    }
+
 //
 //
 //    @GetMapping("/phrases-categories")

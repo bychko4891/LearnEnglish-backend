@@ -10,6 +10,9 @@ package top.e_learn.learnEnglish.category;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import top.e_learn.learnEnglish.dictionaryPage.DictionaryPage;
+import top.e_learn.learnEnglish.wordLesson.WordLesson;
+import top.e_learn.learnEnglish.wordLessonCard.WordLessonCard;
 
 import java.io.IOException;
 
@@ -35,11 +38,23 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
         gen.writeStringField("miniDescription", value.getMiniDescription());
+        gen.writeNumberField("sortOrder", value.getSortOrder());
         gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
         gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());
         gen.writeObjectField("categoryPage", value.getCategoryPage());
         gen.writeObjectField("image", value.getImage());
+//        gen.writeObjectField("wordLessons", value.getWordLessons());
+//        if (!value.getWordLessons().isEmpty()) {
+//            gen.writeObjectField("wordLessons", value.getWordLessons());
+
+            gen.writeFieldName("wordLessons");
+            gen.writeStartArray();
+            for (WordLesson wordLesson : value.getWordLessons()) {
+                serializeWordLesson(wordLesson, gen, serializers);
+            }
+            gen.writeEndArray();
+//        }
 
         if(value.getParentCategory() != null) {
             gen.writeFieldName("parentCategory");
@@ -54,6 +69,10 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
             }
             gen.writeEndArray();
         }
+
+
+
+
         gen.writeEndObject();
     }
 
@@ -63,11 +82,61 @@ public class CustomCategorySerializer extends JsonSerializer<Category> {
         gen.writeStringField("name", value.getName());
         gen.writeStringField("description", value.getDescription());
         gen.writeStringField("miniDescription", value.getMiniDescription());
+        gen.writeNumberField("sortOrder", value.getSortOrder());
         gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
         gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
         gen.writeBooleanField("mainCategory", value.isMainCategory());
         gen.writeObjectField("categoryPage", value.getCategoryPage());
         gen.writeObjectField("image", value.getImage());
+        if (!value.getWordLessons().isEmpty()) {
+//            gen.writeObjectField("wordLessons", value.getWordLessons());
+
+            gen.writeFieldName("wordLessons");
+            gen.writeStartArray();
+            for (WordLesson wordLesson : value.getWordLessons()) {
+                serializeWordLesson(wordLesson, gen, serializers);
+            }
+            gen.writeEndArray();
+        }
         gen.writeEndObject();
     }
+
+    private void serializeWordLesson(WordLesson value, JsonGenerator gen, SerializerProvider serializers) throws IOException{
+        gen.writeStartObject();
+        gen.writeStringField("uuid", value.getUuid());
+        gen.writeStringField("name", value.getName());
+        gen.writeStringField("description", value.getDescription());
+        gen.writeNumberField("sortOrder", value.getSortOrder());
+        if (!value.getCards().isEmpty()) {
+            gen.writeFieldName("cards");
+            gen.writeStartArray();
+            for (WordLessonCard card : value.getCards()) {
+                serializeWordLessonCard(card, gen, serializers);
+            }
+            gen.writeEndArray();
+        }
+//        gen.writeStringField("miniDescription", value.getMiniDescription());
+//        gen.writeNumberField("sortOrder", value.getSortOrder());
+//        gen.writeStringField("htmlTagTitle", value.getHtmlTagTitle());
+//        gen.writeStringField("htmlTagDescription", value.getHtmlTagDescription());
+//        gen.writeBooleanField("mainCategory", value.isMainCategory());
+//        gen.writeObjectField("categoryPage", value.getCategoryPage());
+//        gen.writeObjectField("image", value.getImage());
+        gen.writeEndObject();
+    }
+    private void serializeWordLessonCard(WordLessonCard value, JsonGenerator gen, SerializerProvider serializers) throws IOException{
+        gen.writeStartObject();
+        gen.writeStringField("uuid", value.getUuid());
+        gen.writeStringField("description", value.getDescription());
+        gen.writeNumberField("sortOrder", value.getSortOrder());
+        gen.writeEndObject();
+    }
+//    private void serializeDictionaryPage(DictionaryPage value, JsonGenerator gen, SerializerProvider serializers) throws IOException{
+//        gen.writeStartObject();
+//        gen.writeStringField("uuid", value.getUuid());
+//        gen.writeStringField("description", value.getDescription());
+//
+//        gen.writeObjectField("word", value.getWord());
+//        gen.writeEndObject();
+//    }
 }
